@@ -1,48 +1,58 @@
-*.class
+### Eclipse ###
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# Eclipse Core
+.project
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+# External tool builders
+.externalToolBuilders/
 
-# =========================
-# Operating System Files
-# =========================
+# Locally stored "Eclipse launch configurations"
+*.launch
 
-# OSX
-# =========================
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
 
-.DS_Store
-.AppleDouble
-.LSOverride
+# CDT-specific (C/C++ Development Tooling)
+.cproject
 
-# Thumbnails
-._*
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
+# Java annotation processor (APT)
+.factorypath
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+# PDT-specific (PHP Development Tools)
+.buildpath
 
-# Windows
-# =========================
+# sbteclipse plugin
+.target
 
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
+
+### Windows ###
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -61,3 +71,21 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+
+### Java ###
+*.class
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
