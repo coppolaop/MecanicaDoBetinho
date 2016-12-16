@@ -3,6 +3,8 @@ package entity;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -11,6 +13,7 @@ public class Usuario extends Pessoa implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idUsuario;
 	private String username;
 	private String senha;
@@ -19,9 +22,9 @@ public class Usuario extends Pessoa implements Serializable{
 		
 	}
 
-	public Usuario(Integer idUsuario, String username, String senha, Integer idPessoa, String nome, String email, Integer cpf,
-			Integer telefone, Integer celular, Endereco endereco) {
-		super(idPessoa, nome, email, cpf, telefone, celular, endereco);
+	public Usuario(Integer idUsuario, String username, String senha, String nome, String email, Long cpf,
+			Long telefone, Long celular, Endereco endereco) {
+		super(nome, email, cpf, telefone, celular, endereco);
 		this.idUsuario = idUsuario;
 		this.username = username;
 		this.senha = senha;

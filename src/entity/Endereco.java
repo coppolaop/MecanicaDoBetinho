@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Endereco implements Serializable{
@@ -12,6 +16,7 @@ public class Endereco implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idEndereco;
 	private String rua;
 	private Integer numero;
@@ -47,7 +52,7 @@ public class Endereco implements Serializable{
 				+ ", bairro=" + bairro + ", cidade=" + cidade + ", estado="
 				+ estado + ", cep=" + cep + "]";
 	}
-	
+
 	public Integer getIdEndereco() {
 		return idEndereco;
 	}

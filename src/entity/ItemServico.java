@@ -6,12 +6,15 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.IndexColumn;
 
 @Entity
@@ -20,6 +23,7 @@ public class ItemServico implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idItemServico;
 	private Double valor;
 	private Date dataAdicao;
@@ -32,15 +36,15 @@ public class ItemServico implements Serializable{
 				)
 	private List<OrdemDeServico> OrdensDeServico;
 	
-	@ManyToMany(mappedBy="itensServico",fetch=FetchType.EAGER)
-	@IndexColumn(name="idItemServico")
+	@CollectionOfElements(fetch = FetchType.LAZY)
+	@IndexColumn(name = "peca")
 	private List<Peca> pecas;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_mecanico")
 	private Mecanico mecanico;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_servico")
 	private Servico servico;
 	

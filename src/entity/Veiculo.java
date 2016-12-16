@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,15 +19,16 @@ public class Veiculo implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idVeiculo;
 	private String placa;
 	private String descricao;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_cliente")
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy="veiculo",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="veiculo",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<OrdemDeServico> ordensDeServico;
 	
 	public Veiculo() {

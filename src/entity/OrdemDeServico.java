@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,17 +22,18 @@ public class OrdemDeServico implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idOrdemDeServico;
 	private Date dataEmissao;
 	private Double valor;
 	private Date dataConclusao;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_veiculo")
 	private Veiculo veiculo;
 	
 	//mappedBy="ordensDeServico",
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.LAZY)
 	@IndexColumn(name="idOrdemDeServico")
 	private List<OrdemDeServico> itensServico;
 	

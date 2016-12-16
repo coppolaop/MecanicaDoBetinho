@@ -12,6 +12,7 @@
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     
+    <mapping class="entity.Pessoa"/>
     <mapping class="entity.Cliente"/>
     <mapping class="entity.Endereco"/>
     <mapping class="entity.Especialidade"/>
@@ -21,7 +22,6 @@
 	<mapping class="entity.Peca"/>
 	<mapping class="entity.Servico"/>
 	<mapping class="entity.Veiculo"/>
-	<mapping class="entity.Pessoa"/>
 	<mapping class="entity.Usuario"/>
 
 

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -18,13 +20,14 @@ public class Especialidade implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idEspecialidade;
 	private String nome;
 	
-	@OneToMany(mappedBy="especialidade",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="especialidade",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<Servico> servico;
 	
-	@ManyToMany(mappedBy="especialidades",fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy="especialidades",fetch=FetchType.LAZY)
 	@IndexColumn(name="idEspecialidade")
 	private List<Mecanico> mecanicos;
 	

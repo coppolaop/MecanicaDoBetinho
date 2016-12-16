@@ -4,17 +4,25 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "TYPE")
 public class Cliente extends Pessoa implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idCliente;
 	
 	@OneToMany(mappedBy="cliente",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
@@ -24,9 +32,9 @@ public class Cliente extends Pessoa implements Serializable{
 		
 	}
 
-	public Cliente(Integer idCliente, List<Veiculo> veiculos, Integer idPessoa, String nome, String email, Integer cpf,
-			Integer telefone, Integer celular, Endereco endereco) {
-		super(idPessoa, nome, email, cpf, telefone, celular, endereco);
+	public Cliente(Integer idCliente, List<Veiculo> veiculos, String nome, String email, Long cpf,
+			Long telefone, Long celular, Endereco endereco) {
+		super(nome, email, cpf, telefone, celular, endereco);
 		this.idCliente = idCliente;
 		this.veiculos = veiculos;
 	}
