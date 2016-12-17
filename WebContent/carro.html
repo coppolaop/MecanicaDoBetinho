@@ -105,12 +105,22 @@
                           </header>
                           <div class="panel-body">
                               <div class="form">
-                                  <form class="form-validate form-horizontal" id="feedback_form" method="get" action="">
+                                  <form class="form-validate form-horizontal" id="feedback_form" method="post" action="CadastroVeiculo">
+                                      
+                                      <label class="control-label col-lg-2" for="inputSuccess">Nome do Cliente</label>
+                                      <div class="col-lg-10">
+                                      <select class="form-control m-bot15" name="cliente" id="cliente">
+                                              <option value="Adriana">Adriana</option>
+                                              <option>Julio</option>
+                                              <option>Lucas</option>
+                                              <option>Luiz</option>
+                                      </select>
+                                      </div>
                                       
                                       <div class="form-group ">
                                           <label for="placa" class="control-label col-lg-2">Placa <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <input class="form-control" id="placa" name="fullname" minlength="5" type="text" required />
+                                              <input class="form-control" id="placa" name="placa" minlength="5" type="text" required />
                                           </div>
                                       </div>
                                       <div class="form-group ">
@@ -121,8 +131,8 @@
                                       </div>
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
-                                              <button class="btn btn-primary" type="submit">Save</button>
-                                              <button class="btn btn-default" type="button">Cancel</button>
+                                              <button class="btn btn-primary" type="submit">Salvar</button>
+                                              <button class="btn btn-default" type="button">Limpar</button>
                                           </div>
                                       </div>
                                   </form>

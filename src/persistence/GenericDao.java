@@ -5,6 +5,9 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import entity.Cliente;
+import entity.Mecanico;
+
 public class GenericDao<E> {
 
 	Session s;
@@ -36,6 +39,11 @@ public class GenericDao<E> {
 	public E findById(Integer id,Class<E> entity){
 		s = HibernateUtil.getSessionFactory().openSession();
 		return (E)s.get(entity, id);
+	}
+	
+	public E findByName(String name,Class<E> entity){
+		s = HibernateUtil.getSessionFactory().openSession();
+		return (E)s.createSQLQuery("select * from "+entity.getSimpleName()+" where nome='"+name+"'").addEntity(entity).uniqueResult();
 	}
 	
 //	public Usuario get(Usuario u){

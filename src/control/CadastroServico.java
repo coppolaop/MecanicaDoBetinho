@@ -50,7 +50,6 @@ public class CadastroServico extends HttpServlet {
 			GenericDao<Servico> sd = new GenericDao<Servico>();
 			sd.create(s);
 			resposta = "Dados Armazenados";
-			System.out.println(s.getNome() + " " + s.getValor());
 		}catch(NumberFormatException ex){
 			resposta = "Valor Inválido";
 		}catch(Exception ex){

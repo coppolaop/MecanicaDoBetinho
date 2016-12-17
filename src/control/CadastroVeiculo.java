@@ -13,18 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 import persistence.GenericDao;
 import entity.Cliente;
 import entity.Endereco;
+import entity.Veiculo;
 
 /**
- * Servlet implementation class CadastroCliente
+ * Servlet implementation class CadastroVeiculo
  */
-@WebServlet("/CadastroCliente")
-public class CadastroCliente extends HttpServlet {
+@WebServlet("/CadastroVeiculo")
+public class CadastroVeiculo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CadastroCliente() {
+    public CadastroVeiculo() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,7 +33,7 @@ public class CadastroCliente extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
@@ -42,26 +43,17 @@ public class CadastroCliente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
 		try{
-			Cliente c = new Cliente();
-			c.setNome(request.getParameter("nome"));
-			c.setCpf(Long.parseLong(request.getParameter("cpf")));
-			c.setEmail(request.getParameter("email"));
-			c.setTelefone(Long.parseLong(request.getParameter("telefone")));
-			c.setCelular(Long.parseLong(request.getParameter("celular")));
-			
-			Endereco e = new Endereco();
-			e.setRua(request.getParameter("rua"));
-			e.setNumero(Integer.parseInt(request.getParameter("numero")));
-			e.setLogradouro(request.getParameter("logradouro"));
-			e.setBairro(request.getParameter("bairro"));
-			e.setCidade(request.getParameter("cidade"));
-			e.setEstado(request.getParameter("estado"));
-			e.setCep(Integer.parseInt(request.getParameter("cep")));
-			
-			c.setEndereco(e);
-			
 			GenericDao<Cliente> cd = new GenericDao<Cliente>();
-			cd.create(c);
+			Cliente c = cd.findByName(request.getParameter("cliente"), Cliente.class);
+			Veiculo v = new Veiculo();
+			
+			v.setPlaca(request.getParameter("placa"));
+			v.setDescricao(request.getParameter("descricao"));
+			v.setCliente(c);
+			c.addVeiculo(v);
+			
+			GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
+			vd.create(v);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
 			resposta = "Valor Inválido";
@@ -74,7 +66,7 @@ public class CadastroCliente extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/cliente.html");
+        rd = request.getRequestDispatcher("/carro.html");
         rd.include(request, response);
 	}
 

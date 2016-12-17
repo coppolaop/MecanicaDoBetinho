@@ -49,7 +49,6 @@ public class CadastroPeca extends HttpServlet {
 			GenericDao<Peca> pd = new GenericDao<Peca>();
 			pd.create(p);
 			resposta = "Dados Armazenados";
-			System.out.println(p.getNome() + " " + p.getValor());
 		}catch(NumberFormatException ex){
 			resposta = "Valor Inválido";
 		}catch(Exception ex){

@@ -104,48 +104,56 @@
                           </header>
                           <div class="panel-body">
                               <div class="form">
-                                  <form class="form-validate form-horizontal" id="feedback_form" method="get" action="">
-                                      <div class="form-group ">
-                                          <label for="cname" class="control-label col-lg-2"> Cliente<span class="required">*</span></label>
-                                          <div class="col-lg-10">
-                                              <input class="form-control" id="cname" name="fullname" minlength="5" type="text" required />
-                                          </div>
+                                  <form class="form-validate form-horizontal" id="feedback_form" method="post" action="Agendamento">
+                                      <label class="control-label col-lg-2" for="inputSuccess">Nome do Cliente</label>
+                                      <div class="col-lg-10">
+                                      <select class="form-control m-bot15" onchange="" name="cliente" id="cliente">
+                                              <option value="Adriana">Adriana</option>
+                                              <option>Julio</option>
+                                              <option>Lucas</option>
+                                              <option>Luiz</option>
+                                      </select>
                                       </div>
-                                      <div class="form-group ">
-                                          <label for="cemail" class="control-label col-lg-2">Placa do Carro <span class="required">*</span></label>
-                                          <div class="col-lg-10">
-                                              <input class="form-control " id="cemail" type="email" name="email" required />
-                                          </div>
-                                      </div>
-                                      <div class="form-group ">
-                                          <label for="cemail" class="control-label col-lg-2">Placa do Carro <span class="required">*</span></label>
-                                          <div class="col-lg-10">
-                                              <input class="form-control " id="cemail" type="email" name="email" required />
-                                          </div>
+                                      <label class="control-label col-lg-2" for="inputSuccess">Placa do Veiculo</label>
+                                      <div class="col-lg-10">
+                                      <select class="form-control m-bot15" name="placa" id="placa">
+                                              <option value="1">AAA1111</option>
+                                              <option value="2">BBB2222</option>
+                                              <option value="3">CCC3333</option>
+                                              <option value="4">DDD4444</option>
+                                      </select>
                                       </div>
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
-                                              <button class="btn btn-primary" type="submit">Add Item</button>
+                                              <button class="btn btn-primary" type="submit">Criar Ordem de Serviço</button>
+                                              <button class="btn btn-default" type="button">Limpar</button>
                                           </div>
                                       </div>
                                      
-                                     <h3>Novo Item</h3>
+                                     <h3>Adicionar Serviço</h3>
 
                                       <hr/>
 
                                       
-                                      <div class="form-group ">
-                                          <label for="cemail" class="control-label col-lg-2">Descrição do Serviço <span class="required">*</span></label>
-                                          <div class="col-lg-10">
-                                              <input class="form-control " id="cemail" type="email" name="email" required />
-                                          </div>
+                                      <div class="form-group">
+                                      <label class="control-label col-lg-2" for="inputSuccess">Placa do Veiculo</label>
+                                      <div class="col-lg-10">
+                                          <select class="form-control m-bot15">
+                                              <option>AAA1111</option>
+                                              <option>BBB2222</option>
+                                              <option>CCC3333</option>
+                                              <option>DDD4444</option>
+                                          </select>
                                       </div>
 
-                                      <div class="form-group ">
-                                          <label for="cemail" class="control-label col-lg-2">Descrição do problema <span class="required">*</span></label>
-                                          <div class="col-lg-10">
-                                              <input class="form-control " id="cemail" type="email" name="email" required />
-                                          </div>
+                                      <label class="control-label col-lg-2" for="inputSuccess">Mecanico Responsável</label>
+                                      <div class="col-lg-10">
+                                          <select class="form-control m-bot15">
+                                              <option>Betinho</option>
+                                              <option>Coppola</option>
+                                              <option>Hery</option>
+                                              <option>Vitor</option>
+                                          </select>
                                       </div>
 
                                       <div class="form-group">
@@ -161,17 +169,10 @@
                                       </div>
                                       </div>
 
-                                      <div class="form-group ">
-                                          <label for="cemail" class="control-label col-lg-2">Mecanico Responsável <span class="required">*</span></label>
-                                          <div class="col-lg-10">
-                                              <input class="form-control " id="cemail" type="email" name="email" required />
-                                          </div>
-                                      </div>
-
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
-                                              <button class="btn btn-primary" type="submit">Save</button>
-                                              <button class="btn btn-default" type="button">Cancel</button>
+                                              <button class="btn btn-primary" type="submit">Adicionar Item</button>
+                                              <button class="btn btn-default" type="button">Limpar</button>
                                           </div>
                                       </div>
 

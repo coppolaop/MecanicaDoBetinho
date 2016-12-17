@@ -44,6 +44,14 @@ public class Cliente extends Pessoa implements Serializable{
 		return "Cliente [idCliente=" + idCliente + ", veiculos=" + veiculos
 				+ "]";
 	}
+	
+	public void addVeiculo(Veiculo veiculo){
+		veiculos.add(veiculo);
+	}
+	
+	public void removeVeiculo(Veiculo veiculo){
+		veiculos.remove(veiculo);
+	}
 
 	public Integer getIdCliente() {
 		return idCliente;
@@ -64,64 +72,4 @@ public class Cliente extends Pessoa implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
-//	@Id
-//	private Integer idCliente;
-//	private String nome;
-//	@Column(length=11)//codigo de area + numero
-//	private Integer telefone;
-//	private Endereco endereco;
-//	
-//	public Cliente() {
-//		
-//	}
-//
-//	public Cliente(Integer idCliente, String nome, Integer telefone,
-//			Endereco endereco) {
-//		super();
-//		this.idCliente = idCliente;
-//		this.nome = nome;
-//		this.telefone = telefone;
-//		this.endereco = endereco;
-//	}
-//
-//	@Override
-//	public String toString() {
-//		return "Cliente [idCliente=" + idCliente + ", nome=" + nome
-//				+ ", telefone=" + telefone + ", endereco=" + endereco + "]";
-//	}
-//
-//	public Integer getIdCliente() {
-//		return idCliente;
-//	}
-//
-//	public void setIdCliente(Integer idCliente) {
-//		this.idCliente = idCliente;
-//	}
-//
-//	public String getNome() {
-//		return nome;
-//	}
-//
-//	public void setNome(String nome) {
-//		this.nome = nome;
-//	}
-//
-//	public Integer getTelefone() {
-//		return telefone;
-//	}
-//
-//	public void setTelefone(Integer telefone) {
-//		this.telefone = telefone;
-//	}
-//
-//	public Endereco getEndereco() {
-//		return endereco;
-//	}
-//
-//	public void setEndereco(Endereco endereco) {
-//		this.endereco = endereco;
-//	}
 }
