@@ -24,7 +24,7 @@ public class Veiculo implements Serializable{
 	private String placa;
 	private String descricao;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_cliente")
 	private Cliente cliente;
 	

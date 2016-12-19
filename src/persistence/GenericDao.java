@@ -5,9 +5,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import entity.Cliente;
-import entity.Mecanico;
-
 public class GenericDao<E> {
 
 	Session s;
@@ -57,4 +54,5 @@ public class GenericDao<E> {
 //			return null;
 //		}
 //	}
+	
 }

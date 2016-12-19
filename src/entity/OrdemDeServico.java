@@ -27,12 +27,12 @@ public class OrdemDeServico implements Serializable{
 	private Date dataEmissao;
 	private Double valor;
 	private Date dataConclusao;
+	private String status;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_veiculo")
 	private Veiculo veiculo;
 	
-	//mappedBy="ordensDeServico",
 	@ManyToMany(fetch=FetchType.LAZY)
 	@IndexColumn(name="idOrdemDeServico")
 	private List<OrdemDeServico> itensServico;
@@ -42,19 +42,25 @@ public class OrdemDeServico implements Serializable{
 	}
 
 	public OrdemDeServico(Integer idOrdemDeServico, Date dataEmissao,
-			Double valor, Date dataConclusao) {
+			Double valor, Date dataConclusao, String status, Veiculo veiculo,
+			List<OrdemDeServico> itensServico) {
 		super();
 		this.idOrdemDeServico = idOrdemDeServico;
 		this.dataEmissao = dataEmissao;
 		this.valor = valor;
 		this.dataConclusao = dataConclusao;
+		this.status = status;
+		this.veiculo = veiculo;
+		this.itensServico = itensServico;
 	}
 
 	@Override
 	public String toString() {
 		return "OrdemDeServico [idOrdemDeServico=" + idOrdemDeServico
 				+ ", dataEmissao=" + dataEmissao + ", valor=" + valor
-				+ ", dataConclusao=" + dataConclusao + "]";
+				+ ", dataConclusao=" + dataConclusao + ", status=" + status
+				+ ", veiculo=" + veiculo + ", itensServico=" + itensServico
+				+ "]";
 	}
 
 	public Integer getIdOrdemDeServico() {
@@ -87,6 +93,14 @@ public class OrdemDeServico implements Serializable{
 
 	public void setDataConclusao(Date dataConclusao) {
 		this.dataConclusao = dataConclusao;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Veiculo getVeiculo() {
