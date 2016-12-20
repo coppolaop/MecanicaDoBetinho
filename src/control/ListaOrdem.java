@@ -49,7 +49,6 @@ public class ListaOrdem extends HttpServlet {
         try {
         	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
         	List<OrdemDeServico> lista = od.findAll(OrdemDeServico.class);
-        	GenericDao<Cliente> cd = new GenericDao<Cliente>();
         	
 	        for(OrdemDeServico o : lista){
 	        
@@ -61,9 +60,13 @@ public class ListaOrdem extends HttpServlet {
 		        pw.println("<td>"+o.getVeiculo().getDescricao()+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
-		        pw.println("<a class=\"btn btn-primary\" href=\"#\"><i class=\"icon_plus_alt2\"></i></a>");
-		        pw.println("<a class=\"btn btn-success\" href=\"#\"><i class=\"icon_check_alt2\"></i></a>");
-		        pw.println("<a class=\"btn btn-danger\" href=\"#\"><i class=\"icon_close_alt2\"></i></a>");
+		        pw.println("<a class=\"btn btn-primary\" href=\"./EditaOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_pencil\"></i></a>");
+		        if(o.getStatus().equals("ativo")){
+		        	pw.println("<a class=\"btn btn-success\" href=\"./StateOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_check_alt2\"></i></a>");	
+		        }else{
+		        	pw.println("<a class=\"btn btn-warning\" href=\"./StateOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_check_alt2\"></i></a>");
+		        }
+		        pw.println("<a class=\"btn btn-danger\" href=\"./DeletaOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_close_alt2\"></i></a>");
 		        pw.println("</div>");
 		        pw.println("</td>");
 		

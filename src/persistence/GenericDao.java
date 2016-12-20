@@ -26,6 +26,14 @@ public class GenericDao<E> {
 		s.close();
 	}
 	
+	public void update(E obj) throws Exception{
+		s = HibernateUtil.getSessionFactory().openSession();
+			t = s.beginTransaction();
+				s.update(obj);
+			t.commit();
+		s.close();
+	}
+	
 	public List<E> findAll(Class<E> entity) throws Exception{
 			s = HibernateUtil.getSessionFactory().openSession();
 				List<E> lista = s.createCriteria(entity).list();
@@ -35,12 +43,16 @@ public class GenericDao<E> {
 	
 	public E findById(Integer id,Class<E> entity){
 		s = HibernateUtil.getSessionFactory().openSession();
-		return (E)s.get(entity, id);
+			E e = (E)s.get(entity, id);
+		s.close();
+		return e;
 	}
 	
 	public E findByName(String name,Class<E> entity){
 		s = HibernateUtil.getSessionFactory().openSession();
-		return (E)s.createSQLQuery("select * from "+entity.getSimpleName()+" where nome='"+name+"'").addEntity(entity).uniqueResult();
+			E e = (E)s.createSQLQuery("select * from "+entity.getSimpleName()+" where nome='"+name+"'").addEntity(entity).uniqueResult();
+		s.close();
+		return e;
 	}
 	
 //	public Usuario get(Usuario u){

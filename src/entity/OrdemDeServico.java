@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.IndexColumn;
 
 @Entity
-public class OrdemDeServico implements Serializable{
+public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -38,7 +38,7 @@ public class OrdemDeServico implements Serializable{
 	private List<OrdemDeServico> itensServico;
 	
 	public OrdemDeServico() {
-		
+		this.status = "ativo";
 	}
 
 	public OrdemDeServico(Integer idOrdemDeServico, Date dataEmissao,
@@ -52,6 +52,7 @@ public class OrdemDeServico implements Serializable{
 		this.status = status;
 		this.veiculo = veiculo;
 		this.itensServico = itensServico;
+		this.status = "ativo";
 	}
 
 	@Override
@@ -121,5 +122,26 @@ public class OrdemDeServico implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	//Design Pattern - Prototype
+	public Object clone() throws CloneNotSupportedException{
+		Object clone = null;
+		
+		try{
+			clone = super.clone();
+		}catch(CloneNotSupportedException ex){
+			ex.printStackTrace();
+		}
+		return clone;
+	}
+
+	@Override
+	public void changeState() {
+		if(status.equals("ativo")){
+			status = "inativo";
+		}else{
+			status = "ativo";
+		}
 	}
 }
