@@ -136,6 +136,7 @@ public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 		return clone;
 	}
 
+	//Design Pattern - State
 	@Override
 	public void changeState() {
 		if(status.equals("ativo")){

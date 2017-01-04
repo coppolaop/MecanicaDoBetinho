@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import persistence.GenericDao;
-import entity.Cliente;
 import entity.OrdemDeServico;
 import entity.Veiculo;
 
@@ -44,9 +43,7 @@ public class Agendamento extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
 		try{
-			GenericDao<Cliente> cd = new GenericDao<Cliente>();
 			GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
-			Cliente c = cd.findByName(request.getParameter("cliente"), Cliente.class);
 			Veiculo v = vd.findById(Integer.parseInt(request.getParameter("placa")), Veiculo.class);
 			
 			GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
@@ -73,4 +70,7 @@ public class Agendamento extends HttpServlet {
         rd = request.getRequestDispatcher("/form.html");
         rd.include(request, response);
 	}
+	
+	
+	
 }
