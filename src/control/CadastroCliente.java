@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import persistence.GenericDao;
 import entity.Cliente;
 import entity.Endereco;
@@ -65,6 +67,9 @@ public class CadastroCliente extends HttpServlet {
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
 			resposta = "Valor Inválido";
+			ex.printStackTrace();
+		}catch(ConstraintViolationException ex){
+			resposta = "Já Existe um Cliente cadastrado com esse nome";
 			ex.printStackTrace();
 		}catch(Exception ex){
 			resposta = ex.getMessage();

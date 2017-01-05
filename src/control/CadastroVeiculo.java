@@ -66,7 +66,7 @@ public class CadastroVeiculo extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/carro.html");
+        rd = request.getRequestDispatcher("FormVeiculo");
         rd.include(request, response);
 	}
 

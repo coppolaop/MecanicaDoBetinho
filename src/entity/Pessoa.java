@@ -13,6 +13,7 @@ public abstract class Pessoa implements Serializable, Cloneable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@Column(unique=true)
 	private String nome;
 	private String email;
 	@Column(length=11)

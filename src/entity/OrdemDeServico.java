@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 	private Date dataEmissao;
 	private Double valor;
 	private Date dataConclusao;
+	@Column(length=7)
 	private String status;
 	
 	@ManyToOne(fetch=FetchType.EAGER)

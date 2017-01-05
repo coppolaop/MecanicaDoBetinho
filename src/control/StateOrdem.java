@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,8 +38,20 @@ public class StateOrdem extends HttpServlet {
 		try {	
 			Integer id = Integer.parseInt(request.getParameter("id"));
 			GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
-			OrdemDeServico o = od.findById(id, OrdemDeServico.class);
-			OrdemDeServico ods = (OrdemDeServico) o.clone();
+			OrdemDeServico ordem = od.findById(id, OrdemDeServico.class);
+			OrdemDeServico ods = (OrdemDeServico) ordem.clone();
+			
+			List<OrdemDeServico> lista = od.findAll(OrdemDeServico.class);
+			for(OrdemDeServico o : lista){
+				if(o.getVeiculo().getIdVeiculo().equals(ordem.getVeiculo().getIdVeiculo())){
+					if(o.getStatus().equalsIgnoreCase("Ativo")){
+						if(ordem.getStatus().equalsIgnoreCase("Inativo")){
+							throw new Exception("Não é possivel ter mais de uma Ordem De Serviço em Aberto para o mesmo Veículo");
+						}
+					}
+				}
+			}
+			
 			ods.changeState();
 			od.update(ods);
 			

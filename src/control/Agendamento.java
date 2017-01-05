@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -53,6 +54,15 @@ public class Agendamento extends HttpServlet {
 			ordem.setValor(0.);
 			ordem.setVeiculo(v);
 			
+			List<OrdemDeServico> lista = od.findAll(OrdemDeServico.class);
+			for(OrdemDeServico o : lista){
+				if(o.getVeiculo().getIdVeiculo().equals(v.getIdVeiculo())){
+					if(o.getStatus().equals("ativo")){
+						throw new Exception("Já existe uma Ordem em Aberto para esse Veículo");
+					}
+				}
+			}
+			
 			od.create(ordem);
 			
 			resposta = "Dados Armazenados";
@@ -67,7 +77,7 @@ public class Agendamento extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/form.html");
+        rd = request.getRequestDispatcher("ListaOrdem");
         rd.include(request, response);
 	}
 	
