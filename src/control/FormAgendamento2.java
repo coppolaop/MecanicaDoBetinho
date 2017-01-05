@@ -38,7 +38,7 @@ public class FormAgendamento2 extends HttpServlet {
         String cliente = request.getParameter("cliente");
         
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"Agendamento\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Placa do Veiculo</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Placa do Veículo</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"placa\" id=\"placa\">");
         
