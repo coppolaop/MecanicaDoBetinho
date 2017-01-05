@@ -2,7 +2,6 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,18 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import persistence.GenericDao;
 import entity.Cliente;
+import entity.OrdemDeServico;
+import entity.Veiculo;
 
 /**
- * Servlet implementation class FormAgendamento
+ * Servlet implementation class EditaOrdem2
  */
-@WebServlet("/FormAgendamento")
-public class FormAgendamento extends HttpServlet {
+@WebServlet("/EditaOrdem2")
+public class EditaOrdem2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FormAgendamento() {
+    public EditaOrdem2() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,25 +36,29 @@ public class FormAgendamento extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
         request.getRequestDispatcher("/agenda1.html").include(request, response);
+        String cliente = request.getParameter("cliente");
+        Integer id = Integer.parseInt(request.getParameter("id"));
         
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"FormAgendamento2\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Cliente</label>");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"AtualizaOrdem?id="+ id +"\">");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Placa do Veículo</label>");
         pw.println("<div class=\"col-lg-10\">");
-        pw.println("<select class=\"form-control m-bot15\" name=\"cliente\" id=\"cliente\">");
+        pw.println("<select class=\"form-control m-bot15\" name=\"placa\" id=\"placa\">");
         
         try {
+        	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
 			GenericDao<Cliente> cd = new GenericDao<Cliente>();
-			List<Cliente> l = cd.findAll(Cliente.class);
-			List<Cliente> lista = new ArrayList<>();
-			
-			for(Cliente cli : l){
-				if(!lista.contains(cli)){
-					lista.add(cli);
+			Cliente c = cd.findByName(cliente, Cliente.class);
+			OrdemDeServico o = od.findById(id, OrdemDeServico.class);
+			GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
+			List<Veiculo> lista = vd.findAll(Veiculo.class);
+			for(Veiculo v : lista){
+				if(v.getCliente().getIdCliente().equals(c.getIdCliente())){
+					if(v.getIdVeiculo().equals(o.getVeiculo().getIdVeiculo())){
+						pw.println("<option value=\""+v.getIdVeiculo()+"\" selected>"+v.getPlaca()+"</option>");
+					}else{
+						pw.println("<option value=\""+v.getIdVeiculo()+"\">"+v.getPlaca()+"</option>");
+					}
 				}
-			}
-			
-			for(Cliente c : lista){
-				pw.println("<option value=\""+c.getNome()+"\">"+c.getNome()+"</option>");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -64,8 +69,8 @@ public class FormAgendamento extends HttpServlet {
         
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
-        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Cliente</button>");
-        
+        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Agendar</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='EditaOrdem1?id="+ id +"';\" type=\"button\">Voltar</button>");
         
         request.getRequestDispatcher("/agenda2.html").include(request, response);
 	}

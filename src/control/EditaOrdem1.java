@@ -13,18 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import persistence.GenericDao;
 import entity.Cliente;
+import entity.OrdemDeServico;
 
 /**
- * Servlet implementation class FormAgendamento
+ * Servlet implementation class EditaOrdem1
  */
-@WebServlet("/FormAgendamento")
-public class FormAgendamento extends HttpServlet {
+@WebServlet("/EditaOrdem1")
+public class EditaOrdem1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FormAgendamento() {
+    public EditaOrdem1() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,18 +34,25 @@ public class FormAgendamento extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer id = Integer.parseInt(request.getParameter("id"));
 		PrintWriter pw = response.getWriter();
         request.getRequestDispatcher("/agenda1.html").include(request, response);
         
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"FormAgendamento2\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"EditaOrdem2?id="+ id +"\">");
         pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Cliente</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"cliente\" id=\"cliente\">");
         
         try {
-			GenericDao<Cliente> cd = new GenericDao<Cliente>();
+        	
+        	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
+            OrdemDeServico o = od.findById(id, OrdemDeServico.class);
+            GenericDao<Cliente> cd = new GenericDao<Cliente>();
+
+            Integer cliente = o.getVeiculo().getCliente().getIdCliente();
+            
 			List<Cliente> l = cd.findAll(Cliente.class);
-			List<Cliente> lista = new ArrayList<>();
+			List<Cliente> lista = new ArrayList<Cliente>();
 			
 			for(Cliente cli : l){
 				if(!lista.contains(cli)){
@@ -53,7 +61,11 @@ public class FormAgendamento extends HttpServlet {
 			}
 			
 			for(Cliente c : lista){
-				pw.println("<option value=\""+c.getNome()+"\">"+c.getNome()+"</option>");
+				if(c.getIdCliente().equals(cliente)){
+					pw.println("<option value=\""+c.getNome()+"\" selected>"+c.getNome()+"</option>");
+				}else{
+					pw.println("<option value=\""+c.getNome()+"\">"+c.getNome()+"</option>");
+				}
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

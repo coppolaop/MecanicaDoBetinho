@@ -47,17 +47,17 @@ public class EditaOrdem extends HttpServlet {
             Integer oid = o.getIdOrdemDeServico();
             String placa = o.getVeiculo().getPlaca();
 
-            pw.println("<div class=\"form-group\">");
-            pw.println("<label for=\"cname\" class=\"control-label col-lg-2\"> Cliente<span class=\"required\">*</span></label>");
-            pw.println("<div class=\"col-lg-10\">");
-            pw.println("<select class=\"form-control m-bot15\" onchange=\"\" name=\"cliente\" id=\"cliente\">");
-            pw.println("<option value=\"1\">Adriana</option>");
-            pw.println("<option value=\"2\">Julio</option>");
-            pw.println("<option value=\"3\">Lucas</option>");
-            pw.println("<option value=\"4\">Luiz Pedro</option>");
-            pw.println("</select>");
-            pw.println("</div>");
-            pw.println("</div>");
+//            pw.println("<div class=\"form-group\">");
+//            pw.println("<label for=\"cname\" class=\"control-label col-lg-2\"> Cliente<span class=\"required\">*</span></label>");
+//            pw.println("<div class=\"col-lg-10\">");
+//            pw.println("<select class=\"form-control m-bot15\" onchange=\"\" name=\"cliente\" id=\"cliente\">");
+//            pw.println("<option value=\"1\">Adriana</option>");
+//            pw.println("<option value=\"2\">Julio</option>");
+//            pw.println("<option value=\"3\">Lucas</option>");
+//            pw.println("<option value=\"4\">Luiz Pedro</option>");
+//            pw.println("</select>");
+//            pw.println("</div>");
+//            pw.println("</div>");
             
             
             pw.println("<div class=\"form-group\">");

@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -36,7 +37,15 @@ public class FormVeiculo extends HttpServlet {
         request.getRequestDispatcher("/veiculo1.html").include(request, response);
         try {
 			GenericDao<Cliente> cd = new GenericDao<Cliente>();
-			List<Cliente> lista = cd.findAll(Cliente.class);
+			List<Cliente> l = cd.findAll(Cliente.class);
+			List<Cliente> lista = new ArrayList<Cliente>();
+			
+			for(Cliente cli : l){
+				if(!lista.contains(cli)){
+					lista.add(cli);
+				}
+			}
+			
 			for(Cliente c : lista){
 				pw.println("<option value=\""+c.getNome()+"\">"+c.getNome()+"</option>");
 			}

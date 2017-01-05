@@ -2,7 +2,9 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import persistence.GenericDao;
-import entity.Cliente;
 import entity.OrdemDeServico;
-import entity.Veiculo;
 
 /**
  * Servlet implementation class ListaOrdem
@@ -42,8 +42,9 @@ public class ListaOrdem extends HttpServlet {
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Cliente</th>");
         pw.println("<th><i class=\"icon_calendar\"></i> Data de Inicio</th>");
-        pw.println("<th><i class=\"icon_mail_alt\"></i> Veiculo</th>");
-        pw.println("<th><i class=\"icon_cogs\"></i> Action</th>");
+        pw.println("<th><i class=\"fa fa-car\" aria-hidden=\"true\"></i> Veiculo</th>");
+        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor Atual</th>");
+        pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
 
         try {
@@ -58,9 +59,13 @@ public class ListaOrdem extends HttpServlet {
 		        pw.println("<td>"+o.getVeiculo().getCliente().getNome()+"</td>");
 		        pw.println("<td>"+o.getDataEmissao()+"</td>");
 		        pw.println("<td>"+o.getVeiculo().getDescricao()+"</td>");
+		        NumberFormat nf = NumberFormat.getInstance();
+		        nf.setMaximumFractionDigits(2);
+		        nf.setMinimumFractionDigits(2);
+		        pw.println("<td>R$ "+nf.format(o.getValor())+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
-		        pw.println("<a class=\"btn btn-primary\" href=\"./EditaOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_pencil\"></i></a>");
+		        pw.println("<a class=\"btn btn-primary\" href=\"./EditaOrdem1?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_pencil\"></i></a>");
 		        if(o.getStatus().equals("ativo")){
 		        	pw.println("<a class=\"btn btn-success\" href=\"./StateOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_check_alt2\"></i></a>");	
 		        }else{
