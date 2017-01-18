@@ -35,26 +35,24 @@ public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 	@JoinColumn(name="id_veiculo")
 	private Veiculo veiculo;
 	
-	@ManyToMany(fetch=FetchType.LAZY)
-	@IndexColumn(name="idOrdemDeServico")
-	private List<OrdemDeServico> itensServico;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable	(	name="itemservico_ordemdeservico",
+					joinColumns=@JoinColumn(name="id_itemservico"),
+					inverseJoinColumns=@JoinColumn(name="id_ordemdeservico")
+				)
+	private List<ItemServico> itensServico;
 	
 	public OrdemDeServico() {
 		this.status = "ativo";
 	}
 
 	public OrdemDeServico(Integer idOrdemDeServico, Date dataEmissao,
-			Double valor, Date dataConclusao, String status, Veiculo veiculo,
-			List<OrdemDeServico> itensServico) {
+			Double valor, String status) {
 		super();
 		this.idOrdemDeServico = idOrdemDeServico;
 		this.dataEmissao = dataEmissao;
 		this.valor = valor;
-		this.dataConclusao = dataConclusao;
 		this.status = status;
-		this.veiculo = veiculo;
-		this.itensServico = itensServico;
-		this.status = "ativo";
 	}
 
 	@Override
@@ -62,7 +60,6 @@ public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 		return "OrdemDeServico [idOrdemDeServico=" + idOrdemDeServico
 				+ ", dataEmissao=" + dataEmissao + ", valor=" + valor
 				+ ", dataConclusao=" + dataConclusao + ", status=" + status
-				+ ", veiculo=" + veiculo + ", itensServico=" + itensServico
 				+ "]";
 	}
 
@@ -114,11 +111,11 @@ public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 		this.veiculo = veiculo;
 	}
 
-	public List<OrdemDeServico> getItensServico() {
+	public List<ItemServico> getItensServico() {
 		return itensServico;
 	}
 
-	public void setItensServico(List<OrdemDeServico> itensServico) {
+	public void setItensServico(List<ItemServico> itensServico) {
 		this.itensServico = itensServico;
 	}
 

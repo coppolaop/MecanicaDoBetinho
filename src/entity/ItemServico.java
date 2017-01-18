@@ -36,15 +36,15 @@ public class ItemServico implements Serializable{
 				)
 	private List<OrdemDeServico> OrdensDeServico;
 	
-	@CollectionOfElements(fetch = FetchType.LAZY)
+	@CollectionOfElements(fetch = FetchType.EAGER)
 	@IndexColumn(name = "peca")
 	private List<Peca> pecas;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_mecanico")
 	private Mecanico mecanico;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_servico")
 	private Servico servico;
 	
