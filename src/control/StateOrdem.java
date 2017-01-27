@@ -52,7 +52,7 @@ public class StateOrdem extends HttpServlet {
 				}
 			}
 			
-			ods.changeState();
+			ods.changeStatus();
 			od.update(ods);
 			
 			resposta = "Estado Alterado";

@@ -24,7 +24,7 @@ public abstract class Pessoa implements Serializable, Cloneable{
 	private Long celular;
 	
 	@OneToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "endereco", referencedColumnName = "idEndereco")
+	@JoinColumn(name = "id_endereco") 
 	private Endereco endereco;
 	
 	public Pessoa() {
@@ -32,14 +32,13 @@ public abstract class Pessoa implements Serializable, Cloneable{
 	}
 
 	public Pessoa(String nome, String email, Long cpf, Long telefone,
-			Long celular, Endereco endereco) {
+			Long celular) {
 		super();
 		this.nome = nome;
 		this.email = email;
 		this.cpf = cpf;
 		this.telefone = telefone;
 		this.celular = celular;
-		this.endereco = endereco;
 	}
 
 	public String getNome() {

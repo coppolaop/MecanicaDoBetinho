@@ -50,7 +50,7 @@ public class CadastroVeiculo extends HttpServlet {
 			v.setPlaca(request.getParameter("placa"));
 			v.setDescricao(request.getParameter("descricao"));
 			v.setCliente(c);
-			c.addVeiculo(v);
+			c.adicionar(v);
 			
 			GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
 			vd.create(v);

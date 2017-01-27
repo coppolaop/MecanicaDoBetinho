@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.IndexColumn;
 
 @Entity
 public class Veiculo implements Serializable{
@@ -26,9 +29,11 @@ public class Veiculo implements Serializable{
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_cliente")
+	@IndexColumn(name = "id_cliente")
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy="veiculo",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="veiculo",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@IndexColumn(name = "idOrdemDeServico")
 	private List<OrdemDeServico> ordensDeServico;
 	
 	public Veiculo() {
@@ -85,9 +90,16 @@ public class Veiculo implements Serializable{
 	}
 
 	public void setOrdensDeServico(List<OrdemDeServico> ordensDeServico) {
-		ordensDeServico = ordensDeServico;
+		this.ordensDeServico = ordensDeServico;
 	}
 
+	public void adicionar(OrdemDeServico o){
+		if(ordensDeServico==null){
+			ordensDeServico = new ArrayList<OrdemDeServico>();
+		}
+		ordensDeServico.add(o);
+	}
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

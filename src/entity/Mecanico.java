@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,10 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.IndexColumn;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -28,33 +28,26 @@ public class Mecanico extends Pessoa implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idMecanico;
 	
-	@OneToMany(mappedBy="mecanico",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="mecanico",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@IndexColumn(name = "idItemServico")
 	private List<ItemServico> itensServico;
-	
-	@ManyToMany
-	@JoinTable	(	name="especialidade_mecanico",
-					joinColumns=@JoinColumn(name="id_especialidade"),
-					inverseJoinColumns=@JoinColumn(name="id_mecanico")
-				)
-	private List<Especialidade> especialidades;
 
 	public Mecanico() {
 		super();
 	}
 
-	public Mecanico(Integer idMecanico, List<ItemServico> itensServico,
-			List<Especialidade> especialidades, String nome, String email, Long cpf,
-			Long telefone, Long celular, Endereco endereco) {
-		super(nome, email, cpf, telefone, celular, endereco);
+	public Mecanico(Integer idMecanico, String nome, String email, Long cpf, Long telefone,
+			Long celular) {
+		super(nome, email, cpf, telefone, celular);
 		this.idMecanico = idMecanico;
-		this.itensServico = itensServico;
-		this.especialidades = especialidades;
 	}
 
 	@Override
 	public String toString() {
 		return "Mecanico [idMecanico=" + idMecanico + ", itensServico="
-				+ itensServico + ", especialidades=" + especialidades + "]";
+				+ itensServico + ", Nome=" + getNome() + ", Email="
+				+ getEmail() + ", Cpf=" + getCpf() + ", Telefone="
+				+ getTelefone() + ", Celular=" + getCelular() + "]";
 	}
 
 	public Integer getIdMecanico() {
@@ -72,13 +65,12 @@ public class Mecanico extends Pessoa implements Serializable{
 	public void setItensServico(List<ItemServico> itensServico) {
 		this.itensServico = itensServico;
 	}
-
-	public List<Especialidade> getEspecialidades() {
-		return especialidades;
-	}
-
-	public void setEspecialidades(List<Especialidade> especialidades) {
-		this.especialidades = especialidades;
+	
+	public void adicionar(ItemServico i){
+		if(itensServico == null){
+			itensServico = new ArrayList<ItemServico>();
+		}
+		itensServico.add(i);
 	}
 
 	public static long getSerialversionuid() {

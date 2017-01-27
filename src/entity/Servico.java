@@ -1,6 +1,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,9 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.IndexColumn;
 
 @Entity
 public class Servico implements Serializable{
@@ -25,12 +27,14 @@ public class Servico implements Serializable{
 	private Double valor;
 	private Integer previsao;
 	
-	@OneToMany(mappedBy="servico",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="servico",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@IndexColumn(name = "idItemServico")
 	private List<ItemServico> itensServico;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_especialidade")
-	private Servico especialidade;
+//	@ManyToOne(fetch=FetchType.LAZY)
+//	@JoinColumn(name="id_especialidade")
+//	@IndexColumn(name = "id_especialidade")
+//	private Especialidade especialidade;
 	
 	public Servico() {
 		
@@ -47,8 +51,8 @@ public class Servico implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "Servico [idServico=" + idServico + ", nome=" + nome
-				+ ", valor=" + valor + ", previsao=" + previsao + "]";
+		return "<td>" + nome
+				+ "</td><td>" + valor + "</td><td>" + previsao + "</td>";
 	}
 	
 	public Integer getIdServico() {
@@ -91,15 +95,44 @@ public class Servico implements Serializable{
 		this.itensServico = itensServico;
 	}
 
-	public Servico getEspecialidade() {
-		return especialidade;
-	}
-
-	public void setEspecialidade(Servico especialidade) {
-		this.especialidade = especialidade;
+//	public Especialidade getEspecialidade() {
+//		return especialidade;
+//	}
+//
+//	public void setEspecialidade(Especialidade especialidade) {
+//		this.especialidade = especialidade;
+//	}
+	
+	public void adicionar(ItemServico i){
+		if(itensServico == null){
+			itensServico = new ArrayList<ItemServico>();
+		}
+		itensServico.add(i);
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	public static void main(String[] args) {
+		Peca s = new Peca();
+		String x = "";
+		Class obj = Servico.class;
+		for (Field atributo : obj.getDeclaredFields()) {
+        	if(!(atributo.getName().startsWith("id"))){
+        		if(!(atributo.getName().equals("serialVersionUID"))){
+        			x=atributo.getAnnotations().toString();
+        			if((atributo.getAnnotations().toString().equals(x))){
+	        			try {
+							System.out.println(atributo.getName());
+							
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+        			}
+        		}
+        	}
+		}
 	}
 }

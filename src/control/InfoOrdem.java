@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sun.org.apache.bcel.internal.generic.IfInstruction;
+
 import persistence.GenericDao;
 import entity.ItemServico;
 import entity.OrdemDeServico;
@@ -34,10 +36,29 @@ public class InfoOrdem extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println(request.getParameter("id"));
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/info1.html").include(request, response);
+        request.getRequestDispatcher("/base1.html").include(request, response);
 
+        pw.println("<section class=\"wrapper\">");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ORDENS DE SERVIÇO</h3>");
+        pw.println("<ol class=\"breadcrumb\">");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Ordens de Serviço</li>");
+        pw.println("<li><i class=\"fa fa-wrench\"></i>Serviços Alocados</li>");
+        pw.println("</ol>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<section class=\"panel\">");
+        pw.println("<header class=\"panel-heading\">");
+        pw.println("Itens de Serviço");
+        pw.println("</header>");
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
@@ -54,36 +75,28 @@ public class InfoOrdem extends HttpServlet {
         	OrdemDeServico o = od.findById(id,OrdemDeServico.class);
         	List<ItemServico> lista = o.getItensServico();
         	
-        	
+        	System.out.println(lista);
 	        for(ItemServico i : lista){
 	        
+	        	if(!(i == null)){
 	        	
-		        //Begin Logic while List...
-		        pw.println("<tr>");
-		        pw.println("<td>"+i.getServico().getNome()+"</td>");
-		        pw.println("<td>"+i.getDataAdicao()+"</td>");
-		        pw.println("<td>"+i.getPecas().size()+"</td>");
-		        NumberFormat nf = NumberFormat.getInstance();
-		        nf.setMaximumFractionDigits(2);
-		        nf.setMinimumFractionDigits(2);
-		        pw.println("<td>R$ "+nf.format(i.getValor())+"</td>");
-		        pw.println("<td>"+i.getMecanico().getNome()+"</td>");
-		        pw.println("<td>");
-		        pw.println("<div class=\"btn-group\">");
-		        pw.println("<a class=\"btn btn-info\" href=#><i class=\"icon_info_alt\"></i></a>");
-//		        pw.println("<a class=\"btn btn-info\" href=\"./InfoOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_info_alt\"></i></a>");
-//		        pw.println("<a class=\"btn btn-primary\" href=\"./EditaOrdem1?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_pencil\"></i></a>");
-//		        if(o.getStatus().equals("ativo")){
-//		        	pw.println("<a class=\"btn btn-success\" href=\"./StateOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_check_alt2\"></i></a>");	
-//		        }else{
-//		        	pw.println("<a class=\"btn btn-warning\" href=\"./StateOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_check_alt2\"></i></a>");
-//		        }
-//		        pw.println("<a class=\"btn btn-danger\" href=\"./DeletaOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_close_alt2\"></i></a>");
-		        pw.println("</div>");
-		        pw.println("</td>");
-		
-		        pw.println("</tr>");
-	        
+			        pw.println("<tr>");
+			        pw.println("<td>"+i.getServico().getNome()+"</td>");
+			        pw.println("<td>"+i.getDataAdicao()+"</td>");
+			        pw.println("<td>"+i.getPecas().size()+"</td>");
+			        NumberFormat nf = NumberFormat.getInstance();
+			        nf.setMaximumFractionDigits(2);
+			        nf.setMinimumFractionDigits(2);
+			        pw.println("<td>R$ "+nf.format(i.getValor())+"</td>");
+			        pw.println("<td>"+i.getMecanico().getNome()+"</td>");
+			        pw.println("<td>");
+			        pw.println("<div class=\"btn-group\">");
+			        pw.println("<a class=\"btn btn-info\" href=#><i class=\"icon_info_alt\"></i></a>");
+			        pw.println("</div>");
+			        pw.println("</td>");
+			
+			        pw.println("</tr>");
+	        	}
 	        }
         } catch (Exception ex) {
 			ex.printStackTrace();
@@ -91,8 +104,12 @@ public class InfoOrdem extends HttpServlet {
 
         pw.println("</tbody>");
         pw.println("</table>");
+        pw.println("</section>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
 
-        request.getRequestDispatcher("/info2.html").include(request, response);
+        request.getRequestDispatcher("/base2.html").include(request, response);
 	}
 
 	/**

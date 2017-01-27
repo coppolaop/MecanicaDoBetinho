@@ -1,9 +1,11 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,11 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.IndexColumn;
 
 @Entity
-public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
+public class OrdemDeServico implements Serializable, Cloneable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -29,21 +32,19 @@ public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 	private Double valor;
 	private Date dataConclusao;
 	@Column(length=7)
-	private String status;
+	private String status = "ativo";
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_veiculo")
+	@IndexColumn(name = "id_veiculo")
 	private Veiculo veiculo;
 	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable	(	name="itemservico_ordemdeservico",
-					joinColumns=@JoinColumn(name="id_itemservico"),
-					inverseJoinColumns=@JoinColumn(name="id_ordemdeservico")
-				)
+	@OneToMany(mappedBy="ordemDeServico",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@IndexColumn(name = "idItemServico")
 	private List<ItemServico> itensServico;
 	
 	public OrdemDeServico() {
-		this.status = "ativo";
+		
 	}
 
 	public OrdemDeServico(Integer idOrdemDeServico, Date dataEmissao,
@@ -99,10 +100,6 @@ public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 		return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public Veiculo getVeiculo() {
 		return veiculo;
 	}
@@ -123,6 +120,13 @@ public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 		return serialVersionUID;
 	}
 	
+	public void adicionar(ItemServico i){
+		if(this.itensServico==null){
+			this.itensServico = new ArrayList<ItemServico>();
+		}
+		itensServico.add(i);
+	}
+	
 	//Design Pattern - Prototype
 	public Object clone() throws CloneNotSupportedException{
 		Object clone = null;
@@ -135,9 +139,7 @@ public class OrdemDeServico implements Serializable, Cloneable, OrdemState{
 		return clone;
 	}
 
-	//Design Pattern - State
-	@Override
-	public void changeState() {
+	public void changeStatus() {
 		if(status.equals("ativo")){
 			status = "inativo";
 		}else{

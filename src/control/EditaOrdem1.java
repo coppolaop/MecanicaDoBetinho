@@ -36,8 +36,27 @@ public class EditaOrdem1 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/agenda1.html").include(request, response);
+        request.getRequestDispatcher("/base1.html").include(request, response);
         
+        pw.println("<section class=\"wrapper\">");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> AGENDAMENTO</h3>");
+        pw.println("<ol class=\"breadcrumb\">");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
+        pw.println("</ol>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<section class=\"panel\">");
+        pw.println("<header class=\"panel-heading\">");
+        pw.println("Agendamento");
+        pw.println("</header>");
+        pw.println("<div class=\"panel-body\">");
+        pw.println("<div class=\"form\">");
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"EditaOrdem2?id="+ id +"\">");
         pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Cliente</label>");
         pw.println("<div class=\"col-lg-10\">");
@@ -73,13 +92,21 @@ public class EditaOrdem1 extends HttpServlet {
         
         pw.println("</select>");
         pw.println("</div>");
-        
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
         pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Cliente</button>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</form>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
         
         
-        request.getRequestDispatcher("/agenda2.html").include(request, response);
+        request.getRequestDispatcher("/base2.html").include(request, response);
 	}
 
 	/**

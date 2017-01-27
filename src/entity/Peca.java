@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.ManyToMany;
 import org.hibernate.annotations.IndexColumn;
 
 @Entity
-public class Peca implements Serializable{
+public class Peca implements Serializable,Cloneable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -29,6 +30,7 @@ public class Peca implements Serializable{
 					joinColumns=@JoinColumn(name="id_itemservico"),
 					inverseJoinColumns=@JoinColumn(name="id_peca")
 				)
+	@IndexColumn(name = "id_itemServico")
 	private List<ItemServico> itensServico;
 	
 	public Peca() {
@@ -44,8 +46,8 @@ public class Peca implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Peca [idPeca=" + idPeca + ", nome=" + nome + ", valor=" + valor
-				+ "]";
+		return "<td>" + nome + "</td><td>" + valor
+				+ "</td>";
 	}
 
 	public Integer getIdPeca() {
@@ -78,6 +80,25 @@ public class Peca implements Serializable{
 
 	public void setItensServico(List<ItemServico> itensServico) {
 		this.itensServico = itensServico;
+	}
+	
+	public void adicionar(ItemServico i){
+		if(itensServico==null){
+			itensServico = new ArrayList<ItemServico>();
+		}
+		itensServico.add(i);
+	}
+	
+	//Design Pattern - Prototype
+	public Object clone() throws CloneNotSupportedException{
+		Object clone = null;
+		
+		try{
+			clone = super.clone();
+		}catch(CloneNotSupportedException ex){
+			ex.printStackTrace();
+		}
+		return clone;
 	}
 
 	public static long getSerialversionuid() {

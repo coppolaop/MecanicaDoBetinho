@@ -22,9 +22,9 @@ public class Usuario extends Pessoa implements Serializable{
 		
 	}
 
-	public Usuario(Integer idUsuario, String username, String senha, String nome, String email, Long cpf,
-			Long telefone, Long celular, Endereco endereco) {
-		super(nome, email, cpf, telefone, celular, endereco);
+	public Usuario(Integer idUsuario, String nome, String email, Long cpf, Long telefone,
+			Long celular, String username, String senha) {
+		super(nome, email, cpf, telefone, celular);
 		this.idUsuario = idUsuario;
 		this.username = username;
 		this.senha = senha;
@@ -32,7 +32,11 @@ public class Usuario extends Pessoa implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Usuario [username=" + username + ", senha=" + senha + "]";
+		return "Usuario [idUsuario=" + idUsuario + ", username=" + username
+				+ ", Nome=" + getNome() + ", Email=" + getEmail()
+				+ ", Cpf=" + getCpf() + ", Telefone=" + getTelefone()
+				+ ", Celular=" + getCelular() + ", Endereco="
+				+ getEndereco() + "]";
 	}
 
 	public String getUsername() {

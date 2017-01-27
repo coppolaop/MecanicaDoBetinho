@@ -1,0 +1,16 @@
+insert into Endereco values(null,'Centro','21001000','Rio de Janeiro','RJ','casa','001','Rua A');
+insert into Endereco values(null,'Centro','21001000','Rio de Janeiro','RJ','casa','002','Rua A');
+insert into Endereco values(null,'Centro','21001000','Rio de Janeiro','RJ','casa','003','Rua A');
+commit;
+insert into Cliente values(null,21999889988,11111111111,'belem@gmail.com','Belem',2133333333,1);
+commit;
+insert into Mecanico values(null,21999889989,22222222222,'coppola@mecanica.com','Coppola',2133332222,2);
+commit;
+insert into Servico values(null,'Serviço de Teste',2,10.3);
+commit;
+insert into Veiculo values(null,'Fox Preto','AAA1111',1);
+commit;
+insert into OrdemDeServico values(1,null,now(),'Ativo',0.,1);
+commit;
+insert into ItemServico values(null,true,now(),10.3,1,1,1);
+commit;

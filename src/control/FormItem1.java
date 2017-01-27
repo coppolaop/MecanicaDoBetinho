@@ -13,18 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import persistence.GenericDao;
 import entity.Cliente;
+import entity.Mecanico;
+import entity.OrdemDeServico;
 
 /**
- * Servlet implementation class FormVeiculo
+ * Servlet implementation class FormItem
  */
-@WebServlet("/FormVeiculo")
-public class FormVeiculo extends HttpServlet {
+@WebServlet("/FormItem1")
+public class FormItem1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FormVeiculo() {
+    public FormItem1() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,17 +35,18 @@ public class FormVeiculo extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer id = Integer.parseInt(request.getParameter("id"));
 		PrintWriter pw = response.getWriter();
         request.getRequestDispatcher("/base1.html").include(request, response);
         
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> Veículo</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i>Adicionar Item de Serviço</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Veículo</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Adicionar Item de Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -51,28 +54,30 @@ public class FormVeiculo extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Veículo");
+        pw.println("Adicionar Item de Serviço");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"CadastroVeiculo\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Cliente</label>");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"FormItem2?id="+ id +"\">");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Mecanico</label>");
         pw.println("<div class=\"col-lg-10\">");
-        pw.println("<select class=\"form-control m-bot15\" name=\"cliente\" id=\"cliente\">");
+        pw.println("<select class=\"form-control m-bot15\" name=\"mecanico\" id=\"mecanico\">");
         
         try {
-			GenericDao<Cliente> cd = new GenericDao<Cliente>();
-			List<Cliente> l = cd.findAll(Cliente.class);
-			List<Cliente> lista = new ArrayList<Cliente>();
+        	
+        	GenericDao<Mecanico> md = new GenericDao<Mecanico>();
+            
+			List<Mecanico> l = md.findAll(Mecanico.class);
+			List<Mecanico> lista = new ArrayList<Mecanico>();
 			
-			for(Cliente cli : l){
-				if(!lista.contains(cli)){
-					lista.add(cli);
+			for(Mecanico m : l){
+				if(!lista.contains(m)){
+					lista.add(m);
 				}
 			}
 			
-			for(Cliente c : lista){
-				pw.println("<option value=\""+c.getNome()+"\">"+c.getNome()+"</option>");
+			for(Mecanico m : lista){
+				pw.println("<option value=\""+m.getNome()+"\">"+m.getNome()+"</option>");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -80,32 +85,19 @@ public class FormVeiculo extends HttpServlet {
         
         pw.println("</select>");
         pw.println("</div>");
-        pw.println("<div class=\"form-group \">");
-        pw.println("<label for=\"placa\" class=\"control-label col-lg-2\">Placa <span class=\"required\">*</span></label>");
-        pw.println("<div class=\"col-lg-10\">");
-        pw.println("<input class=\"form-control\" id=\"placa\" name=\"placa\" minlength=\"5\" type=\"text\" required />");
-        pw.println("</div>");
-        pw.println("</div>");
-        pw.println("<div class=\"form-group \">");
-        pw.println("<label for=\"descricao\" class=\"control-label col-lg-2\">Descrição <span class=\"required\">*</span></label>");
-        pw.println("<div class=\"col-lg-10\">");
-        pw.println("<input class=\"form-control \" id=\"descricao\" type=\"text\" name=\"descricao\" required />");
-        pw.println("</div>");
-        pw.println("</div>");
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
-        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Salvar</button>");
-        pw.println("<button class=\"btn btn-default\" type=\"reset\">Limpar</button>");
+        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Mecanico</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</form>");
         pw.println("</div>");
-
         pw.println("</div>");
         pw.println("</section>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</section>");
+        
         
         request.getRequestDispatcher("/base2.html").include(request, response);
 	}
