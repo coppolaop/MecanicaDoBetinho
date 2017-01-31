@@ -15,9 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import persistence.GenericDao;
 import entity.ItemServico;
-import entity.OrdemDeServico;
 import entity.Peca;
-import entity.Veiculo;
 
 /**
  * Servlet implementation class CadastroPeca
@@ -49,9 +47,11 @@ public class ControlePeca extends HttpServlet {
 		}else if(cmd.equalsIgnoreCase("alterar")){
 			alterar(request,response,Integer.parseInt(request.getParameter("id")));
 		}else if(cmd.equalsIgnoreCase("mesclar")){
-			mesclar(request,response,Integer.parseInt(request.getParameter("id")));
+			mesclar(request,response,Integer.parseInt(request.getParameter("id")),Integer.parseInt(request.getParameter("peca")));
 		}else if(cmd.equalsIgnoreCase("atualizar")){
 			atualizar(request,response,Integer.parseInt(request.getParameter("id")));
+		}else if(cmd.equalsIgnoreCase("selecionar")){
+			selecionar(request,response,Integer.parseInt(request.getParameter("id")));
 		}
 		
 	}
@@ -85,10 +85,17 @@ public class ControlePeca extends HttpServlet {
 	protected void deletar(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
 		String resposta;
 		GenericDao<Peca> pd = new GenericDao<Peca>();
+		GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
 		
          try
         {
             Peca p = pd.findById(id, Peca.class);
+            if(p.getItensServico() != null){
+            	for(ItemServico is : p.getItensServico()){
+            		is.remover(p);
+            		isd.update(is);
+            	}
+            }
             pd.delete(p);
             resposta = "Dados Excluidos";
         } catch (Exception ex) {
@@ -195,7 +202,7 @@ public class ControlePeca extends HttpServlet {
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12 col-lg-10\">");
         pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=alterar&id=" + id + "';\" type=\"button\">Alterar Dados</button>");
-        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=mesclar&id=" + id + "';\" type=\"button\">Substituir por peça existente</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=selecionar&id=" + id + "';\" type=\"button\">Substituir por peça existente</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</section>");
@@ -262,8 +269,117 @@ public class ControlePeca extends HttpServlet {
         request.getRequestDispatcher("/base2.html").include(request, response);
 	}
 	
-	protected void mesclar(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
-		
+	protected void selecionar(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
+		PrintWriter pw = response.getWriter();
+        request.getRequestDispatcher("/base1.html").include(request, response);
+        
+        pw.println("<section class=\"wrapper\">");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PEÇA</h3>");
+        pw.println("<ol class=\"breadcrumb\">");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
+        pw.println("</ol>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<section class=\"panel\">");
+        pw.println("<header class=\"panel-heading\">");
+        pw.println("Substituindo Peça por outra existente");
+        pw.println("</header>");
+        pw.println("<div class=\"panel-body\">");
+        pw.println("<div class=\"form\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControlePeca\">");
+        pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
+        pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome da Peça</label>");
+        pw.println("<div class=\"col-lg-10\">");
+        pw.println("<select class=\"form-control m-bot15\" name=\"peca\" id=\"peca\">");
+        
+        try {
+        	
+        	GenericDao<Peca> pd = new GenericDao<Peca>();
+            Peca p = pd.findById(id, Peca.class);
+
+			List<Peca> l = pd.findAll(Peca.class);
+			List<Peca> lista = new ArrayList<Peca>();
+			
+			for(Peca peca : l){
+				if(!lista.contains(peca)){
+					lista.add(peca);
+				}
+			}
+			
+			for(Peca peca : lista){
+				if(peca.getIdPeca().equals(id)){
+					pw.println("<option value=\""+peca.getIdPeca()+"\" selected>"+peca.getNome()+"</option>");
+				}else{
+					pw.println("<option value=\""+peca.getIdPeca()+"\">"+peca.getNome()+"</option>");
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+        
+        pw.println("</select>");
+        pw.println("</div>");
+        pw.println("<div class=\"form-group\">");
+        pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
+        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Peca</button>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</form>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
+        
+        
+        request.getRequestDispatcher("/base2.html").include(request, response);
+	}
+	
+	protected void mesclar(HttpServletRequest request, HttpServletResponse response, Integer id, Integer peca) throws ServletException, IOException {
+		String resposta = "";
+		response.setContentType("text/html;charset=ISO-8859-1");
+        PrintWriter out = response.getWriter();
+        try
+        {   
+        	GenericDao<Peca> pd = new GenericDao<Peca>();
+        	GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
+        	Peca p1 = pd.findById(id, Peca.class);
+        	Peca p2 = pd.findById(peca, Peca.class);
+        	List<ItemServico> lista = p1.getItensServico();
+        	if(p1.getItensServico()!= null){
+	        	for(ItemServico is : lista){
+	        		p2.adicionar(is);
+	        		is.adicionar(p2);
+	        		is.remover(p1);
+	        		isd.update(is);
+	        	}
+        	}
+        	p1.setItensServico(new ArrayList<ItemServico>());
+        	pd.update(p1);
+        	pd.delete(p1);
+        	pd.update(p2);
+        	resposta = "Dados Alterados";
+        	
+        } catch (Exception ex) {
+			ex.printStackTrace();
+			resposta = ex.getMessage();
+		} finally
+        {
+			response.setContentType("text/html");
+            RequestDispatcher rd = null;
+            out.println(resposta);
+            rd = request.getRequestDispatcher("/ControlePeca?cmd=listar");
+            rd.include(request, response);
+			out.close();
+        }
 	}
 	
 	protected void atualizar(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
@@ -293,9 +409,5 @@ public class ControlePeca extends HttpServlet {
             rd.include(request, response);
 			out.close();
         }
-	}
-	
-	protected void trocar(HttpServletRequest request, HttpServletResponse response, Integer id1, Integer id2) throws ServletException, IOException {
-		
 	}
 }

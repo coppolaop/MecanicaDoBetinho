@@ -12,12 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.IndexColumn;
-
-import persistence.GenericDao;
 
 @Entity
 public class ItemServico implements Serializable{
@@ -36,12 +34,11 @@ public class ItemServico implements Serializable{
 	@IndexColumn(name = "id_ordemdeservico")
 	private OrdemDeServico ordemDeServico;
 	
-	@CollectionOfElements(fetch = FetchType.EAGER)
-	@JoinTable	(	name="itemservico_peca",
-					joinColumns=@JoinColumn(name="id_peca"),
-					inverseJoinColumns=@JoinColumn(name="id_itemservico")
-				)
-	@IndexColumn(name = "id_pecas")
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "itemservico_peca", joinColumns = {
+			@JoinColumn(name = "id_itemservico", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "id_peca",
+					nullable = false, updatable = false) })
 	private List<Peca> pecas;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -144,25 +141,14 @@ public class ItemServico implements Serializable{
 		}
 		pecas.add(p);
 	}
+	
+	public void remover(Peca p){
+		if(pecas.contains(p)){
+			pecas.remove(p);
+		}
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-	
-	public static void main(String[] args) {
-		GenericDao<ItemServico> id = new GenericDao<ItemServico>();
-		ItemServico item = id.findById(2, ItemServico.class);
-		GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
-		OrdemDeServico ordem = od.findById(1, OrdemDeServico.class);
-		
-		ordem.adicionar(item);
-		
-		try {
-			od.update(ordem);
-			System.out.println("FOI");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

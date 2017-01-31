@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
-import org.hibernate.annotations.IndexColumn;
 
 @Entity
 public class Peca implements Serializable,Cloneable{
@@ -25,12 +22,7 @@ public class Peca implements Serializable,Cloneable{
 	private String nome;
 	private Double valor;
 	
-	@ManyToMany
-	@JoinTable	(	name="itemservico_peca",
-					joinColumns=@JoinColumn(name="id_itemservico"),
-					inverseJoinColumns=@JoinColumn(name="id_peca")
-				)
-	@IndexColumn(name = "id_itemServico")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "pecas")
 	private List<ItemServico> itensServico;
 	
 	public Peca() {
@@ -46,8 +38,8 @@ public class Peca implements Serializable,Cloneable{
 
 	@Override
 	public String toString() {
-		return "<td>" + nome + "</td><td>" + valor
-				+ "</td>";
+		return "Peca [idPeca=" + idPeca + ", nome=" + nome + ", valor=" + valor
+				+ "]";
 	}
 
 	public Integer getIdPeca() {
