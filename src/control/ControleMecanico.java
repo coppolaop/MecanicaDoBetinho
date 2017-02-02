@@ -161,7 +161,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Clientes Cadastrados no Sistema");
+        pw.println("Mecanicos Cadastrados no Sistema");
         pw.println("</header>");
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");

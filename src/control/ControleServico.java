@@ -16,20 +16,22 @@ import javax.servlet.http.HttpServletResponse;
 import persistence.GenericDao;
 import entity.ItemServico;
 import entity.Peca;
+import entity.Servico;
 import entity.Veiculo;
 
 /**
- * Servlet implementation class CadastroPeca
+ * Servlet implementation class CadastroServico
  */
-@WebServlet("/ControlePeca")
-public class ControlePeca extends HttpServlet {
+@WebServlet("/ControleServico")
+public class ControleServico extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ControlePeca() {
+    public ControleServico() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -62,15 +64,16 @@ public class ControlePeca extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
 		try{
-			Peca p = new Peca();
-			p.setNome(request.getParameter("nome"));
-			p.setValor(Double.parseDouble(request.getParameter("valor")));
+			Servico s = new Servico();
+			s.setNome(request.getParameter("nome"));
+			s.setValor(Double.parseDouble(request.getParameter("valor")));
+			s.setPrevisao(Integer.parseInt(request.getParameter("previsao")));
 			
-			GenericDao<Peca> pd = new GenericDao<Peca>();
-			pd.create(p);
+			GenericDao<Servico> sd = new GenericDao<Servico>();
+			sd.create(s);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
-			resposta = "Valor InvÃ¡lido";
+			resposta = "Valor Inválido";
 		}catch(Exception ex){
 			resposta = ex.getMessage();
 		}
@@ -78,26 +81,26 @@ public class ControlePeca extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/peca.html");
+        rd = request.getRequestDispatcher("/servico.html");
         rd.include(request, response);
 	}
-	
+
 	protected void deletar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		GenericDao<Peca> pd = new GenericDao<Peca>();
+		GenericDao<Servico> sd = new GenericDao<Servico>();
 		GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
 		
          try
         {
-            Peca p = pd.findById(id, Peca.class);
-            if(p.getItensServico() != null){
-            	for(ItemServico is : p.getItensServico()){
-            		is.remover(p);
-            		isd.update(is);
+            Servico s = sd.findById(id, Servico.class);
+            if(s.getItensServico() != null){
+            	for(ItemServico is : s.getItensServico()){
+            		is.setServico(null);
+            		isd.delete(is);
             	}
             }
-            pd.delete(p);
+            sd.delete(s);
             resposta = "Dados Excluidos";
         } catch (Exception ex) {
         	resposta = ex.getMessage();
@@ -107,7 +110,7 @@ public class ControlePeca extends HttpServlet {
          PrintWriter out = response.getWriter();
          RequestDispatcher rd = null;
          out.println(resposta);
-         rd = request.getRequestDispatcher("/ControlePeca?cmd=listar");
+         rd = request.getRequestDispatcher("/ControleServico?cmd=listar");
          rd.include(request, response);
 	}
 	
@@ -120,11 +123,11 @@ public class ControlePeca extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> PEÃ‡AS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> SERVIÇOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>PeÃ§a</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -132,41 +135,49 @@ public class ControlePeca extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("PeÃ§as Cadastradas no Sistema");
+        pw.println("Serviços Cadastrados no Sistema");
         pw.println("</header>");
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"icon_profile\"></i> Nome da PeÃ§a</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Nome do Servico</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Previsão</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Número de Itens</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> AÃ§Ã£o</th>");
         pw.println("</tr>");
         
         try {
-        	GenericDao<Peca> pd = new GenericDao<Peca>();
-        	List<Peca> lst = pd.findAll(Peca.class);
-        	List<Peca> lista = new ArrayList<Peca>();
+        	GenericDao<Servico> sd = new GenericDao<Servico>();
+        	List<Servico> lst = sd.findAll(Servico.class);
+        	List<Servico> lista = new ArrayList<Servico>();
         	
-        	for(Peca p : lst){
-				if(!lista.contains(p)){
-					lista.add(p);
+        	for(Servico s : lst){
+				if(!lista.contains(s)){
+					lista.add(s);
 				}
 			}
         	
-	        for(Peca p : lista){
+	        for(Servico s : lista){
 	        
 		        pw.println("<tr>");
-		        pw.println("<td>"+p.getNome()+"</td>");
+		        pw.println("<td>"+s.getNome()+"</td>");
 		        NumberFormat nf = NumberFormat.getInstance();
 		        nf.setMaximumFractionDigits(2);
 		        nf.setMinimumFractionDigits(2);
-		        pw.println("<td>R$ "+nf.format(p.getValor())+"</td>");
-		        pw.println("<td>"+p.getItensServico().size()+"</td>");
+		        pw.println("<td>R$ "+nf.format(s.getValor())+"</td>");
+		        pw.println("<td>"+s.getPrevisao()+"</td>");
+		        List<ItemServico> quantidade = new ArrayList<ItemServico>();
+		        for(ItemServico is : s.getItensServico()){
+		        	if(is!=null&!(quantidade.contains(is))){//ignorando os diversos valores nulos que sao trazidos na consulta
+		        		quantidade.add(is);
+		        	}
+		        }
+		        pw.println("<td>"+(quantidade.size()-1)+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
-		        pw.println("<a class=\"btn btn-primary\" href=\"./ControlePeca?cmd=editar&id=" + p.getIdPeca() + "\"><i class=\"icon_pencil\"></i></a>");
-		        pw.println("<a class=\"btn btn-danger\" href=\"./ControlePeca?cmd=deletar&id=" + p.getIdPeca() + "\"><i class=\"icon_close_alt2\"></i></a>");
+		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleServico?cmd=editar&id=" + s.getIdServico() + "\"><i class=\"icon_pencil\"></i></a>");
+		        pw.println("<a class=\"btn btn-danger\" href=\"./ControleServico?cmd=deletar&id=" + s.getIdServico() + "\"><i class=\"icon_close_alt2\"></i></a>");
 		        pw.println("</div>");
 		        pw.println("</td>");
 		
@@ -195,18 +206,18 @@ public class ControlePeca extends HttpServlet {
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> PEÃ‡AS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> SERVIÇOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"fa fa-table\"></i>ServiÃ§o</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Ordens de ServiÃ§o</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12 col-lg-10\">");
-        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=alterar&id=" + id + "';\" type=\"button\">Alterar Dados</button>");
-        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=selecionar&id=" + id + "';\" type=\"button\">Substituir por peï¿½a existente</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleServico?cmd=alterar&id=" + id + "';\" type=\"button\">Alterar Dados</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleServico?cmd=selecionar&id=" + id + "';\" type=\"button\">Substituir por Serviço existente</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</section>");
@@ -219,17 +230,17 @@ public class ControlePeca extends HttpServlet {
         request.getRequestDispatcher("/base1.html").include(request, response);
         Integer id = Integer.parseInt(request.getParameter("id"));
         
-        GenericDao<Peca> pd = new GenericDao<Peca>();
-        Peca p = pd.findById(id, Peca.class);
+        GenericDao<Servico> sd = new GenericDao<Servico>();
+        Servico s = sd.findById(id, Servico.class);
         
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PeÃ§a</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIÇOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>ServiÃ§o</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Alterar PeÃ§a</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -241,26 +252,32 @@ public class ControlePeca extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControlePeca?Atualizar\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleServico?Atualizar\">");
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
         pw.println("<label for=\"\" class=\"control-label col-lg-2\">Nome <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
-        pw.println("<input class=\"form-control\" id=\"nome\" name=\"nome\" type=\"text\" value=\""+ p.getNome() +"\" required />");
+        pw.println("<input class=\"form-control\" id=\"nome\" name=\"nome\" type=\"text\" value=\""+ s.getNome() +"\" required />");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
         pw.println("<label for=\"\" class=\"control-label col-lg-2\">Valor <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
-        pw.println("<input class=\"form-control \" id=\"valor\" type=\"text\" name=\"valor\" value=\""+ p.getValor() +"\" required />");
+        pw.println("<input class=\"form-control \" id=\"valor\" type=\"text\" name=\"valor\" value=\""+ s.getValor() +"\" required />");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"form-group\">");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Previsão <span class=\"required\">*</span></label>");
+        pw.println("<div class=\"col-lg-10\">");
+        pw.println("<input class=\"form-control \" id=\"previsao\" type=\"text\" name=\"previsao\" value=\""+ s.getPrevisao() +"\" required />");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
         pw.println("<button class=\"btn btn-primary\" type=\"submit\">Agendar</button>");
-        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=editar&id=" + id + "';\" type=\"button\">Voltar</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleServico?cmd=editar&id=" + id + "';\" type=\"button\">Voltar</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</form>");
@@ -282,11 +299,11 @@ public class ControlePeca extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PEï¿½A</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIÇOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Serviï¿½o</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -298,32 +315,32 @@ public class ControlePeca extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControlePeca\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleServico\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome da Peï¿½a</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Serviço</label>");
         pw.println("<div class=\"col-lg-10\">");
-        pw.println("<select class=\"form-control m-bot15\" name=\"peca\" id=\"peca\">");
+        pw.println("<select class=\"form-control m-bot15\" name=\"servico\" id=\"servico\">");
         
         try {
         	
-        	GenericDao<Peca> pd = new GenericDao<Peca>();
-            Peca p = pd.findById(id, Peca.class);
+        	GenericDao<Servico> sd = new GenericDao<Servico>();
+        	Servico s = sd.findById(id, Servico.class);
 
-			List<Peca> l = pd.findAll(Peca.class);
-			List<Peca> lista = new ArrayList<Peca>();
+			List<Servico> l = sd.findAll(Servico.class);
+			List<Servico> lista = new ArrayList<Servico>();
 			
-			for(Peca peca : l){
-				if(!lista.contains(peca)){
-					lista.add(peca);
+			for(Servico servico : l){
+				if(!lista.contains(servico)){
+					lista.add(servico);
 				}
 			}
 			
-			for(Peca peca : lista){
-				if(peca.getIdPeca().equals(id)){
-					pw.println("<option value=\""+peca.getIdPeca()+"\" selected>"+peca.getNome()+"</option>");
+			for(Servico servico : lista){
+				if(servico.getIdServico().equals(id)){
+					pw.println("<option value=\""+servico.getIdServico()+"\" selected>"+servico.getNome()+"</option>");
 				}else{
-					pw.println("<option value=\""+peca.getIdPeca()+"\">"+peca.getNome()+"</option>");
+					pw.println("<option value=\""+servico.getIdServico()+"\">"+servico.getNome()+"</option>");
 				}
 			}
 		} catch (Exception ex) {
@@ -334,7 +351,7 @@ public class ControlePeca extends HttpServlet {
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
-        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Peca</button>");
+        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Serviço</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</form>");
@@ -354,26 +371,25 @@ public class ControlePeca extends HttpServlet {
 		response.setContentType("text/html;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         Integer id = Integer.parseInt(request.getParameter("id"));
-        Integer peca = Integer.parseInt(request.getParameter("peca"));
+        Integer servico = Integer.parseInt(request.getParameter("servico"));
         try
         {   
-        	GenericDao<Peca> pd = new GenericDao<Peca>();
+        	GenericDao<Servico> sd = new GenericDao<Servico>();
         	GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
-        	Peca p1 = pd.findById(id, Peca.class);
-        	Peca p2 = pd.findById(peca, Peca.class);
-        	List<ItemServico> lista = p1.getItensServico();
-        	if(p1.getItensServico()!= null){
+        	Servico s1 = sd.findById(id, Servico.class);
+        	Servico s2 = sd.findById(servico, Servico.class);
+        	List<ItemServico> lista = s1.getItensServico();
+        	if(s1.getItensServico()!= null){
 	        	for(ItemServico is : lista){
-	        		p2.adicionar(is);
-	        		is.adicionar(p2);
-	        		is.remover(p1);
+	        		s2.adicionar(is);
+	        		is.setServico(s2);
 	        		isd.update(is);
 	        	}
         	}
-        	p1.setItensServico(new ArrayList<ItemServico>());
-        	pd.update(p1);
-        	pd.delete(p1);
-        	pd.update(p2);
+        	s1.setItensServico(new ArrayList<ItemServico>());
+        	sd.update(s1);
+        	sd.delete(s1);
+        	sd.update(s2);
         	resposta = "Dados Alterados";
         	
         } catch (Exception ex) {
@@ -384,7 +400,7 @@ public class ControlePeca extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControlePeca?cmd=listar");
+            rd = request.getRequestDispatcher("/ControleServico?cmd=listar");
             rd.include(request, response);
 			out.close();
         }
@@ -397,12 +413,13 @@ public class ControlePeca extends HttpServlet {
         Integer id = Integer.parseInt(request.getParameter("id"));
         try
         {   
-        	GenericDao<Peca> pd = new GenericDao<Peca>();
-        	Peca p = pd.findById(Integer.parseInt(request.getParameter("id")), Peca.class);
+        	GenericDao<Servico> sd = new GenericDao<Servico>();
+        	Servico s = sd.findById(Integer.parseInt(request.getParameter("id")), Servico.class);
         	
-        	p.setNome(request.getParameter("nome"));
-        	p.setValor(Double.parseDouble(request.getParameter("valor")));
-        	pd.update(p);
+        	s.setNome(request.getParameter("nome"));
+        	s.setValor(Double.parseDouble(request.getParameter("valor")));
+        	s.setPrevisao(Integer.parseInt(request.getParameter("previsao")));
+        	sd.update(s);
         	
         	resposta = "Dados Alterados";
         	
@@ -414,7 +431,7 @@ public class ControlePeca extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControlePeca?cmd=listar");
+            rd = request.getRequestDispatcher("/ControleServico?cmd=listar");
             rd.include(request, response);
 			out.close();
         }

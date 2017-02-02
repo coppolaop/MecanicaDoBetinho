@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import entity.Cliente;
 import entity.Endereco;
+import entity.ItemServico;
 import entity.OrdemDeServico;
 import entity.Veiculo;
 import persistence.GenericDao;
@@ -135,7 +136,7 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Peças</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Veiculo</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -143,7 +144,7 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Clientes Cadastrados no Sistema");
+        pw.println("Veiculo Cadastrados no Sistema");
         pw.println("</header>");
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
@@ -172,7 +173,13 @@ public class ControleVeiculo extends HttpServlet {
 		        pw.println("<td>"+v.getPlaca()+"</td>");
 		        pw.println("<td>"+v.getCliente().getNome()+"</td>");
 		        pw.println("<td>"+v.getDescricao()+"</td>");
-		        pw.println("<td>"+v.getOrdensDeServico().size()+"</td>");
+		        List<OrdemDeServico> quantidade = new ArrayList<OrdemDeServico>();
+		        for(OrdemDeServico o : v.getOrdensDeServico()){
+		        	if(o!=null&!(quantidade.contains(o))){//ignorando os diversos valores nulos que sao trazidos na consulta
+		        		quantidade.add(o);
+		        	}
+		        }
+		        pw.println("<td>"+quantidade.size()+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
 		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleVeiculo?cmd=editar&id=" + v.getIdVeiculo() + "\"><i class=\"icon_pencil\"></i></a>");

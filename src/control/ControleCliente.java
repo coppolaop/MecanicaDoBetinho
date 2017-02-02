@@ -47,17 +47,17 @@ public class ControleCliente extends HttpServlet {
 		}else if(cmd.equalsIgnoreCase("listar")){
 			listar(request,response);
 		}else if(cmd.equalsIgnoreCase("deletar")){
-			deletar(request,response,Integer.parseInt(request.getParameter("id")));
+			deletar(request,response);
 		}else if(cmd.equalsIgnoreCase("editar")){
-			editar(request,response,Integer.parseInt(request.getParameter("id")));
+			editar(request,response);
 		}else if(cmd.equalsIgnoreCase("alterar")){
-			alterar(request,response,Integer.parseInt(request.getParameter("id")));
+			alterar(request,response);
 		}else if(cmd.equalsIgnoreCase("mesclar")){
-			mesclar(request,response,Integer.parseInt(request.getParameter("id")),Integer.parseInt(request.getParameter("peca")));
+			mesclar(request,response);
 		}else if(cmd.equalsIgnoreCase("atualizar")){
-			atualizar(request,response,Integer.parseInt(request.getParameter("id")));
+			atualizar(request,response);
 		}else if(cmd.equalsIgnoreCase("selecionar")){
-			selecionar(request,response,Integer.parseInt(request.getParameter("id")));
+			selecionar(request,response);
 		}
 	}
 
@@ -106,8 +106,9 @@ public class ControleCliente extends HttpServlet {
         rd.include(request, response);
 	}
 
-	protected void deletar(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
+	protected void deletar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
+		Integer id = Integer.parseInt(request.getParameter("id"));
 		GenericDao<Cliente> cd = new GenericDao<Cliente>();
 		GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
 		GenericDao<Endereco> ed = new GenericDao<Endereco>();
@@ -168,6 +169,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<th><i class=\"icon_profile\"></i> Telefone</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CPF</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Quantidade de Veiculos</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
@@ -190,6 +192,13 @@ public class ControleCliente extends HttpServlet {
 		        pw.println("<td>"+c.getTelefone()+"</td>");
 		        pw.println("<td>"+c.getCelular()+"</td>");
 		        pw.println("<td>"+c.getCelular()+"</td>");
+		        List<Veiculo> quantidade = new ArrayList<Veiculo>();
+		        for(Veiculo v : c.getVeiculos()){
+		        	if(v!=null&!(quantidade.contains(v))){//ignorando os diversos valores nulos que sao trazidos na consulta
+		        		quantidade.add(v);
+		        	}
+		        }
+		        pw.println("<td>"+(quantidade.size())+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
 		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleCliente?cmd=editar&id=" + c.getIdCliente() + "\"><i class=\"icon_pencil\"></i></a>");
@@ -214,8 +223,9 @@ public class ControleCliente extends HttpServlet {
         request.getRequestDispatcher("/base2.html").include(request, response);
 	}
 	
-	protected void editar(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
+	protected void editar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
+		Integer id = Integer.parseInt(request.getParameter("id"));
         request.getRequestDispatcher("/base1.html").include(request, response);
         
 		pw.println("<section class=\"wrapper\">");
@@ -240,8 +250,9 @@ public class ControleCliente extends HttpServlet {
         request.getRequestDispatcher("/base2.html").include(request, response);
 	}
 	
-	protected void alterar(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
+	protected void alterar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
+		Integer id = Integer.parseInt(request.getParameter("id"));
         request.getRequestDispatcher("/base1.html").include(request, response);
 		
         GenericDao<Cliente> cd = new GenericDao<Cliente>();
@@ -362,8 +373,9 @@ public class ControleCliente extends HttpServlet {
         request.getRequestDispatcher("/base2.html").include(request, response);
 	}
 	
-	protected void selecionar(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
+	protected void selecionar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
+		Integer id = Integer.parseInt(request.getParameter("id"));
         request.getRequestDispatcher("/base1.html").include(request, response);
         
         pw.println("<section class=\"wrapper\">");
@@ -434,8 +446,10 @@ public class ControleCliente extends HttpServlet {
         request.getRequestDispatcher("/base2.html").include(request, response);
 	}
 	
-	protected void mesclar(HttpServletRequest request, HttpServletResponse response, Integer id, Integer cliente) throws ServletException, IOException {
+	protected void mesclar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta = "";
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		Integer cliente = Integer.parseInt(request.getParameter("cliente"));
 		response.setContentType("text/html;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         try
@@ -476,8 +490,9 @@ public class ControleCliente extends HttpServlet {
         }
 	}
 	
-	protected void atualizar(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
+	protected void atualizar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta = "";
+		Integer id = Integer.parseInt(request.getParameter("id"));
 		response.setContentType("text/html;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         try
