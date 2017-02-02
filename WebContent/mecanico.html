@@ -77,7 +77,21 @@
                           <li><a class="" href="mecanico.html">Mecânico</a></li>
                           <li><a class="" href="servico.html">Serviço</a></li>
                       </ul>
-                  </li>                  
+                  </li>
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i class="fa fa-list" aria-hidden="true"></i>
+                          <span>Registros</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub">
+                          <li><a class="" href="./ControleCliente?cmd=listar">Cliente</a></li>
+                          <li><a class="" href="./ControleVeiculo?cmd=listar">Veículo</a></li>
+                          <li><a class="" href="./ControlePeca?cmd=listar">Peça</a></li>
+                          <li><a class="" href="./ControleMecanico?cmd=listar">Mecânico</a></li>
+                          <li><a class="" href="./ControleServico?cmd=listar">Serviço</a></li>
+                      </ul>
+                  </li>                 
               </ul>
               <!-- sidebar menu end-->
           </div>
@@ -105,7 +119,7 @@
                           </header>
                           <div class="panel-body">
                               <div class="form">
-                                  <form class="form-validate form-horizontal" id="feedback_form" method="post" action="CadastroMecanico">
+                                  <form class="form-validate form-horizontal" id="feedback_form" method="post" action="ControleMecanico">
                                       <h5>Dados Basicos</h5>
                                       <div class="form-group ">
                                           <label for="nome" class="control-label col-lg-2">Nome <span class="required">*</span></label>

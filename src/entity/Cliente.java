@@ -72,6 +72,12 @@ public class Cliente extends Pessoa implements Serializable{
 		}
 		veiculos.add(v);
 	}
+	
+	public void remover(Veiculo v){
+		if(veiculos.contains(v)){
+			veiculos.remove(v);
+		}
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

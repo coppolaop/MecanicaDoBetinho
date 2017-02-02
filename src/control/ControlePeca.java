@@ -53,7 +53,6 @@ public class ControlePeca extends HttpServlet {
 		}else if(cmd.equalsIgnoreCase("selecionar")){
 			selecionar(request,response,Integer.parseInt(request.getParameter("id")));
 		}
-		
 	}
 
 	/**
@@ -122,8 +121,8 @@ public class ControlePeca extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> PEÃ‡AS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"fa fa-table\"></i>ServiÃ§o</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Ordens de ServiÃ§o</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>PeÃ§a</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -202,7 +201,7 @@ public class ControlePeca extends HttpServlet {
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12 col-lg-10\">");
         pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=alterar&id=" + id + "';\" type=\"button\">Alterar Dados</button>");
-        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=selecionar&id=" + id + "';\" type=\"button\">Substituir por peça existente</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=selecionar&id=" + id + "';\" type=\"button\">Substituir por peï¿½a existente</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</section>");
@@ -276,10 +275,10 @@ public class ControlePeca extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PEÇA</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PEï¿½A</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviï¿½o</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -288,14 +287,14 @@ public class ControlePeca extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Substituindo Peça por outra existente");
+        pw.println("Substituindo Peï¿½a por outra existente");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControlePeca\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome da Peça</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome da Peï¿½a</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"peca\" id=\"peca\">");
         
