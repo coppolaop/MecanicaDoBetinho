@@ -12,9 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entity.ItemServico;
-import entity.OrdemDeServico;
 import persistence.GenericDao;
+import entity.OrdemDeServico;
 
 /**
  * Servlet implementation class ListaOrdem
@@ -28,31 +27,6 @@ public class ListaOrdem extends HttpServlet {
      */
     public ListaOrdem() {
         super();
-        // TODO Auto-generated constructor stub
-    }
-    
-    public Double calculaValor(OrdemDeServico o){
-    	Double valor = 0.;
-    	if(!(o.getItensServico()==null)){
-	    	List<ItemServico> lst = o.getItensServico();
-	    	System.out.println(lst);
-	    	for(ItemServico i : lst){
-	    		if(!(i==null)){
-		    		if(!(i.getValor()==null)){
-		    			valor += i.getValor();
-	    			}
-	    		}
-    		}
-    	}
-    	o.setValor(valor);
-    	try {
-			GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
-			OrdemDeServico ordem = (OrdemDeServico) o.clone();
-    		od.update(ordem);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-    	return valor;
     }
 
 	/**
@@ -102,8 +76,6 @@ public class ListaOrdem extends HttpServlet {
 			}
         	
 	        for(OrdemDeServico o : lista){
-	        
-	        	calculaValor(o);
 	        	
 		        pw.println("<tr>");
 		        pw.println("<td>"+o.getVeiculo().getCliente().getNome()+"</td>");
@@ -115,8 +87,8 @@ public class ListaOrdem extends HttpServlet {
 		        pw.println("<td>R$ "+nf.format(o.getValor())+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
-		        pw.println("<a class=\"btn btn-primary\" href=\"./FormItem1?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_plus\"></i></a>");
-		        pw.println("<a class=\"btn btn-info\" href=\"./InfoOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_info_alt\"></i></a>");
+		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleItemServico?cmd=formulario&id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_plus\"></i></a>");
+		        pw.println("<a class=\"btn btn-info\" href=\"./ControleItemServico?cmd=listar&id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_info_alt\"></i></a>");
 		        pw.println("<a class=\"btn btn-primary\" href=\"./EditaOrdem1?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_pencil\"></i></a>");
 		        if(o.getStatus().equals("ativo")){
 		        	pw.println("<a class=\"btn btn-success\" href=\"./StateOrdem?id=" + o.getIdOrdemDeServico() + "\"><i class=\"icon_check_alt2\"></i></a>");	
@@ -148,7 +120,6 @@ public class ListaOrdem extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

@@ -143,8 +143,10 @@ public class ItemServico implements Serializable{
 	}
 	
 	public void remover(Peca p){
-		if(pecas.contains(p)){
-			pecas.remove(p);
+		if(pecas!=null){
+			if(pecas.contains(p)){
+				pecas.remove(p);
+			}
 		}
 	}
 

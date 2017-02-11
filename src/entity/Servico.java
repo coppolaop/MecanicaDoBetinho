@@ -109,6 +109,14 @@ public class Servico implements Serializable{
 		}
 		itensServico.add(i);
 	}
+	
+	public void remover(ItemServico i){
+		if(itensServico != null){
+			if(itensServico.contains(i)){
+				itensServico.remove(i);
+			}
+		}
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

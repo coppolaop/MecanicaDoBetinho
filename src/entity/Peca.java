@@ -42,6 +42,16 @@ public class Peca implements Serializable,Cloneable{
 				+ "]";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		Peca p = (Peca) o;
+		if(this.idPeca.equals(p.getIdPeca())&&this.nome.equals(p.getNome())&&this.valor.equals(p.getValor())){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	public Integer getIdPeca() {
 		return idPeca;
 	}
@@ -79,6 +89,14 @@ public class Peca implements Serializable,Cloneable{
 			itensServico = new ArrayList<ItemServico>();
 		}
 		itensServico.add(i);
+	}
+	
+	public void remover(ItemServico i){
+		if(itensServico!=null){
+			if(itensServico.contains(i)){
+				itensServico.remove(i);
+			}
+		}
 	}
 	
 	//Design Pattern - Prototype

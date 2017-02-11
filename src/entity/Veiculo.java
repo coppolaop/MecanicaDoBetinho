@@ -100,6 +100,14 @@ public class Veiculo implements Serializable{
 		ordensDeServico.add(o);
 	}
 	
+	public void remover(OrdemDeServico o){
+		if(ordensDeServico!=null){
+			if(ordensDeServico.contains(o)){
+				ordensDeServico.remove(o);
+			}
+		}
+	}
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

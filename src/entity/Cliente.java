@@ -74,8 +74,10 @@ public class Cliente extends Pessoa implements Serializable{
 	}
 	
 	public void remover(Veiculo v){
-		if(veiculos.contains(v)){
-			veiculos.remove(v);
+		if(veiculos!=null){
+			if(veiculos.contains(v)){
+				veiculos.remove(v);
+			}
 		}
 	}
 

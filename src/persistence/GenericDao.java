@@ -2,6 +2,7 @@ package persistence;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -35,10 +36,14 @@ public class GenericDao<E> {
 	}
 	
 	public List<E> findAll(Class<E> entity) throws Exception{
-			s = HibernateUtil.getSessionFactory().openSession();
-				List<E> lista = s.createCriteria(entity).list();
-			s.close();
-			return lista;
+		s = HibernateUtil.getSessionFactory().openSession();
+			s.beginTransaction();
+		        Criteria criteria = this.s.createCriteria(entity);
+		        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		        List<E> lista = criteria.list();
+		        s.getTransaction().commit();
+	        s.close();
+        return lista;
 	} 
 	
 	public E findById(Integer id,Class<E> entity){
@@ -66,5 +71,4 @@ public class GenericDao<E> {
 //			return null;
 //		}
 //	}
-	
 }
