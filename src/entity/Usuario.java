@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,8 @@ public class Usuario extends Pessoa implements Serializable{
 	private Integer idUsuario;
 	private String username;
 	private String senha;
+	@Column(length=3)
+	private String perfil;
 	
 	public Usuario() {
 		
@@ -39,6 +42,14 @@ public class Usuario extends Pessoa implements Serializable{
 				+ getEndereco() + "]";
 	}
 
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -53,6 +64,14 @@ public class Usuario extends Pessoa implements Serializable{
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
 	}
 
 	public static long getSerialversionuid() {

@@ -124,21 +124,6 @@ public class ControleItemServico extends HttpServlet {
 				s.adicionar(is);
 				o.adicionar(is);
 				
-//				Double v = 0.;
-//				if(o.getValor()!=null){
-//					v = o.getValor();
-//				}
-//				for(ItemServico item : o.getItensServico()){
-//					if(item!=null){
-//						v = o.getValor();
-//						if(item.getValor()!=null){
-//							v += item.getValor();
-//						}
-//						o.setValor(v);
-//					}
-//				}
-				
-				
 				GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
 				isd.create(is);
 				md.update(m);

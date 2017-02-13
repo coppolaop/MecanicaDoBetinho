@@ -2,7 +2,6 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.exception.ConstraintViolationException;
 
+import persistence.GenericDao;
 import entity.Cliente;
 import entity.Endereco;
-import entity.ItemServico;
-import entity.Peca;
 import entity.Veiculo;
-import persistence.GenericDao;
 
 /**
  * Servlet implementation class CadastroCliente

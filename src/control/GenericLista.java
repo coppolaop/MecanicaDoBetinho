@@ -18,19 +18,18 @@ import entity.Peca;
 import entity.Servico;
 import entity.Veiculo;
 
-/**
- * Servlet implementation class GenericLista
- */
 @WebServlet("/GenericLista")
 public class GenericLista<E> extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    
+	
+	//Arquivo Conceitual
+		//Sua Utilização não é feita no projeto devido a necessidade de personalização dos campos
+		//Necessita do metodo ToString configurado para gerar lista HTML
+	
+	
     public GenericLista() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     public Object objeto(String classe){
@@ -61,9 +60,6 @@ public class GenericLista<E> extends HttpServlet {
     	return dao;
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Object o = objeto(request.getParameter("obj"));
 		Class obj = o.getClass();
@@ -77,8 +73,6 @@ public class GenericLista<E> extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i>"+ obj.getSimpleName() +"</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-//        pw.println("<li><i class=\"fa fa-table\"></i>Serviï¿½o</li>");
-//        pw.println("<li><i class=\"fa fa-th-list\"></i>Ordens de Serviï¿½o</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -123,10 +117,6 @@ public class GenericLista<E> extends HttpServlet {
 		        
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
-//		        pw.println("<a class=\"btn btn-primary\" href=#\"><i class=\"icon_plus\"></i></a>");
-//		        pw.println("<a class=\"btn btn-info\" href=\"#\"><i class=\"icon_info_alt\"></i></a>");
-//		        pw.println("<a class=\"btn btn-primary\" href=\"#\"><i class=\"icon_pencil\"></i></a>");
-//		        pw.println("<a class=\"btn btn-danger\" href=\"#\"><i class=\"icon_close_alt2\"></i></a>");
 		        pw.println("</div>");
 		        pw.println("</td>");
 		
@@ -147,11 +137,7 @@ public class GenericLista<E> extends HttpServlet {
         request.getRequestDispatcher("/base2.html").include(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

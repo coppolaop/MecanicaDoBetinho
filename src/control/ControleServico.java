@@ -150,15 +150,8 @@ public class ControleServico extends HttpServlet {
         try {
         	GenericDao<Servico> sd = new GenericDao<Servico>();
         	List<Servico> lst = sd.findAll(Servico.class);
-        	List<Servico> lista = new ArrayList<Servico>();
         	
-        	for(Servico s : lst){
-				if(!lista.contains(s)){
-					lista.add(s);
-				}
-			}
-        	
-	        for(Servico s : lista){
+	        for(Servico s : lst){
 	        
 		        pw.println("<tr>");
 		        pw.println("<td>"+s.getNome()+"</td>");
@@ -169,11 +162,11 @@ public class ControleServico extends HttpServlet {
 		        pw.println("<td>"+s.getPrevisao()+"</td>");
 		        List<ItemServico> quantidade = new ArrayList<ItemServico>();
 		        for(ItemServico is : s.getItensServico()){
-		        	if(is!=null&!(quantidade.contains(is))){//ignorando os diversos valores nulos que sao trazidos na consulta
+		        	if(is!=null&!(quantidade.contains(is))){//ignorando os diversos valores que sao trazidos na consulta
 		        		quantidade.add(is);
 		        	}
 		        }
-		        pw.println("<td>"+(quantidade.size()-1)+"</td>");
+		        pw.println("<td>"+(quantidade.size())+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
 		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleServico?cmd=editar&id=" + s.getIdServico() + "\"><i class=\"icon_pencil\"></i></a>");
