@@ -6,6 +6,9 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import control.Criptografia;
+import entity.Usuario;
+
 public class GenericDao<E> {
 
 	Session s;
@@ -60,15 +63,21 @@ public class GenericDao<E> {
 		return e;
 	}
 	
-//	public Usuario get(Usuario u){
-//		s = HibernateUtil.getSessionFactory().openSession();
-//		try{
-//			 List<Usuario> lista = s.createSQLQuery("select u.* from usuario u where username = '"+u.getUsername()+"' and senha = sha1('"+u.getSenha()+"')").addEntity("usuario", Usuario.class).list();
-//			 Usuario user = lista.get(0);
-//			 return user;
-//		}catch(Exception ex){
-//			ex.printStackTrace();
-//			return null;
-//		}
-//	}
+	public Usuario get(Usuario u){
+		s = HibernateUtil.getSessionFactory().openSession();
+		Criptografia.criptografia(u);
+		try{
+			 List<Usuario> lista = s.createSQLQuery("select u.* from Usuario u where username = '"+u.getUsername()+"' and senha = '"+u.getSenha()+"'").addEntity("usuario", Usuario.class).list();
+			 
+			 if(lista.isEmpty()){
+				 lista = s.createSQLQuery("select u.* from Usuario u where email = '"+u.getUsername()+"' and senha = '"+u.getSenha()+"'").addEntity("usuario", Usuario.class).list();
+			 }
+			 
+			 Usuario user = lista.get(0);
+			 return user;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+	}
 }

@@ -23,7 +23,7 @@ import entity.Servico;
 /**
  * Servlet implementation class ControleItemPeca
  */
-@WebServlet("/ControleItemPeca")
+@WebServlet("/usu/ControleItemPeca")
 public class ControleItemPeca extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -102,7 +102,7 @@ public class ControleItemPeca extends HttpServlet {
         try{
         	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
     		if(od.findById(ordem, OrdemDeServico.class).getStatus().equalsIgnoreCase("Inativo")){
-    			throw new Exception("A Ordem De Serviço não está aberta");
+    			throw new Exception("A Ordem De Serviï¿½o nï¿½o estï¿½ aberta");
     		}
     		
 			GenericDao<Peca> pd = new GenericDao<Peca>();
@@ -141,7 +141,7 @@ public class ControleItemPeca extends HttpServlet {
         try
         {
         	if(ordem.getStatus().equalsIgnoreCase("Inativo")){
-    			throw new Exception("A Ordem De Serviço não está aberta");
+    			throw new Exception("A Ordem De Serviï¿½o nï¿½o estï¿½ aberta");
     		}
         	
             ItemServico is = isd.findById(id, ItemServico.class);
@@ -175,7 +175,7 @@ public class ControleItemPeca extends HttpServlet {
     	ItemServico is = isd.findById(id,ItemServico.class);
     	
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
 
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
@@ -238,12 +238,12 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
 
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
 	protected void alterar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         
         GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
         GenericDao<Peca> pd = new GenericDao<Peca>();
@@ -275,7 +275,7 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ is.getIdItemServico() +"\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"peca\" value=\""+ p.getIdPeca() +"\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Peça <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Peï¿½a <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"p\" id=\"p\">");
         try {
@@ -306,7 +306,7 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
         
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
 	protected void atualizar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -351,7 +351,7 @@ public class ControleItemPeca extends HttpServlet {
 	
 	protected void formulario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         
         GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
         ItemServico is = isd.findById(Integer.parseInt(request.getParameter("id")), ItemServico.class);
@@ -418,6 +418,6 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
         
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 }

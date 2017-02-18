@@ -65,7 +65,7 @@ public class GenericLista<E> extends HttpServlet {
 		Class obj = o.getClass();
 		
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
@@ -134,7 +134,7 @@ public class GenericLista<E> extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
 
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

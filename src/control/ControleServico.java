@@ -22,7 +22,7 @@ import entity.Veiculo;
 /**
  * Servlet implementation class CadastroServico
  */
-@WebServlet("/ControleServico")
+@WebServlet("/usu/ControleServico")
 public class ControleServico extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -55,6 +55,8 @@ public class ControleServico extends HttpServlet {
 			atualizar(request,response);
 		}else if(cmd.equalsIgnoreCase("selecionar")){
 			selecionar(request,response);
+		}else if(cmd.equalsIgnoreCase("formulario")){
+			formulario(request,response);
 		}
 	}
 
@@ -73,7 +75,7 @@ public class ControleServico extends HttpServlet {
 			sd.create(s);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
-			resposta = "Valor Inválido";
+			resposta = "Valor Invï¿½lido";
 		}catch(Exception ex){
 			resposta = ex.getMessage();
 		}
@@ -81,7 +83,7 @@ public class ControleServico extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/servico.html");
+        rd = request.getRequestDispatcher("/ControleServico?cmd=formulario");
         rd.include(request, response);
 	}
 
@@ -117,17 +119,17 @@ public class ControleServico extends HttpServlet {
 
 	protected void listar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         
         
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> SERVIÇOS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> SERVIï¿½OS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Serviï¿½o</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -135,15 +137,15 @@ public class ControleServico extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Serviços Cadastrados no Sistema");
+        pw.println("Serviï¿½os Cadastrados no Sistema");
         pw.println("</header>");
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Nome do Servico</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Previsão</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Número de Itens</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Previsï¿½o</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Nï¿½mero de Itens</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> AÃ§Ã£o</th>");
         pw.println("</tr>");
         
@@ -188,39 +190,39 @@ public class ControleServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
 
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
 	protected void editar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         Integer id = Integer.parseInt(request.getParameter("id"));
         
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> SERVIÇOS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> SERVIï¿½OS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Serviï¿½o</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12 col-lg-10\">");
         pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleServico?cmd=alterar&id=" + id + "';\" type=\"button\">Alterar Dados</button>");
-        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleServico?cmd=selecionar&id=" + id + "';\" type=\"button\">Substituir por Serviço existente</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleServico?cmd=selecionar&id=" + id + "';\" type=\"button\">Substituir por Serviï¿½o existente</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</section>");
         
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
 	protected void alterar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         Integer id = Integer.parseInt(request.getParameter("id"));
         
         GenericDao<Servico> sd = new GenericDao<Servico>();
@@ -229,11 +231,11 @@ public class ControleServico extends HttpServlet {
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIÇOS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIï¿½OS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviï¿½o</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -261,7 +263,7 @@ public class ControleServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Previsão <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Previsï¿½o <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"previsao\" type=\"text\" name=\"previsao\" value=\""+ s.getPrevisao() +"\" required />");
         pw.println("</div>");
@@ -281,22 +283,22 @@ public class ControleServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
         
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
 	protected void selecionar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         Integer id = Integer.parseInt(request.getParameter("id"));
         
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIÇOS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIï¿½OS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviï¿½o</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -311,7 +313,7 @@ public class ControleServico extends HttpServlet {
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleServico\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Serviço</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Serviï¿½o</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"servico\" id=\"servico\">");
         
@@ -344,7 +346,7 @@ public class ControleServico extends HttpServlet {
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
-        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Serviço</button>");
+        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Serviï¿½o</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</form>");
@@ -356,7 +358,7 @@ public class ControleServico extends HttpServlet {
         pw.println("</section>");
         
         
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
 	protected void mesclar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -428,5 +430,66 @@ public class ControleServico extends HttpServlet {
             rd.include(request, response);
 			out.close();
         }
+	}
+	
+	protected void formulario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter pw = response.getWriter();
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
+        
+        pw.println("<section class=\"wrapper\">");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PEÃ‡A</h3>");
+        pw.println("<ol class=\"breadcrumb\">");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"usu/index.html\">Home</a></li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>PeÃ§a</li>");
+        pw.println("</ol>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<section class=\"panel\">");
+        pw.println("<header class=\"panel-heading\">");
+        pw.println("ServiÃ§o");
+        pw.println("</header>");
+        pw.println("<div class=\"panel-body\">");
+        pw.println("<div class=\"form\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleServico\">");
+        pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"gravar\">");
+        pw.println("<div class=\"form-group \">");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Nome <span class=\"required\">*</span></label>");
+        pw.println("<div class=\"col-lg-10\">");
+        pw.println("<input class=\"form-control\" id=\"nome\" name=\"nome\" type=\"text\" required />");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"form-group\">");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Valor <span class=\"required\">*</span></label>");
+        pw.println("<div class=\"col-lg-10\">");
+        pw.println("<input class=\"form-control \" id=\"valor\" type=\"text\" name=\"valor\" required />");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"form-group \">");
+        pw.println("<label for=\"previsao\" class=\"control-label col-lg-2\">PrevisÃ£o <span class=\"required\">*</span></label>");
+        pw.println("<div class=\"col-lg-10\">");
+        pw.println("<input class=\"form-control \" id=\"previsao\" type=\"number\" name=\"previsao\" required />");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"form-group\">");
+        pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
+        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Salvar</button>");
+        pw.println("<button class=\"btn btn-default\" type=\"reset\">Limpar</button>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</form>");
+        pw.println("</div>");
+
+        pw.println("</div>");
+        pw.println("</section>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
+        
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 }

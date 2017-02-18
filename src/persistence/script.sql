@@ -20,3 +20,5 @@ insert into Peca values(null,'Pecinha',7.84);
 commit;
 insert into itemservico_peca values(1,1);
 commit;
+--insert into Usuario values(null,21999889989,22222222222,'coppola@mecanica.com','Coppola',2133332222,'adm',sha1('123'),'coppola',1);
+--insert into Usuario values(null,21999889988,22222222221,'betinho@mecanica.com','Betinho',2133332221,'usu',sha1('123'),'betinho',2);

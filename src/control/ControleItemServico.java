@@ -24,7 +24,7 @@ import persistence.GenericDao;
 /**
  * Servlet implementation class InfoOrdem
  */
-@WebServlet("/ControleItemServico")
+@WebServlet("/usu/ControleItemServico")
 public class ControleItemServico extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -210,7 +210,7 @@ public class ControleItemServico extends HttpServlet {
 	protected void listar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
 
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
@@ -282,12 +282,12 @@ public class ControleItemServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
 
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
 	protected void editar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         Integer id = Integer.parseInt(request.getParameter("id"));
         
 		pw.println("<section class=\"wrapper\">");
@@ -309,12 +309,12 @@ public class ControleItemServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
         
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
 	protected void alterar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         Integer id = Integer.parseInt(request.getParameter("id"));
         
         GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
@@ -442,7 +442,7 @@ public class ControleItemServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
         
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
 	protected void atualizar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -497,7 +497,7 @@ public class ControleItemServico extends HttpServlet {
 	
 	protected void formulario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
-        request.getRequestDispatcher("/base1.html").include(request, response);
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
         
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
@@ -585,6 +585,6 @@ public class ControleItemServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
         
-        request.getRequestDispatcher("/base2.html").include(request, response);
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 }
