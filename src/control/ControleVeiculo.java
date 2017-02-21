@@ -88,8 +88,7 @@ public class ControleVeiculo extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("FormVeiculo");
-        rd.include(request, response);
+        response.sendRedirect(request.getContextPath()+"/usu/ControleVeiculo?cmd=formulario");
 	}
 	
 	protected void deletar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -121,7 +120,7 @@ public class ControleVeiculo extends HttpServlet {
          PrintWriter out = response.getWriter();
          RequestDispatcher rd = null;
          out.println(resposta);
-         rd = request.getRequestDispatcher("/ControleVeiculo?cmd=listar");
+         rd = request.getRequestDispatcher("./ControleVeiculo?cmd=listar");
          rd.include(request, response);
 	}
 	
@@ -332,7 +331,7 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> CLIENTES</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Servi�o</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -435,7 +434,7 @@ public class ControleVeiculo extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleVeiculo?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleVeiculo?cmd=listar");
             rd.include(request, response);
 			out.close();
         }
@@ -470,7 +469,7 @@ public class ControleVeiculo extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleVeiculo?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleVeiculo?cmd=listar");
             rd.include(request, response);
 			out.close();
         }

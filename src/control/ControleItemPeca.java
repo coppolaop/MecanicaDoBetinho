@@ -102,7 +102,7 @@ public class ControleItemPeca extends HttpServlet {
         try{
         	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
     		if(od.findById(ordem, OrdemDeServico.class).getStatus().equalsIgnoreCase("Inativo")){
-    			throw new Exception("A Ordem De Servi�o n�o est� aberta");
+    			throw new Exception("A Ordem De Serviço não está aberta");
     		}
     		
 			GenericDao<Peca> pd = new GenericDao<Peca>();
@@ -128,7 +128,7 @@ public class ControleItemPeca extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/ControleItemServico?cmd=listar&id="+ordem);
+        rd = request.getRequestDispatcher("./ControleItemServico?cmd=listar&id="+ordem);
         rd.include(request, response);
 	}
 	
@@ -141,7 +141,7 @@ public class ControleItemPeca extends HttpServlet {
         try
         {
         	if(ordem.getStatus().equalsIgnoreCase("Inativo")){
-    			throw new Exception("A Ordem De Servi�o n�o est� aberta");
+    			throw new Exception("A Ordem De Serviçpo não está aberta");
     		}
         	
             ItemServico is = isd.findById(id, ItemServico.class);
@@ -165,7 +165,7 @@ public class ControleItemPeca extends HttpServlet {
          PrintWriter out = response.getWriter();
          RequestDispatcher rd = null;
          out.println(resposta);
-         rd = request.getRequestDispatcher("/ControleItemServico?cmd=listar&id="+ordem.getIdOrdemDeServico());
+         rd = request.getRequestDispatcher("./ControleItemServico?cmd=listar&id="+ordem.getIdOrdemDeServico());
          rd.include(request, response);
 	}
 
@@ -186,7 +186,7 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"ListaOrdem\">Ordens de Serviço</a></li>");
         pw.println("<li><i class=\"fa fa-wrench\"></i><a href=\"ControleItemServico?cmd=listar&id="+ is.getOrdemDeServico().getIdOrdemDeServico() +"\">Serviços Alocados</a></li>");
-        pw.println("<li><i class=\"fa fa-wrench\"></i>Pe�as Utilizadas</li>");
+        pw.println("<li><i class=\"fa fa-wrench\"></i>Peças Utilizadas</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -199,7 +199,7 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"fa fa-wrench\"></i> Pe�a</th>");
+        pw.println("<th><i class=\"fa fa-wrench\"></i> Peça</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
@@ -256,8 +256,8 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> ITENS DE SERVIÇO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"ListaOrdem\">Ordens de Serviço</a></li>");
-        pw.println("<li><i class=\"fa fa-wrench\"></i><a href=\"ControleItemServico?cmd=listar&id="+ is.getOrdemDeServico().getIdOrdemDeServico() +"\">Serviços Alocados</a></li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleOrdem?cmd=listar\">Ordens de Serviço</a></li>");
+        pw.println("<li><i class=\"fa fa-wrench\"></i><a href=\"./ControleItemServico?cmd=listar&id="+ is.getOrdemDeServico().getIdOrdemDeServico() +"\">Serviços Alocados</a></li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i>Alterar Itens</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -275,7 +275,7 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ is.getIdItemServico() +"\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"peca\" value=\""+ p.getIdPeca() +"\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Pe�a <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Peça <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"p\" id=\"p\">");
         try {
@@ -343,7 +343,7 @@ public class ControleItemPeca extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleItemPeca?cmd=listar&id="+is.getIdItemServico());
+            rd = request.getRequestDispatcher("./ControleItemPeca?cmd=listar&id="+is.getIdItemServico());
             rd.include(request, response);
 			out.close();
         }
@@ -363,8 +363,8 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"ListaOrdem\">Ordens de Serviço</a></li>");
-        pw.println("<li><i class=\"fa fa-wrench\"></i><a href=\"ControleItemServico?cmd=listar&id="+ is.getOrdemDeServico().getIdOrdemDeServico() +"\">Serviços Alocados</a></li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ListaOrdem\">Ordens de Serviço</a></li>");
+        pw.println("<li><i class=\"fa fa-wrench\"></i><a href=\"./ControleItemServico?cmd=listar&id="+ is.getOrdemDeServico().getIdOrdemDeServico() +"\">Serviços Alocados</a></li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");

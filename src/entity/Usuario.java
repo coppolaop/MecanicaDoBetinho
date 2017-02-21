@@ -16,6 +16,7 @@ public class Usuario extends Pessoa implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idUsuario;
+	@Column(unique=true)
 	private String username;
 	private String senha;
 	@Column(length=3)

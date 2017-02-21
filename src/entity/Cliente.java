@@ -41,13 +41,12 @@ public class Cliente extends Pessoa implements Serializable{
 		super(nome, email, cpf, telefone, celular);
 		this.idCliente = idCliente;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "<td>" + getNome()
-				+ "</td><td>" + getEmail() + "</td><td>" + getCpf()
-				+ "</td><td>" + getTelefone() + "</td><td>"
-				+ getCelular() + "</td>";
+		return "Cliente [idCliente=" + idCliente + ", Nome=" + getNome() + ", Email=" + getEmail()
+				+ ", Cpf=" + getCpf() + ", Telefone=" + getTelefone() + ", Celular=" + getCelular()
+				+ "]";
 	}
 
 	public Integer getIdCliente() {

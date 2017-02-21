@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns={"/usu/*","/adm/*"})
-public class Filtro implements Filter {
+@WebFilter(urlPatterns={"/adm/*"})
+public class FiltroAdm implements Filter {
 
-    public Filtro() {
+    public FiltroAdm() {
         
     }
 
@@ -28,9 +28,14 @@ public class Filtro implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
+		String log = (String) session.getAttribute("logado");
 		
-		if(session.getAttribute("logado")!=null){
-			chain.doFilter(request, response);
+		if(log!=null){
+			if(log.equalsIgnoreCase("adm")){
+				chain.doFilter(request, response);
+			}else{
+				resp.sendRedirect("../login.html");
+			}
 		}else{
 			resp.sendRedirect("../login.html");
 		}

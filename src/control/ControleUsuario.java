@@ -73,7 +73,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> USUARIOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
-        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i>Usuario</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -90,6 +90,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<th><i class=\"icon_profile\"></i> Nome</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Username</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Email</th>");
+        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Perfil</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Telefone</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CPF</th>");
@@ -113,6 +114,11 @@ public class ControleUsuario extends HttpServlet {
 		        pw.println("<td>"+u.getNome()+"</td>");
 		        pw.println("<td>"+u.getUsername()+"</td>");
 		        pw.println("<td>"+u.getEmail()+"</td>");
+		        if(u.getPerfil().equalsIgnoreCase("adm")){
+		        	pw.println("<td>Administrador</td>");
+		        }else{
+		        	pw.println("<td>Usu�rio</td>");	
+		        }
 		        pw.println("<td>"+u.getTelefone()+"</td>");
 		        pw.println("<td>"+u.getCelular()+"</td>");
 		        pw.println("<td>"+u.getCpf()+"</td>");
@@ -150,7 +156,7 @@ public class ControleUsuario extends HttpServlet {
 			u.setTelefone(Long.parseLong(request.getParameter("telefone")));
 			u.setCelular(Long.parseLong(request.getParameter("celular")));
 			u.setUsername(request.getParameter("username"));
-			u.setSenha("senhapadrao");//Usuario deve trocar a senha ap�s o primeiro Login
+			u.setSenha("senhapadrao");//Usuario deve trocar a senha após o primeiro Login
 			u.setPerfil(request.getParameter("perfil"));
 			Criptografia.criptografia(u);
 			
@@ -169,10 +175,10 @@ public class ControleUsuario extends HttpServlet {
 			ud.create(u);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
-			resposta = "Valor Inv�lido";
+			resposta = "Valor Inválido";
 			ex.printStackTrace();
 		}catch(ConstraintViolationException ex){
-			resposta = "J� Existe um Cliente cadastrado com esse nome";
+			resposta = "Já Existe um Cliente cadastrado com esse nome";
 			ex.printStackTrace();
 		}catch(Exception ex){
 			resposta = ex.getMessage();
@@ -195,7 +201,10 @@ public class ControleUsuario extends HttpServlet {
         {
         	 Usuario u = ud.findById(id, Usuario.class);
         	 if(u.getEndereco()!=null){
-        		 ed.delete(u.getEndereco());
+        		 Endereco e = u.getEndereco();
+        		 u.setEndereco(null);
+        		 ud.update(u);
+        		 ed.delete(e);
         	 }
         	 ud.delete(u);
         	 resposta = "Dados Excluidos";
@@ -207,7 +216,7 @@ public class ControleUsuario extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/ControleUsuario?cmd=listar");
+        rd = request.getRequestDispatcher("./ControleUsuario?cmd=listar");
         rd.include(request, response);
 	}
 	
@@ -224,7 +233,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> USUARIOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
-        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Usuario</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -254,7 +263,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">CPF <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Perfil <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"perfil\" id=\"perfil\">");
         if(u.getPerfil().equalsIgnoreCase("adm")){
@@ -395,7 +404,7 @@ public class ControleUsuario extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleUsuario?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleUsuario?cmd=listar");
             rd.include(request, response);
 			out.close();
         }
@@ -408,9 +417,9 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PEÇA</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> USUARIO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
-        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"adm/index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Peça</li>");
         pw.println("</ol>");
@@ -424,7 +433,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"ControleUsuario\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"./ControleUsuario\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"gravar\">");
         pw.println("<h5>Dados Basicos</h5>");
         pw.println("<div class=\"form-group \">");

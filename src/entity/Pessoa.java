@@ -40,6 +40,13 @@ public abstract class Pessoa implements Serializable, Cloneable{
 		this.telefone = telefone;
 		this.celular = celular;
 	}
+	
+	@Override
+	public String toString() {
+		return "Pessoa [nome=" + nome + ", email=" + email + ", cpf=" + cpf
+				+ ", telefone=" + telefone + ", celular=" + celular
+				+ ", endereco=" + endereco + "]";
+	}
 
 	public String getNome() {
 		return nome;
@@ -91,13 +98,6 @@ public abstract class Pessoa implements Serializable, Cloneable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	@Override
-	public String toString() {
-		return "Pessoa [nome=" + nome + ", email=" + email + ", cpf=" + cpf
-				+ ", telefone=" + telefone + ", celular=" + celular
-				+ ", endereco=" + endereco + "]";
 	}
 
 	//Design Pattern - Prototype

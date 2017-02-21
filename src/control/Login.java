@@ -43,8 +43,10 @@ public class Login extends HttpServlet {
 		String cmd = request.getParameter("cmd");
 		if(request.getParameter("cmd").equalsIgnoreCase("pass")){
 			changePassword(request,response);
-		}else{
+		}else if(cmd.equalsIgnoreCase("login")){
 			logar(request,response);
+		}else if(cmd.equalsIgnoreCase("logout")){
+			logout(request,response);
 		}
 	}
 	protected void logar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -102,10 +104,17 @@ public class Login extends HttpServlet {
 			String senha2 = request.getParameter("confirm_password");
 			
 			if(senha1.equals(senha2)){
-				u.setSenha(senha1);
-				Criptografia.criptografia(u);
+				Usuario u2 = new Usuario();
+				u2.setSenha("senhapadrao");
+				Criptografia.criptografia(u2);
+				if(u.getSenha().equals(u2.getSenha())){
+					u.setSenha(senha1);
+					Criptografia.criptografia(u);
+				}else{
+					response.sendRedirect(request.getContextPath()+"/login.html");
+				}
 			}else{
-				throw new Exception("As senhas n„o batem");
+				throw new Exception("As senhas n√£o batem");
 			}
 			
 			ud.update(u);
@@ -120,5 +129,15 @@ public class Login extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("password.html");
             rd.include(request, response);
 		}
+	}
+	
+	protected void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = (HttpSession) request.getSession();
+		session.invalidate();
+		response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("logout concluido");
+		RequestDispatcher rd = request.getRequestDispatcher("login.html");
+        rd.include(request, response);
 	}
 }

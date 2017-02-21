@@ -68,14 +68,14 @@ public class ControleServico extends HttpServlet {
 		try{
 			Servico s = new Servico();
 			s.setNome(request.getParameter("nome"));
-			s.setValor(Double.parseDouble(request.getParameter("valor")));
+			s.setValor(Double.parseDouble(request.getParameter("valor").replace(",", ".")));
 			s.setPrevisao(Integer.parseInt(request.getParameter("previsao")));
 			
 			GenericDao<Servico> sd = new GenericDao<Servico>();
 			sd.create(s);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
-			resposta = "Valor Inv�lido";
+			resposta = "Valor Inválido";
 		}catch(Exception ex){
 			resposta = ex.getMessage();
 		}
@@ -83,7 +83,7 @@ public class ControleServico extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/ControleServico?cmd=formulario");
+        rd = request.getRequestDispatcher("./ControleServico?cmd=formulario");
         rd.include(request, response);
 	}
 
@@ -112,7 +112,7 @@ public class ControleServico extends HttpServlet {
          PrintWriter out = response.getWriter();
          RequestDispatcher rd = null;
          out.println(resposta);
-         rd = request.getRequestDispatcher("/ControleServico?cmd=listar");
+         rd = request.getRequestDispatcher("./ControleServico?cmd=listar");
          rd.include(request, response);
 	}
 	
@@ -125,11 +125,11 @@ public class ControleServico extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> SERVI�OS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> SERVIÇOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Servi�o</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -137,15 +137,15 @@ public class ControleServico extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Servi�os Cadastrados no Sistema");
+        pw.println("Serviços Cadastrados no Sistema");
         pw.println("</header>");
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Nome do Servico</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Previs�o</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> N�mero de Itens</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Previsão</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Número de Itens</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
@@ -294,11 +294,11 @@ public class ControleServico extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVI�OS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIÇOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Servi�o</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -306,14 +306,14 @@ public class ControleServico extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Substituindo Pe�a por outra existente");
+        pw.println("Substituindo Peça por outra existente");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleServico\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Servi�o</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Serviço</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"servico\" id=\"servico\">");
         
@@ -346,7 +346,7 @@ public class ControleServico extends HttpServlet {
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
-        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Servi�o</button>");
+        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Serviço</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</form>");
@@ -395,7 +395,7 @@ public class ControleServico extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleServico?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleServico?cmd=listar");
             rd.include(request, response);
 			out.close();
         }
@@ -412,7 +412,7 @@ public class ControleServico extends HttpServlet {
         	Servico s = sd.findById(Integer.parseInt(request.getParameter("id")), Servico.class);
         	
         	s.setNome(request.getParameter("nome"));
-        	s.setValor(Double.parseDouble(request.getParameter("valor")));
+        	s.setValor(Double.parseDouble(request.getParameter("valor").replace(",", ".")));
         	s.setPrevisao(Integer.parseInt(request.getParameter("previsao")));
         	sd.update(s);
         	
@@ -426,7 +426,7 @@ public class ControleServico extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleServico?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleServico?cmd=listar");
             rd.include(request, response);
 			out.close();
         }

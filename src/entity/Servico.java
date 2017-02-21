@@ -51,10 +51,10 @@ public class Servico implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "<td>" + nome
-				+ "</td><td>" + valor + "</td><td>" + previsao + "</td>";
+		return "Servico [idServico=" + idServico + ", nome=" + nome + ", valor=" + valor + ", previsao=" + previsao
+				+ "]";
 	}
-	
+
 	public Integer getIdServico() {
 		return idServico;
 	}

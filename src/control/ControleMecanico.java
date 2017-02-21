@@ -105,7 +105,7 @@ public class ControleMecanico extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/ControleMecanico?cmd=formulario");
+        rd = request.getRequestDispatcher("./ControleMecanico?cmd=formulario");
         rd.include(request, response);
 	}
 
@@ -138,7 +138,7 @@ public class ControleMecanico extends HttpServlet {
          PrintWriter out = response.getWriter();
          RequestDispatcher rd = null;
          out.println(resposta);
-         rd = request.getRequestDispatcher("/ControleMecanico?cmd=listar");
+         rd = request.getRequestDispatcher("./ControleMecanico?cmd=listar");
          rd.include(request, response);
 	}
 	
@@ -480,7 +480,7 @@ public class ControleMecanico extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleMecanico?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleMecanico?cmd=listar");
             rd.include(request, response);
 			out.close();
         }
@@ -526,7 +526,7 @@ public class ControleMecanico extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleMecanico?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleMecanico?cmd=listar");
             rd.include(request, response);
 			out.close();
         }

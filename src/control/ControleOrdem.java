@@ -99,7 +99,7 @@ public class ControleOrdem extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("ControleOrdem?cmd=listar");
+        rd = request.getRequestDispatcher("./ControleOrdem?cmd=listar");
         rd.include(request, response);
 	}
 	
@@ -120,7 +120,7 @@ public class ControleOrdem extends HttpServlet {
          PrintWriter out = response.getWriter();
          RequestDispatcher rd = null;
          out.println(resposta);
-         rd = request.getRequestDispatcher("ControleOrdem?cmd=listar");
+         rd = request.getRequestDispatcher("./ControleOrdem?cmd=listar");
          rd.include(request, response);
 	}
 	
@@ -388,7 +388,7 @@ public class ControleOrdem extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleOrdem?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleOrdem?cmd=listar");
             rd.include(request, response);
 			out.close();
         }
@@ -553,7 +553,7 @@ public class ControleOrdem extends HttpServlet {
 			response.setContentType("text/html");
 	        RequestDispatcher rd = null;
 	        out.println(resposta);
-	        rd = request.getRequestDispatcher("/ControleOrdem?cmd=listar");
+	        rd = request.getRequestDispatcher("./ControleOrdem?cmd=listar");
 	        rd.include(request, response);
 			out.close();
 		}

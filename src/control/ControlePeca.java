@@ -66,7 +66,8 @@ public class ControlePeca extends HttpServlet {
 		try{
 			Peca p = new Peca();
 			p.setNome(request.getParameter("nome"));
-			p.setValor(Double.parseDouble(request.getParameter("valor")));
+			Double valor = Double.parseDouble(request.getParameter("valor").replace(",", "."));
+			p.setValor(valor);
 			
 			GenericDao<Peca> pd = new GenericDao<Peca>();
 			pd.create(p);
@@ -80,7 +81,7 @@ public class ControlePeca extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/ControlePeca?cmd=formulario");
+        rd = request.getRequestDispatcher("./ControlePeca?cmd=formulario");
         rd.include(request, response);
 	}
 	
@@ -109,7 +110,7 @@ public class ControlePeca extends HttpServlet {
          PrintWriter out = response.getWriter();
          RequestDispatcher rd = null;
          out.println(resposta);
-         rd = request.getRequestDispatcher("/ControlePeca?cmd=listar");
+         rd = request.getRequestDispatcher("./ControlePeca?cmd=listar");
          rd.include(request, response);
 	}
 	
@@ -141,7 +142,7 @@ public class ControlePeca extends HttpServlet {
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Nome da Peça</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> N�mero de Itens</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Número de Itens</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
@@ -261,7 +262,7 @@ public class ControlePeca extends HttpServlet {
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
-        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Agendar</button>");
+        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Salvar</button>");
         pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=editar&id=" + id + "';\" type=\"button\">Voltar</button>");
         pw.println("</div>");
         pw.println("</div>");
@@ -284,10 +285,10 @@ public class ControlePeca extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PE�A</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PEÇA</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Servi�o</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -296,14 +297,14 @@ public class ControlePeca extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Substituindo Pe�a por outra existente");
+        pw.println("Substituindo Peça por outra existente");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControlePeca\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome da Pe�a</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome da Peça</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"peca\" id=\"peca\">");
         
@@ -386,7 +387,7 @@ public class ControlePeca extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControlePeca?cmd=listar");
+            rd = request.getRequestDispatcher("./ControlePeca?cmd=listar");
             rd.include(request, response);
 			out.close();
         }
@@ -403,7 +404,7 @@ public class ControlePeca extends HttpServlet {
         	Peca p = pd.findById(Integer.parseInt(request.getParameter("id")), Peca.class);
         	
         	p.setNome(request.getParameter("nome"));
-        	p.setValor(Double.parseDouble(request.getParameter("valor")));
+        	p.setValor(Double.parseDouble(request.getParameter("valor").replace(",", ".")));
         	pd.update(p);
         	
         	resposta = "Dados Alterados";
@@ -416,7 +417,7 @@ public class ControlePeca extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControlePeca?cmd=listar");
+            rd = request.getRequestDispatcher("./ControlePeca?cmd=listar");
             rd.include(request, response);
 			out.close();
         }

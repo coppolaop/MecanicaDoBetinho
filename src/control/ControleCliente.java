@@ -88,10 +88,10 @@ public class ControleCliente extends HttpServlet {
 			cd.create(c);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
-			resposta = "Valor Inv�lido";
+			resposta = "Valor Inválido";
 			ex.printStackTrace();
 		}catch(ConstraintViolationException ex){
-			resposta = "J� Existe um Cliente cadastrado com esse nome";
+			resposta = "Já Existe um Cliente cadastrado com esse nome";
 			ex.printStackTrace();
 		}catch(Exception ex){
 			resposta = ex.getMessage();
@@ -101,7 +101,7 @@ public class ControleCliente extends HttpServlet {
         PrintWriter out = response.getWriter();
         RequestDispatcher rd = null;
         out.println(resposta);
-        rd = request.getRequestDispatcher("/ControleCliente?cmd=formulario");
+        rd = request.getRequestDispatcher("./ControleCliente?cmd=formulario");
         rd.include(request, response);
 	}
 
@@ -133,7 +133,7 @@ public class ControleCliente extends HttpServlet {
          PrintWriter out = response.getWriter();
          RequestDispatcher rd = null;
          out.println(resposta);
-         rd = request.getRequestDispatcher("/ControleCliente?cmd=listar");
+         rd = request.getRequestDispatcher("./ControleCliente?cmd=listar");
          rd.include(request, response);
 	}
 	
@@ -148,7 +148,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> CLIENTES</h3>");
         pw.println("<ol class=\"breadcrumb\">");
-        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i>Clinte</li>");
         pw.println("</ol>");
@@ -232,7 +232,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> CLIENTES</h3>");
         pw.println("<ol class=\"breadcrumb\">");
-        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i>Cliente</li>");
         pw.println("</ol>");
@@ -262,7 +262,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> CLIENTES</h3>");
         pw.println("<ol class=\"breadcrumb\">");
-        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Registro</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Cliente</li>");
         pw.println("</ol>");
@@ -382,7 +382,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> CLIENTES</h3>");
         pw.println("<ol class=\"breadcrumb\">");
-        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Cliente</li>");
         pw.println("</ol>");
@@ -483,7 +483,7 @@ public class ControleCliente extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleCliente?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleCliente?cmd=listar");
             rd.include(request, response);
 			out.close();
         }
@@ -529,7 +529,7 @@ public class ControleCliente extends HttpServlet {
 			response.setContentType("text/html");
             RequestDispatcher rd = null;
             out.println(resposta);
-            rd = request.getRequestDispatcher("/ControleCliente?cmd=listar");
+            rd = request.getRequestDispatcher("./ControleCliente?cmd=listar");
             rd.include(request, response);
 			out.close();
         }
