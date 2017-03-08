@@ -34,44 +34,6 @@ public class ControleItemServico extends HttpServlet {
     public ControleItemServico() {
         super();
     }
-    
-    public void calculaValor(){
-    	GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
-		GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
-		
-		try {
-			List<OrdemDeServico> ordens = od.findAll(OrdemDeServico.class);
-			for(OrdemDeServico o : ordens){
-				o.setValor(0.);
-				for(ItemServico is : o.getItensServico()){
-					if(is!=null){
-						Double valor = 0.;
-						if(is.getServico()!=null){
-							if(is.getServico().getValor()!=null){
-								valor = is.getServico().getValor();
-							}
-						}
-						is.setValor(valor);
-						for(Peca p : is.getPecas()){
-							valor = is.getValor();
-							valor += p.getValor();
-							is.setValor(valor);
-							isd.update(is);
-						}
-						
-						valor = o.getValor();
-						valor += is.getValor();
-						o.setValor(valor);
-					}
-				}
-				od.update(o);
-			}
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -113,6 +75,10 @@ public class ControleItemServico extends HttpServlet {
 				Servico s = sd.findById(Integer.parseInt(request.getParameter("servico")), Servico.class);
 				OrdemDeServico o = od.findById(Integer.parseInt(request.getParameter("id")), OrdemDeServico.class);
 				
+				if(o.getStatus().equalsIgnoreCase("inativo")){
+					throw new Exception("Ordem de Serviço inativa");
+				}
+				
 				is.setAutorizacao(false);
 				is.setDataAdicao(new Date());
 				is.setValor(s.getValor());
@@ -130,7 +96,7 @@ public class ControleItemServico extends HttpServlet {
 				sd.update(s);
 				od.update(o);
 				
-				calculaValor();
+				ControleOrdem.calculaValor();
 				
 				resposta = "Dados Armazenados";
 			}catch(NumberFormatException ex){
@@ -192,7 +158,7 @@ public class ControleItemServico extends HttpServlet {
             isd.update(is);
             isd.delete(is);
             
-            calculaValor();
+            ControleOrdem.calculaValor();
             
             resposta = "Dados Excluidos";
         } catch (Exception ex) {
@@ -245,6 +211,8 @@ public class ControleItemServico extends HttpServlet {
         	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
         	OrdemDeServico o = od.findById(id,OrdemDeServico.class);
         	List<ItemServico> lista = o.getItensServico();
+        	
+        	ControleOrdem.calculaValor();
         	
 	        for(ItemServico i : lista){
 	        
@@ -477,7 +445,7 @@ public class ControleItemServico extends HttpServlet {
         	
         	isd.update(is);
         	
-        	calculaValor();
+        	ControleOrdem.calculaValor();
         	
         	resposta = "Dados Alterados";
         	
@@ -519,7 +487,7 @@ public class ControleItemServico extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"ControleItemServico\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleItemServico\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"gravar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ request.getParameter("id") +"\">");
         pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Mecanico</label>");

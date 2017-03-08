@@ -43,6 +43,8 @@ public class ControleUsuario extends HttpServlet {
 			atualizar(request,response);
 		}else if(cmd.equalsIgnoreCase("formulario")){
 			formulario(request,response);
+		}else if(cmd.equalsIgnoreCase("endereco")){
+			endereco(request,response);
 		}
 	}
 
@@ -117,13 +119,14 @@ public class ControleUsuario extends HttpServlet {
 		        if(u.getPerfil().equalsIgnoreCase("adm")){
 		        	pw.println("<td>Administrador</td>");
 		        }else{
-		        	pw.println("<td>Usuário</td>");	
+		        	pw.println("<td>Usuï¿½rio</td>");	
 		        }
 		        pw.println("<td>"+u.getTelefone()+"</td>");
 		        pw.println("<td>"+u.getCelular()+"</td>");
 		        pw.println("<td>"+u.getCpf()+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
+		        pw.println("<a class=\"btn btn-info\" href=\"./ControleUsuario?cmd=endereco&id=" + u.getEndereco().getIdEndereco() + "\"><i class=\"icon_info_alt\"></i></a>");
 		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleUsuario?cmd=alterar&id=" + u.getIdUsuario() + "\"><i class=\"icon_pencil\"></i></a>");
 		        pw.println("<a class=\"btn btn-danger\" href=\"./ControleUsuario?cmd=deletar&id=" + u.getIdUsuario() + "\"><i class=\"icon_close_alt2\"></i></a>");
 		        pw.println("</div>");
@@ -540,6 +543,72 @@ public class ControleUsuario extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
         
+        request.getRequestDispatcher("/adm/base2.html").include(request, response);
+	}
+	
+	protected void endereco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter pw = response.getWriter();
+		Integer id = Integer.parseInt(request.getParameter("id"));
+        request.getRequestDispatcher("/adm/base1.html").include(request, response);
+
+        
+        pw.println("<section class=\"wrapper\">");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ENDEREÃ‡O</h3>");
+        pw.println("<ol class=\"breadcrumb\">");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleUsuario?cmd=listar\">Usuario</a></li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Endereco</li>");
+        
+        pw.println("</ol>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<section class=\"panel\">");
+        pw.println("<header class=\"panel-heading\">");
+        pw.println("Clientes Cadastrados no Sistema");
+        pw.println("</header>");
+        pw.println("<table class=\"table table-striped table-advance table-hover\">");
+        pw.println("<tbody>");
+        pw.println("<tr>");
+        pw.println("<th><i class=\"icon_profile\"></i> Rua</th>");
+        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Numero</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Logradouro</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Bairro</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Cidade</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Estado</th>");
+        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CEP</th>");
+        pw.println("</tr>");
+        
+		try {
+			GenericDao<Endereco> ed = new GenericDao<Endereco>();
+			
+			Endereco e = ed.findById(id, Endereco.class);
+			
+			pw.println("<tr>");
+	        pw.println("<td>"+e.getRua()+"</td>");
+	        pw.println("<td>"+e.getNumero()+"</td>");
+	        pw.println("<td>"+e.getLogradouro()+"</td>");
+	        pw.println("<td>"+e.getBairro()+"</td>");
+	        pw.println("<td>"+e.getCidade()+"</td>");
+	        pw.println("<td>"+e.getEstado()+"</td>");
+	        pw.println("<td>"+e.getCep()+"</td>");
+	        pw.println("</tr>");
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+        pw.println("</tbody>");
+        pw.println("</table>");
+        pw.println("</section>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
+
         request.getRequestDispatcher("/adm/base2.html").include(request, response);
 	}
 }

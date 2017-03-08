@@ -146,7 +146,7 @@ public class OrdemDeServico implements Serializable, Cloneable{
 	}
 
 	public void changeStatus() {
-		if(status.equals("ativo")){
+		if(status.equalsIgnoreCase("ativo")){
 			status = "inativo";
 			dataConclusao = new Date();
 		}else{

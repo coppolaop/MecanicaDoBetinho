@@ -92,16 +92,46 @@ public class ControleServico extends HttpServlet {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		GenericDao<Servico> sd = new GenericDao<Servico>();
 		GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
+		GenericDao<Peca> pd = new GenericDao<Peca>();
 		
          try
         {
             Servico s = sd.findById(id, Servico.class);
+            
             if(s.getItensServico() != null){
+            	List<ItemServico> itens = new ArrayList<ItemServico>();
+            	List<Peca> pecas = new ArrayList<Peca>();
+            	
             	for(ItemServico is : s.getItensServico()){
-            		is.setServico(null);
-            		isd.delete(is);
+            		itens.add(is);
+            		if(is!=null){
+            			if(is.getPecas()!=null){
+		            		for(Peca p : is.getPecas()){
+		            			pecas.add(p);
+		            		}
+	            		}
+            		}
+            	}
+            	
+            	for(ItemServico is : itens){
+            		if(is!=null){
+	            		if(is.getPecas()!=null){
+	            			for(Peca p : pecas){
+	            				p.remover(is);
+	            				is.remover(p);
+	            				pd.update(p);
+	            				isd.update(is);
+	            			}
+	            		}
+	            		s.remover(is);
+	            		is.setServico(null);
+	            		sd.update(s);
+	            		isd.update(is);
+	            		isd.delete(is);
+            		}
             	}
             }
+            
             sd.delete(s);
             resposta = "Dados Excluidos";
         } catch (Exception ex) {
@@ -212,7 +242,7 @@ public class ControleServico extends HttpServlet {
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12 col-lg-10\">");
         pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleServico?cmd=alterar&id=" + id + "';\" type=\"button\">Alterar Dados</button>");
-        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleServico?cmd=selecionar&id=" + id + "';\" type=\"button\">Substituir por Servi�o existente</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleServico?cmd=selecionar&id=" + id + "';\" type=\"button\">Atribuir Itens a outro Serviço</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</section>");
@@ -231,11 +261,11 @@ public class ControleServico extends HttpServlet {
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVI�OS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIÇOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Servi�o</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -263,7 +293,7 @@ public class ControleServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Previs�o <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Previsão <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"previsao\" type=\"text\" name=\"previsao\" value=\""+ s.getPrevisao() +"\" required />");
         pw.println("</div>");
@@ -332,9 +362,7 @@ public class ControleServico extends HttpServlet {
 			}
 			
 			for(Servico servico : lista){
-				if(servico.getIdServico().equals(id)){
-					pw.println("<option value=\""+servico.getIdServico()+"\" selected>"+servico.getNome()+"</option>");
-				}else{
+				if(!servico.getIdServico().equals(id)){
 					pw.println("<option value=\""+servico.getIdServico()+"\">"+servico.getNome()+"</option>");
 				}
 			}
@@ -373,18 +401,22 @@ public class ControleServico extends HttpServlet {
         	GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
         	Servico s1 = sd.findById(id, Servico.class);
         	Servico s2 = sd.findById(servico, Servico.class);
-        	List<ItemServico> lista = s1.getItensServico();
+        	List<ItemServico> itens = new ArrayList<ItemServico>();
         	if(s1.getItensServico()!= null){
-	        	for(ItemServico is : lista){
-	        		s2.adicionar(is);
-	        		is.setServico(s2);
-	        		isd.update(is);
+        		for(ItemServico is : s1.getItensServico()){
+        			itens.add(is);
+        		}
+	        	for(ItemServico is : itens){
+	        		if(is!=null){
+		        		s1.remover(is);
+		        		s2.adicionar(is);
+		        		is.setServico(s2);
+		        		isd.update(is);
+		        		sd.update(s1);
+		        		sd.update(s2);
+	        		}
 	        	}
         	}
-        	s1.setItensServico(new ArrayList<ItemServico>());
-        	sd.update(s1);
-        	sd.delete(s1);
-        	sd.update(s2);
         	resposta = "Dados Alterados";
         	
         } catch (Exception ex) {
@@ -439,11 +471,11 @@ public class ControleServico extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PEÇA</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIÇO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"usu/index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Peça</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");

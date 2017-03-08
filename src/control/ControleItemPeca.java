@@ -33,44 +33,6 @@ public class ControleItemPeca extends HttpServlet {
     public ControleItemPeca() {
         super();
     }
-    
-    public void calculaValor(){
-    	GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
-		GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
-		
-		try {
-			List<OrdemDeServico> ordens = od.findAll(OrdemDeServico.class);
-			for(OrdemDeServico o : ordens){
-				o.setValor(0.);
-				for(ItemServico is : o.getItensServico()){
-					if(is!=null){
-						Double valor = 0.;
-						if(is.getServico()!=null){
-							if(is.getServico().getValor()!=null){
-								valor = is.getServico().getValor();
-							}
-						}
-						is.setValor(valor);
-						for(Peca p : is.getPecas()){
-							valor = is.getValor();
-							valor += p.getValor();
-							is.setValor(valor);
-							isd.update(is);
-						}
-						
-						valor = o.getValor();
-						valor += is.getValor();
-						o.setValor(valor);
-					}
-				}
-				od.update(o);
-			}
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -117,7 +79,7 @@ public class ControleItemPeca extends HttpServlet {
 			pd.update(p);
 			isd.update(is);
 			
-			calculaValor();
+			ControleOrdem.calculaValor();
 			
 			resposta = "Dados Armazenados";
 		}catch(Exception ex){
@@ -154,7 +116,7 @@ public class ControleItemPeca extends HttpServlet {
             pd.update(p);
             isd.update(is);
             
-            calculaValor();
+            ControleOrdem.calculaValor();
             
             resposta = "Dados Excluidos";
         } catch (Exception ex) {
@@ -331,7 +293,7 @@ public class ControleItemPeca extends HttpServlet {
         	pd.update(p2);
         	isd.update(is);
         	
-        	calculaValor();
+        	ControleOrdem.calculaValor();
         	
         	resposta = "Dados Alterados";
         	

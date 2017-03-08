@@ -61,6 +61,8 @@ public class ControleMecanico extends HttpServlet {
 			selecionar(request,response);
 		}else if(cmd.equalsIgnoreCase("formulario")){
 			formulario(request,response);
+		}else if(cmd.equalsIgnoreCase("endereco")){
+			endereco(request,response);
 		}
 	}
 
@@ -115,18 +117,52 @@ public class ControleMecanico extends HttpServlet {
 		GenericDao<Mecanico> md = new GenericDao<Mecanico>();
 		GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
 		GenericDao<Endereco> ed = new GenericDao<Endereco>();
+		GenericDao<Peca> pd = new GenericDao<Peca>();
 		
          try
         {
             Mecanico m = md.findById(id, Mecanico.class);
+            
             if(m.getItensServico() != null){
+            	List<ItemServico> itens = new ArrayList<ItemServico>();
+            	List<Peca> pecas = new ArrayList<Peca>();
+            	
             	for(ItemServico is : m.getItensServico()){
-            		is.setMecanico(null);
+            		itens.add(is);
+            		if(is!=null){
+            			if(is.getPecas()!=null){
+		            		for(Peca p : is.getPecas()){
+		            			pecas.add(p);
+		            		}
+	            		}
+            		}
+            	}
+            	
+            	for(ItemServico is : itens){
+            		if(is!=null){
+            			if(is.getPecas()!=null){
+	            			for(Peca p : pecas){
+	            				p.remover(is);
+	            				is.remover(p);
+	            				pd.update(p);
+	            				isd.update(is);
+	            			}
+	            		}
+	            		is.setMecanico(null);
+	            		m.remover(is);
+	            		isd.update(is);
+	            		md.update(m);
+	            		isd.delete(is);
+            		}
             	}
             	m.setItensServico(null);
             }
+            
             if(m.getEndereco()!=null){
-            	ed.delete(m.getEndereco());
+            	Endereco e = m.getEndereco();
+            	m.setEndereco(null);
+            	md.update(m);
+            	ed.delete(e);
             }
             md.delete(m);
             resposta = "Dados Excluidos";
@@ -155,7 +191,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Mecanicos</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Mecanico</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -197,6 +233,7 @@ public class ControleMecanico extends HttpServlet {
 		        pw.println("<td>"+m.getCpf()+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
+		        pw.println("<a class=\"btn btn-info\" href=\"./ControleMecanico?cmd=endereco&id=" + m.getEndereco().getIdEndereco() + "\"><i class=\"icon_info_alt\"></i></a>");
 		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleMecanico?cmd=editar&id=" + m.getIdMecanico() + "\"><i class=\"icon_pencil\"></i></a>");
 		        pw.println("<a class=\"btn btn-danger\" href=\"./ControleMecanico?cmd=deletar&id=" + m.getIdMecanico() + "\"><i class=\"icon_close_alt2\"></i></a>");
 		        pw.println("</div>");
@@ -451,25 +488,27 @@ public class ControleMecanico extends HttpServlet {
         try
         {   
         	GenericDao<Mecanico> md = new GenericDao<Mecanico>();
-        	GenericDao<Endereco> ed = new GenericDao<Endereco>();
         	GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
         	Mecanico m1 = md.findById(id, Mecanico.class);
         	Mecanico m2 = md.findById(mecanico, Mecanico.class);
-        	List<ItemServico> lista = m1.getItensServico();
+        	List<ItemServico> itens = new ArrayList<ItemServico>();
+        	
         	if(m1.getItensServico()!= null){
-	        	for(ItemServico is : lista){
-	        		m2.adicionar(is);
-	        		is.setMecanico(m2);
-	        		isd.update(is);
+        		for(ItemServico is : m1.getItensServico()){
+            		itens.add(is);
+            	}
+	        	for(ItemServico is : itens){
+	        		if(is!=null){
+		        		m1.remover(is);
+	        			m2.adicionar(is);
+		        		is.setMecanico(m2);
+		        		isd.update(is);
+		        		md.update(m1);
+		        		md.update(m2);
+	        		}
 	        	}
         	}
-        	if(m1.getEndereco()!=null){
-        		ed.delete(m1.getEndereco());
-        		m1.setEndereco(null);
-        	}
-        	md.update(m1);
-        	md.delete(m1);
-        	md.update(m2);
+        	
         	resposta = "Dados Alterados";
         	
         } catch (Exception ex) {
@@ -647,6 +686,72 @@ public class ControleMecanico extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
         
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
+	}
+	
+	protected void endereco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter pw = response.getWriter();
+		Integer id = Integer.parseInt(request.getParameter("id"));
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
+
+        
+        pw.println("<section class=\"wrapper\">");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ENDEREÇO</h3>");
+        pw.println("<ol class=\"breadcrumb\">");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleMecanico?cmd=listar\">Mecanico</a></li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Endereco</li>");
+        
+        pw.println("</ol>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<section class=\"panel\">");
+        pw.println("<header class=\"panel-heading\">");
+        pw.println("Clientes Cadastrados no Sistema");
+        pw.println("</header>");
+        pw.println("<table class=\"table table-striped table-advance table-hover\">");
+        pw.println("<tbody>");
+        pw.println("<tr>");
+        pw.println("<th><i class=\"icon_profile\"></i> Rua</th>");
+        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Numero</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Logradouro</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Bairro</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Cidade</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Estado</th>");
+        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CEP</th>");
+        pw.println("</tr>");
+        
+		try {
+			GenericDao<Endereco> ed = new GenericDao<Endereco>();
+			
+			Endereco e = ed.findById(id, Endereco.class);
+			
+			pw.println("<tr>");
+	        pw.println("<td>"+e.getRua()+"</td>");
+	        pw.println("<td>"+e.getNumero()+"</td>");
+	        pw.println("<td>"+e.getLogradouro()+"</td>");
+	        pw.println("<td>"+e.getBairro()+"</td>");
+	        pw.println("<td>"+e.getCidade()+"</td>");
+	        pw.println("<td>"+e.getEstado()+"</td>");
+	        pw.println("<td>"+e.getCep()+"</td>");
+	        pw.println("</tr>");
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+        pw.println("</tbody>");
+        pw.println("</table>");
+        pw.println("</section>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
+
         request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 }

@@ -14,10 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistence.GenericDao;
 import entity.Cliente;
 import entity.Endereco;
+import entity.ItemServico;
+import entity.OrdemDeServico;
+import entity.Peca;
 import entity.Veiculo;
+import persistence.GenericDao;
 
 /**
  * Servlet implementation class CadastroCliente
@@ -57,6 +60,8 @@ public class ControleCliente extends HttpServlet {
 			selecionar(request,response);
 		}else if(cmd.equalsIgnoreCase("formulario")){
 			formulario(request,response);
+		}else if(cmd.equalsIgnoreCase("endereco")){
+			endereco(request,response);
 		}
 	}
 
@@ -111,17 +116,77 @@ public class ControleCliente extends HttpServlet {
 		GenericDao<Cliente> cd = new GenericDao<Cliente>();
 		GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
 		GenericDao<Endereco> ed = new GenericDao<Endereco>();
+		GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
+		GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
+		GenericDao<Peca> pd = new GenericDao<Peca>();
 		
          try
         {
             Cliente c = cd.findById(id, Cliente.class);
             if(c.getVeiculos() != null){
+            	List<Veiculo> veiculos = new ArrayList<Veiculo>();
             	for(Veiculo v : c.getVeiculos()){
-            		vd.delete(v);
+            		veiculos.add(v);
+            	}
+            	for(Veiculo v : veiculos){
+            		if(v!=null){
+	            		if(v.getOrdensDeServico()!=null){
+	            			List<OrdemDeServico> ordens = new ArrayList<OrdemDeServico>();
+	            			for(OrdemDeServico o : v.getOrdensDeServico()){
+	            				ordens.add(o);
+	            			}
+	            			for(OrdemDeServico o : ordens){
+	            				if(o!=null){
+		            				if(o.getItensServico()!=null){
+		            					List<ItemServico> itens = new ArrayList<ItemServico>();
+		            					for(ItemServico is : o.getItensServico()){
+		            						itens.add(is);
+		            					}
+		            					for(ItemServico is : itens){
+		            						if(is!=null){
+			            						if(is.getPecas()!=null){
+			            							List<Peca> pecas = new ArrayList<Peca>();
+			            							for(Peca p : is.getPecas()){
+			            								pecas.add(p);
+			            							}
+			            							for(Peca p : pecas){
+			            								if(p!=null){
+				            								p.remover(is);
+				            								is.remover(p);
+				            								pd.update(p);
+				            								isd.update(is);
+			            								}
+			            							}
+			            						}
+			            						o.remover(is);
+			            						is.setOrdemDeServico(null);
+			            						od.update(o);
+			            						isd.update(is);
+			            						isd.delete(is);
+			            					}
+		            					}
+		            					v.remover(o);
+		            					o.setVeiculo(null);
+		            					od.update(o);
+		            					vd.update(v);
+		            					od.delete(o);
+		            				}
+		            			}
+	            			}
+	            			c.remover(v);
+	            			v.setCliente(null);
+	            			vd.update(v);
+	            			cd.update(c);
+	            			vd.delete(v);
+	            		}
+	            	}
             	}
             }
             if(c.getEndereco()!=null){
-            	ed.delete(c.getEndereco());
+            	Endereco e = c.getEndereco();
+            	c.setEndereco(null);
+            	cd.update(c);
+            	ed.delete(e);
             }
             cd.delete(c);
             resposta = "Dados Excluidos";
@@ -150,7 +215,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Clinte</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Cliente</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -200,6 +265,7 @@ public class ControleCliente extends HttpServlet {
 		        pw.println("<td>"+(quantidade.size())+"</td>");
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
+		        pw.println("<a class=\"btn btn-info\" href=\"./ControleCliente?cmd=endereco&id=" + c.getEndereco().getIdEndereco() + "\"><i class=\"icon_info_alt\"></i></a>");
 		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleCliente?cmd=editar&id=" + c.getIdCliente() + "\"><i class=\"icon_pencil\"></i></a>");
 		        pw.println("<a class=\"btn btn-danger\" href=\"./ControleCliente?cmd=deletar&id=" + c.getIdCliente() + "\"><i class=\"icon_close_alt2\"></i></a>");
 		        pw.println("</div>");
@@ -408,14 +474,7 @@ public class ControleCliente extends HttpServlet {
         	GenericDao<Cliente> cd = new GenericDao<Cliente>();
             Cliente c = cd.findById(id, Cliente.class);
 
-			List<Cliente> l = cd.findAll(Cliente.class);
-			List<Cliente> lista = new ArrayList<Cliente>();
-			
-			for(Cliente cli : l){
-				if(!lista.contains(cli)){
-					lista.add(cli);
-				}
-			}
+			List<Cliente> lista = cd.findAll(Cliente.class);
 			
 			for(Cliente cli : lista){
 				if(!cli.getIdCliente().equals(id)){
@@ -454,25 +513,25 @@ public class ControleCliente extends HttpServlet {
         try
         {   
         	GenericDao<Cliente> cd = new GenericDao<Cliente>();
-        	GenericDao<Endereco> ed = new GenericDao<Endereco>();
         	GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
         	Cliente c1 = cd.findById(id, Cliente.class);
         	Cliente c2 = cd.findById(cliente, Cliente.class);
-        	List<Veiculo> lista = c1.getVeiculos();
         	if(c1.getVeiculos()!= null){
-	        	for(Veiculo v : lista){
-	        		c2.adicionar(v);
-	        		v.setCliente(c2);
-	        		vd.update(v);
+        		List<Veiculo> lista = new ArrayList<Veiculo>();
+        		for(Veiculo v : c1.getVeiculos()){
+        			lista.add(v);
+        		}
+        		for(Veiculo v : lista){
+	        		if(v!=null){
+	        			c1.remover(v);
+		        		c2.adicionar(v);
+		        		v.setCliente(c2);
+		        		vd.update(v);
+		        		cd.update(c1);
+		        		cd.update(c2);
+	        		}
 	        	}
         	}
-        	if(c1.getEndereco()!=null){
-        		ed.delete(c1.getEndereco());
-        		c1.setEndereco(null);
-        	}
-        	cd.update(c1);
-        	cd.delete(c1);
-        	cd.update(c2);
         	resposta = "Dados Alterados";
         	
         } catch (Exception ex) {
@@ -542,11 +601,11 @@ public class ControleCliente extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> PEÇA</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> CLIENTE</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"usu/index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Peça</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Cliente</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -650,6 +709,71 @@ public class ControleCliente extends HttpServlet {
         pw.println("</div>");
         pw.println("</section>");
         
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
+	}
+	protected void endereco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter pw = response.getWriter();
+		Integer id = Integer.parseInt(request.getParameter("id"));
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
+
+        
+        pw.println("<section class=\"wrapper\">");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ENDEREÇO</h3>");
+        pw.println("<ol class=\"breadcrumb\">");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleCliente?cmd=listar\">Cliente</a></li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Endereco</li>");
+        
+        pw.println("</ol>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<section class=\"panel\">");
+        pw.println("<header class=\"panel-heading\">");
+        pw.println("Clientes Cadastrados no Sistema");
+        pw.println("</header>");
+        pw.println("<table class=\"table table-striped table-advance table-hover\">");
+        pw.println("<tbody>");
+        pw.println("<tr>");
+        pw.println("<th><i class=\"icon_profile\"></i> Rua</th>");
+        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Numero</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Logradouro</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Bairro</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Cidade</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Estado</th>");
+        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CEP</th>");
+        pw.println("</tr>");
+        
+		try {
+			GenericDao<Endereco> ed = new GenericDao<Endereco>();
+			
+			Endereco e = ed.findById(id, Endereco.class);
+			
+			pw.println("<tr>");
+	        pw.println("<td>"+e.getRua()+"</td>");
+	        pw.println("<td>"+e.getNumero()+"</td>");
+	        pw.println("<td>"+e.getLogradouro()+"</td>");
+	        pw.println("<td>"+e.getBairro()+"</td>");
+	        pw.println("<td>"+e.getCidade()+"</td>");
+	        pw.println("<td>"+e.getEstado()+"</td>");
+	        pw.println("<td>"+e.getCep()+"</td>");
+	        pw.println("</tr>");
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+        pw.println("</tbody>");
+        pw.println("</table>");
+        pw.println("</section>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
+
         request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 }

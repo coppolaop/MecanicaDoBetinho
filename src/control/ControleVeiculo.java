@@ -13,9 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entity.Cliente;
-import entity.Endereco;
 import entity.ItemServico;
+import entity.Mecanico;
 import entity.OrdemDeServico;
+import entity.Peca;
 import entity.Veiculo;
 import persistence.GenericDao;
 
@@ -52,8 +53,10 @@ public class ControleVeiculo extends HttpServlet {
 			mesclar(request,response);
 		}else if(cmd.equalsIgnoreCase("atualizar")){
 			atualizar(request,response);
-		}else if(cmd.equalsIgnoreCase("selecionar")){
-			selecionar(request,response);
+		}else if(cmd.equalsIgnoreCase("selecionar1")){
+			selecionar1(request,response);
+		}else if(cmd.equalsIgnoreCase("selecionar2")){
+			selecionar2(request,response);
 		}else if(cmd.equalsIgnoreCase("formulario")){
 			formulario(request,response);
 		}
@@ -97,17 +100,65 @@ public class ControleVeiculo extends HttpServlet {
 		GenericDao<Cliente> cd = new GenericDao<Cliente>();
 		GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
 		GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
+		GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
+		GenericDao<Peca> pd = new GenericDao<Peca>();
+		GenericDao<Mecanico> md = new GenericDao<Mecanico>();
 		
          try
         {
             Veiculo v = vd.findById(id, Veiculo.class);
             if(v.getCliente() != null){
-            	v.getCliente().remover(v);
+            	Cliente c = v.getCliente();
+            	c.remover(v);
+            	v.setCliente(null);
+            	cd.update(c);
+            	vd.update(v);
             }
             
             if(v.getOrdensDeServico()!=null){
+            	List<OrdemDeServico> ordens = new ArrayList<OrdemDeServico>();
             	for(OrdemDeServico o : v.getOrdensDeServico()){
-            		od.delete(o);
+            		ordens.add(o);
+            	}
+            	
+            	for(OrdemDeServico o : ordens){
+            		if(o!=null){
+	            		if(o.getItensServico()!=null){
+	            			List<ItemServico> itens = new ArrayList<ItemServico>();
+	            			for(ItemServico is : o.getItensServico()){
+	            				itens.add(is);
+	            			}
+	            			for(ItemServico is : itens){
+	            				if(is!=null){
+		            				if(is.getPecas()!=null){
+		            					for(Peca p : is.getPecas()){
+		            						p.remover(is);
+		            						is.remover(p);
+		            						pd.update(p);
+		            						isd.update(is);
+		            					}
+		            				}
+		            				if(is.getMecanico()!=null){
+			            				Mecanico m = is.getMecanico();
+			            				is.setMecanico(null);
+			            				m.remover(is);
+			            				isd.update(is);
+			            				md.update(m);
+		            				}
+		            				o.remover(is);
+		            				is.setOrdemDeServico(null);
+		            				isd.update(is);
+		            				od.update(o);
+		            				isd.delete(is);
+		            			}
+	            			}
+	            		}
+	            		v.remover(o);
+	            		o.setVeiculo(null);
+	            		od.update(o);
+	            		vd.update(v);
+	            		od.delete(o);
+            		}
             	}
             }
             vd.delete(v);
@@ -133,7 +184,7 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> VEICULOS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> VEÍCULOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
@@ -225,7 +276,7 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12 col-lg-10\">");
         pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleVeiculo?cmd=alterar&id=" + id + "';\" type=\"button\">Alterar Dados</button>");
-        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleVeiculo?cmd=selecionar&id=" + id + "';\" type=\"button\">Atribuir Ordens de Servico a outro Veiculo</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleVeiculo?cmd=selecionar1&id=" + id + "';\" type=\"button\">Atribuir Ordens de Servico a outro Veiculo</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</section>");
@@ -262,7 +313,9 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleVeiculo?Atualizar\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleVeiculo\">");
+        pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
+        pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
         pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Cliente</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"cliente\" id=\"cliente\">");
@@ -279,9 +332,9 @@ public class ControleVeiculo extends HttpServlet {
 			
 			for(Cliente c : lista){
 				if(v.getCliente().equals(c)){
-					pw.println("<option value=\""+v.getIdVeiculo()+"\" selected>"+v.getPlaca()+"</option>");
+					pw.println("<option value=\""+c.getIdCliente()+"\" selected>"+c.getNome()+"</option>");
 				}else{
-					pw.println("<option value=\""+v.getIdVeiculo()+"\">"+v.getPlaca()+"</option>");
+					pw.println("<option value=\""+c.getIdCliente()+"\">"+c.getNome()+"</option>");
 				}
 			}
 		} catch (Exception ex) {
@@ -293,13 +346,13 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<div class=\"form-group \">");
         pw.println("<label for=\"placa\" class=\"control-label col-lg-2\">Placa <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
-        pw.println("<input class=\"form-control\" id=\"placa\" name=\"placa\" minlength=\"5\" type=\"text\" required />");
+        pw.println("<input class=\"form-control\" id=\"placa\" name=\"placa\" minlength=\"5\" type=\"text\" value=\""+ v.getPlaca() +"\" required />");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group \">");
         pw.println("<label for=\"descricao\" class=\"control-label col-lg-2\">Descrição <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
-        pw.println("<input class=\"form-control \" id=\"descricao\" type=\"text\" name=\"descricao\" required />");
+        pw.println("<input class=\"form-control \" id=\"descricao\" type=\"text\" name=\"descricao\" value=\""+ v.getDescricao() +"\" required />");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
@@ -319,7 +372,7 @@ public class ControleVeiculo extends HttpServlet {
         request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
-	protected void selecionar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void selecionar1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
         request.getRequestDispatcher("/usu/base1.html").include(request, response);
         
@@ -344,8 +397,8 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleCliente\">");
-        pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleVeiculo\">");
+        pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"selecionar2\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
         pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Cliente</label>");
         pw.println("<div class=\"col-lg-10\">");
@@ -354,7 +407,8 @@ public class ControleVeiculo extends HttpServlet {
         try {
         	
         	GenericDao<Cliente> cd = new GenericDao<Cliente>();
-            Cliente c = cd.findById(id, Cliente.class);
+        	GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
+            Veiculo v = vd.findById(id, Veiculo.class);
 
 			List<Cliente> l = cd.findAll(Cliente.class);
 			List<Cliente> lista = new ArrayList<Cliente>();
@@ -366,7 +420,9 @@ public class ControleVeiculo extends HttpServlet {
 			}
 			
 			for(Cliente cli : lista){
-				if(!cli.getIdCliente().equals(id)){
+				if(cli.getIdCliente().equals(v.getCliente().getIdCliente())){
+					pw.println("<option value=\""+cli.getIdCliente()+"\" selected>"+cli.getNome()+"</option>");
+				}else{
 					pw.println("<option value=\""+cli.getIdCliente()+"\">"+cli.getNome()+"</option>");
 				}
 			}
@@ -393,6 +449,76 @@ public class ControleVeiculo extends HttpServlet {
         request.getRequestDispatcher("/usu/base2.html").include(request, response);
 	}
 	
+	protected void selecionar2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter pw = response.getWriter();
+        request.getRequestDispatcher("/usu/base1.html").include(request, response);
+        
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        
+        pw.println("<section class=\"wrapper\">");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> CLIENTES</h3>");
+        pw.println("<ol class=\"breadcrumb\">");
+        pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
+        pw.println("</ol>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"row\">");
+        pw.println("<div class=\"col-lg-12\">");
+        pw.println("<section class=\"panel\">");
+        pw.println("<header class=\"panel-heading\">");
+        pw.println("Atribuir Veiculos a outro Cliente");
+        pw.println("</header>");
+        pw.println("<div class=\"panel-body\">");
+        pw.println("<div class=\"form\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleVeiculo\">");
+        pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
+        pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Veiculo</label>");
+        pw.println("<div class=\"col-lg-10\">");
+        pw.println("<select class=\"form-control m-bot15\" name=\"veiculo\" id=\"veiculo\">");
+        
+        try {
+        	
+        	GenericDao<Cliente> cd = new GenericDao<Cliente>();
+        	GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
+        	Integer idCliente = Integer.parseInt(request.getParameter("cliente"));
+        	Cliente c = cd.findById(idCliente, Cliente.class);
+			List<Veiculo> veiculos = vd.findAll(Veiculo.class);
+        	
+        	for(Veiculo veiculo : veiculos){
+        		if(c.getIdCliente().equals(veiculo.getCliente().getIdCliente())){
+	        		if(!veiculo.getIdVeiculo().equals(id)){
+						pw.println("<option value=\""+veiculo.getIdVeiculo()+"\">"+veiculo.getPlaca() + " - " + veiculo.getDescricao() +"</option>");
+					}
+				}
+        	}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+        
+        pw.println("</select>");
+        pw.println("</div>");
+        pw.println("<div class=\"form-group\">");
+        pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
+        pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Veiculo</button>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</form>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("</section>");
+        
+        
+        request.getRequestDispatcher("/usu/base2.html").include(request, response);
+	}
+	
 	protected void mesclar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta = "";
 		response.setContentType("text/html;charset=ISO-8859-1");
@@ -402,28 +528,29 @@ public class ControleVeiculo extends HttpServlet {
         Integer veiculo = Integer.parseInt(request.getParameter("veiculo"));
         try
         {   
-        	GenericDao<Cliente> cd = new GenericDao<Cliente>();
         	GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
         	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
         	Veiculo v1 = vd.findById(id, Veiculo.class);
         	Veiculo v2 = vd.findById(veiculo, Veiculo.class);
-        	Cliente c = v1.getCliente();
-        	if(c!=null){
-        		c.remover(v1);
-        		v1.setCliente(null);
-	        	cd.update(c);
-	        }
+        	
         	if(v1.getOrdensDeServico()!=null){
-        		for(OrdemDeServico o : v1.getOrdensDeServico()){
-        			v2.adicionar(o);
-        			o.setVeiculo(v2);
-        			vd.update(v2);
-        			od.update(o);
+        		List<OrdemDeServico> ordens = new ArrayList<OrdemDeServico>();
+        		
+        		for(OrdemDeServico ods : v1.getOrdensDeServico()){
+        			ordens.add(ods);
+        		}
+        		
+        		for(OrdemDeServico o : ordens){
+        			if(o!=null){
+	        			v1.remover(o);
+	        			v2.adicionar(o);
+	        			o.setVeiculo(v2);
+	        			vd.update(v1);
+	        			vd.update(v2);
+	        			od.update(o);
+        			}
         		}
         	}
-        	vd.update(v1);
-        	vd.delete(v1);
-        	vd.update(v2);
         	resposta = "Dados Alterados";
         	
         } catch (Exception ex) {

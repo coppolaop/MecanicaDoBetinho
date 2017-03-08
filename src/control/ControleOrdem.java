@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import persistence.GenericDao;
 import entity.Cliente;
 import entity.Endereco;
+import entity.ItemServico;
 import entity.OrdemDeServico;
+import entity.Peca;
 import entity.Veiculo;
 
 /**
@@ -32,6 +34,44 @@ public class ControleOrdem extends HttpServlet {
      */
     public ControleOrdem() {
         super();
+    }
+    
+    public static void calculaValor(){
+    	GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
+		GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
+		
+		try {
+			List<OrdemDeServico> ordens = od.findAll(OrdemDeServico.class);
+			for(OrdemDeServico o : ordens){
+				o.setValor(0.);
+				for(ItemServico is : o.getItensServico()){
+					if(is!=null){
+						Double valor = 0.;
+						if(is.getServico()!=null){
+							if(is.getServico().getValor()!=null){
+								valor = is.getServico().getValor();
+							}
+						}
+						is.setValor(valor);
+						for(Peca p : is.getPecas()){
+							valor = is.getValor();
+							valor += p.getValor();
+							is.setValor(valor);
+							isd.update(is);
+						}
+						
+						valor = o.getValor();
+						valor += is.getValor();
+						o.setValor(valor);
+					}
+				}
+				od.update(o);
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
     }
 
 	/**
@@ -160,15 +200,17 @@ public class ControleOrdem extends HttpServlet {
         try {
         	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
         	List<OrdemDeServico> lst = od.findAll(OrdemDeServico.class);
-        	List<OrdemDeServico> lista = new ArrayList<OrdemDeServico>();
+//        	List<OrdemDeServico> lista = new ArrayList<OrdemDeServico>();
+//        	
+//        	for(OrdemDeServico o : lst){
+//				if(!lista.contains(o)){
+//					lista.add(o);
+//				}
+//			}
         	
-        	for(OrdemDeServico o : lst){
-				if(!lista.contains(o)){
-					lista.add(o);
-				}
-			}
+        	calculaValor();
         	
-	        for(OrdemDeServico o : lista){
+	        for(OrdemDeServico o : lst){
 	        	
 		        pw.println("<tr>");
 		        pw.println("<td>"+o.getVeiculo().getCliente().getNome()+"</td>");
@@ -233,7 +275,9 @@ public class ControleOrdem extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"ControleOrdem?cmd=editar2&id="+ id +"\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleOrdem\">");
+        pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"editar2\">");
+        pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+id+"\">");
         pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Cliente</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"cliente\" id=\"cliente\">");
@@ -310,7 +354,9 @@ public class ControleOrdem extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"post\" action=\"ControleOrdem?cmd=atualizar&id="+ id +"\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleOrdem\">");
+        pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
+        pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+id+"\">");
         pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Placa do Veículo</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"placa\" id=\"placa\">");
@@ -368,7 +414,7 @@ public class ControleOrdem extends HttpServlet {
         	List<OrdemDeServico> lista = od.findAll(OrdemDeServico.class);
         	for(OrdemDeServico ordem : lista){
 				if(ordem.getVeiculo().getIdVeiculo().equals(v.getIdVeiculo())){
-					if(ordem.getStatus().equals("ativo")){
+					if(ordem.getStatus().equalsIgnoreCase("ativo")&&o.getStatus().equalsIgnoreCase("ativo")){
 						throw new Exception("Já existe uma Ordem em Aberto para esse Veículo");
 					}
 				}
@@ -534,8 +580,8 @@ public class ControleOrdem extends HttpServlet {
 			List<OrdemDeServico> lista = od.findAll(OrdemDeServico.class);
 			for(OrdemDeServico o : lista){
 				if(o.getVeiculo().getIdVeiculo().equals(ordem.getVeiculo().getIdVeiculo())){
-					if(o.getStatus().equalsIgnoreCase("Ativo")){
-						if(ordem.getStatus().equalsIgnoreCase("Inativo")){
+					if(o.getStatus().equalsIgnoreCase("ativo")){
+						if(ordem.getStatus().equalsIgnoreCase("inativo")){
 							throw new Exception("Não é possivel ter mais de uma Ordem De Serviço em Aberto para o mesmo Veículo");
 						}
 					}

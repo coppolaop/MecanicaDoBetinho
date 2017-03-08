@@ -209,7 +209,7 @@ public class ControlePeca extends HttpServlet {
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12 col-lg-10\">");
         pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=alterar&id=" + id + "';\" type=\"button\">Alterar Dados</button>");
-        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=selecionar&id=" + id + "';\" type=\"button\">Substituir por pe�a existente</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControlePeca?cmd=selecionar&id=" + id + "';\" type=\"button\">Atribuir Itens a outra Peça</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</section>");
@@ -244,7 +244,7 @@ public class ControlePeca extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControlePeca?Atualizar\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControlePeca\">");
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
@@ -323,9 +323,7 @@ public class ControlePeca extends HttpServlet {
 			}
 			
 			for(Peca peca : lista){
-				if(peca.getIdPeca().equals(id)){
-					pw.println("<option value=\""+peca.getIdPeca()+"\" selected>"+peca.getNome()+"</option>");
-				}else{
+				if(!peca.getIdPeca().equals(id)){
 					pw.println("<option value=\""+peca.getIdPeca()+"\">"+peca.getNome()+"</option>");
 				}
 			}
@@ -364,19 +362,23 @@ public class ControlePeca extends HttpServlet {
         	GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
         	Peca p1 = pd.findById(id, Peca.class);
         	Peca p2 = pd.findById(peca, Peca.class);
-        	List<ItemServico> lista = p1.getItensServico();
+        	List<ItemServico> itens = new ArrayList<ItemServico>();
+        	
+        	for(ItemServico item : p1.getItensServico()){
+        		itens.add(item);
+        	}
+        	
         	if(p1.getItensServico()!= null){
-	        	for(ItemServico is : lista){
+	        	for(ItemServico is : itens){
+	        		p1.remover(is);
 	        		p2.adicionar(is);
 	        		is.adicionar(p2);
 	        		is.remover(p1);
 	        		isd.update(is);
+	        		pd.update(p1);
+	        		pd.update(p2);
 	        	}
         	}
-        	p1.setItensServico(new ArrayList<ItemServico>());
-        	pd.update(p1);
-        	pd.delete(p1);
-        	pd.update(p2);
         	resposta = "Dados Alterados";
         	
         } catch (Exception ex) {
