@@ -78,6 +78,12 @@ public class Login extends HttpServlet {
         		}else{
         			response.sendRedirect(request.getContextPath()+"/adm/index.html");
         		}
+		    }else if(usuario.getPerfil().equalsIgnoreCase("cli")){
+        		if(senha.equalsIgnoreCase("senhapadrao")){
+        			response.sendRedirect(request.getContextPath()+"/password.html");
+        		}else{
+        			response.sendRedirect(request.getContextPath()+"/cli/index.html");
+        		}
 		    }
 		}else{
 			u = new Usuario();

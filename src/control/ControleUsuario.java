@@ -11,14 +11,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.hibernate.exception.ConstraintViolationException;
+import  com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
-import entity.Cliente;
 import entity.Endereco;
 import entity.Usuario;
-import entity.Veiculo;
 import persistence.GenericDao;
 
 @WebServlet("/adm/ControleUsuario")
@@ -91,8 +89,8 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Nome</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Username</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Email</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Perfil</th>");
+        pw.println("<th><i class=\"fa fa-envelope-o\" aria-hidden=\"true\"></i> Email</th>");
+        pw.println("<th><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Perfil</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Telefone</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CPF</th>");
@@ -119,7 +117,7 @@ public class ControleUsuario extends HttpServlet {
 		        if(u.getPerfil().equalsIgnoreCase("adm")){
 		        	pw.println("<td>Administrador</td>");
 		        }else{
-		        	pw.println("<td>Usuï¿½rio</td>");	
+		        	pw.println("<td>Usuário</td>");	
 		        }
 		        pw.println("<td>"+u.getTelefone()+"</td>");
 		        pw.println("<td>"+u.getCelular()+"</td>");
@@ -159,7 +157,7 @@ public class ControleUsuario extends HttpServlet {
 			u.setTelefone(Long.parseLong(request.getParameter("telefone")));
 			u.setCelular(Long.parseLong(request.getParameter("celular")));
 			u.setUsername(request.getParameter("username"));
-			u.setSenha("senhapadrao");//Usuario deve trocar a senha apÃ³s o primeiro Login
+			u.setSenha("senhapadrao");//Usuario deve trocar a senha padrão ao primeiro Login
 			u.setPerfil(request.getParameter("perfil"));
 			Criptografia.criptografia(u);
 			
@@ -178,10 +176,13 @@ public class ControleUsuario extends HttpServlet {
 			ud.create(u);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
-			resposta = "Valor InvÃ¡lido";
+			resposta = "Valor Inválido";
 			ex.printStackTrace();
 		}catch(ConstraintViolationException ex){
-			resposta = "JÃ¡ Existe um Cliente cadastrado com esse nome";
+			resposta = "Já Existe um Usuario cadastrado com esse nome";
+			ex.printStackTrace();
+		}catch(MySQLIntegrityConstraintViolationException ex){
+			resposta = "Já Existe um Usuario cadastrado com esse nome";
 			ex.printStackTrace();
 		}catch(Exception ex){
 			resposta = ex.getMessage();
@@ -272,9 +273,15 @@ public class ControleUsuario extends HttpServlet {
         if(u.getPerfil().equalsIgnoreCase("adm")){
         	pw.println("<option value=\"adm\" selected>Administrador</option>");
         	pw.println("<option value=\"usu\">Usuario</option>");
-        }else{
+        	pw.println("<option value=\"cli\">Cliente</option>");
+        }else if(u.getPerfil().equalsIgnoreCase("usu")){
         	pw.println("<option value=\"adm\">Administrador</option>");
         	pw.println("<option value=\"usu\" selected>Usuario</option>");
+        	pw.println("<option value=\"cli\">Cliente</option>");
+        }else{
+        	pw.println("<option value=\"adm\">Administrador</option>");
+        	pw.println("<option value=\"usu\">Usuario</option>");
+        	pw.println("<option value=\"cli\" selected>Cliente</option>");
         }
         pw.println("</select>");
         pw.println("</div>");
@@ -424,7 +431,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>PeÃ§a</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Peça</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -432,7 +439,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("PeÃ§a");
+        pw.println("Peça");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
@@ -452,11 +459,12 @@ public class ControleUsuario extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">CPF <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Perfil <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"perfil\" id=\"perfil\">");
         pw.println("<option value=\"adm\">Administrador</option>");
         pw.println("<option value=\"usu\" selected>Usuario</option>");
+        pw.println("<option value=\"cli\" selected>Cliente</option>");
         pw.println("</select>");
         pw.println("</div>");
         pw.println("</div>");
