@@ -54,6 +54,8 @@ public class ControleItemServico extends HttpServlet {
 			atualizar(request,response);
 		}else if(cmd.equalsIgnoreCase("formulario")){
 			formulario(request,response);
+		}else if(cmd.equalsIgnoreCase("state")){
+			state(request,response);
 		}
 	}
 
@@ -230,6 +232,11 @@ public class ControleItemServico extends HttpServlet {
 			        pw.println("<td>");
 			        pw.println("<div class=\"btn-group\">");
 			        pw.println("<a class=\"btn btn-primary\" href=\"./ControleItemPeca?cmd=formulario&id=" + i.getIdItemServico() + "&ordem="+ o.getIdOrdemDeServico() +"\"><i class=\"icon_plus\"></i></a>");
+			        if(i.getAutorizacao()){
+			        	pw.println("<a class=\"btn btn-success\" href=\"./ControleItemServico?cmd=state&id=" + i.getIdItemServico() + "\"><i class=\"icon_check_alt2\"></i></a>");	
+			        }else{
+			        	pw.println("<a class=\"btn btn-success\" href=\"./ControleItemServico?cmd=state&id=" + i.getIdItemServico() + "\"><i class=\"icon_circle-empty\"></i></a>");
+			        }
 			        pw.println("<a class=\"btn btn-info\" href=\"./ControleItemPeca?cmd=listar&id=" + i.getIdItemServico() + "\"><i class=\"icon_info_alt\"></i></a>");
 			        pw.println("<a class=\"btn btn-primary\" href=\"./ControleItemServico?cmd=editar&id=" + i.getIdItemServico() + "\"><i class=\"icon_pencil\"></i></a>");
 			        pw.println("<a class=\"btn btn-danger\" href=\"./ControleItemServico?cmd=deletar&id=" + i.getIdItemServico() + "\"><i class=\"icon_close_alt2\"></i></a>");
@@ -461,6 +468,32 @@ public class ControleItemServico extends HttpServlet {
             rd.include(request, response);
 			out.close();
         }
+	}
+	
+	protected void state(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String resposta = "";
+		PrintWriter out = response.getWriter();
+		try {	
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
+			ItemServico is = isd.findById(id, ItemServico.class);
+			ItemServico ids = (ItemServico) is.clone();
+			
+			ids.changeStatus();
+			isd.update(ids);
+			
+			resposta = "Autorização Alterada";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			resposta = ex.getMessage();
+		}finally{
+			response.setContentType("text/html");
+	        RequestDispatcher rd = null;
+	        out.println(resposta);
+	        rd = request.getRequestDispatcher("./ControleItemServico?cmd=listar");
+	        rd.include(request, response);
+			out.close();
+		}
 	}
 	
 	protected void formulario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

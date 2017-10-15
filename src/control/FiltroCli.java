@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-//@WebFilter(urlPatterns={"/cli/*"})
+@WebFilter(urlPatterns={"/cli/*"})
 public class FiltroCli implements Filter {
 
     public FiltroCli() {
