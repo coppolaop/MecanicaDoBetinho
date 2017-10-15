@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.IndexColumn;
 
 @Entity
-public class ItemServico implements Serializable{
+public class ItemServico implements Serializable, Cloneable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -27,7 +27,7 @@ public class ItemServico implements Serializable{
 	private Integer idItemServico;
 	private Double valor;
 	private Date dataAdicao;
-	private Boolean autorizacao;
+	private Boolean autorizacao = false;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_ordemdeservico")
@@ -152,5 +152,21 @@ public class ItemServico implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	//Design Pattern - Prototype
+	public Object clone() throws CloneNotSupportedException{
+		Object clone = null;
+		
+		try{
+			clone = super.clone();
+		}catch(CloneNotSupportedException ex){
+			ex.printStackTrace();
+		}
+		return clone;
+	}
+	
+	public void changeStatus() {
+		this.autorizacao = !this.autorizacao;
 	}
 }
