@@ -23,7 +23,7 @@ import entity.Peca;
 import entity.Veiculo;
 
 /**
- * Servlet implementation class Agendamento
+ * Servlet implementation class ControleOrdem
  */
 @WebServlet("/usu/ControleOrdem")
 public class ControleOrdem extends HttpServlet {

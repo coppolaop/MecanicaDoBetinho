@@ -28,14 +28,14 @@ import entity.Veiculo;
 /**
  * Servlet implementation class ControlePedidos
  */
-@WebServlet("/cli/ControlePedidos")
-public class ControlePedidos extends HttpServlet {
+@WebServlet("/cli/ControlePedido")
+public class ControlePedido extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ControlePedidos() {
+    public ControlePedido() {
         super();
     }
 
@@ -44,10 +44,12 @@ public class ControlePedidos extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String cmd = request.getParameter("cmd");
-		if(cmd.equalsIgnoreCase("autorizacao")){
+		if(cmd.equalsIgnoreCase("aprovar")){
 			doPost(request,response);
 		}else if(cmd.equalsIgnoreCase("listar")){
 			listar(request,response);
+		}else if(cmd.equalsIgnoreCase("autorizacao")){
+			pedidosAtivos(request,response);
 		}
 	}
 
@@ -55,6 +57,10 @@ public class ControlePedidos extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+	
+	protected void pedidosAtivos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = (HttpSession) request.getSession(); 
 		Integer id = Integer.parseInt(session.getAttribute("user").toString());
 		GenericDao<Usuario> ud = new GenericDao<Usuario>();
@@ -95,7 +101,6 @@ public class ControlePedidos extends HttpServlet {
         	List<OrdemDeServico> lst = od.findAll(OrdemDeServico.class);
         	
 	        for(OrdemDeServico o : lst){
-	        	System.out.println(o.getVeiculo().getCliente().getIdCliente());
 	        	if(o.getStatus().equals("ativo") && o.getVeiculo().getCliente().getNome().equalsIgnoreCase(user.getNome())){
 	        	
 			        pw.println("<tr>");
@@ -159,9 +164,8 @@ public class ControlePedidos extends HttpServlet {
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"icon_profile\"></i> Cliente</th>");
-        pw.println("<th><i class=\"icon_calendar\"></i> Data de Inicio</th>");
         pw.println("<th><i class=\"fa fa-car\" aria-hidden=\"true\"></i> Veiculo</th>");
+        pw.println("<th><i class=\"icon_calendar\"></i> Data de Inicio</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor Total</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
@@ -171,13 +175,11 @@ public class ControlePedidos extends HttpServlet {
         	List<OrdemDeServico> lst = od.findAll(OrdemDeServico.class);
         	
 	        for(OrdemDeServico o : lst){
-	        	System.out.println(o.getVeiculo().getCliente().getIdCliente());
 	        	if(o.getStatus().equals("inativo") && o.getVeiculo().getCliente().getNome().equalsIgnoreCase(user.getNome())){
 	        	
 			        pw.println("<tr>");
-			        pw.println("<td>"+o.getVeiculo().getCliente().getNome()+"</td>");
-			        pw.println("<td>"+o.getDataEmissao()+"</td>");
 			        pw.println("<td>"+o.getVeiculo().getDescricao()+"</td>");
+			        pw.println("<td>"+o.getDataEmissao()+"</td>");
 			        NumberFormat nf = NumberFormat.getInstance();
 			        nf.setMaximumFractionDigits(2);
 			        nf.setMinimumFractionDigits(2);

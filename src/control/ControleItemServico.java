@@ -473,11 +473,13 @@ public class ControleItemServico extends HttpServlet {
 	protected void state(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta = "";
 		PrintWriter out = response.getWriter();
+		Integer idOrdem = 0;
 		try {	
 			Integer id = Integer.parseInt(request.getParameter("id"));
 			GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
 			ItemServico is = isd.findById(id, ItemServico.class);
 			ItemServico ids = (ItemServico) is.clone();
+			idOrdem = is.getOrdemDeServico().getIdOrdemDeServico();
 			
 			ids.changeStatus();
 			isd.update(ids);
@@ -490,8 +492,12 @@ public class ControleItemServico extends HttpServlet {
 			response.setContentType("text/html");
 	        RequestDispatcher rd = null;
 	        out.println(resposta);
-	        rd = request.getRequestDispatcher("./ControleItemServico?cmd=listar");
-	        rd.include(request, response);
+	        if(idOrdem.equals(0)){
+	        	rd = request.getRequestDispatcher("./ControleOrdem?cmd=listar");
+	        }else{
+	        	rd = request.getRequestDispatcher("./ControleItemServico?cmd=listar&id="+idOrdem);
+	        }
+	       	rd.include(request, response);
 			out.close();
 		}
 	}

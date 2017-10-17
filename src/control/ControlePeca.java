@@ -19,7 +19,7 @@ import entity.Peca;
 import entity.Veiculo;
 
 /**
- * Servlet implementation class CadastroPeca
+ * Servlet implementation class ControlePeca
  */
 @WebServlet("/usu/ControlePeca")
 public class ControlePeca extends HttpServlet {
