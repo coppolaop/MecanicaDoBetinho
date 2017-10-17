@@ -232,11 +232,20 @@ public class ControleItemServico extends HttpServlet {
 			        pw.println("<td>");
 			        pw.println("<div class=\"btn-group\">");
 			        pw.println("<a class=\"btn btn-primary\" href=\"./ControleItemPeca?cmd=formulario&id=" + i.getIdItemServico() + "&ordem="+ o.getIdOrdemDeServico() +"\"><i class=\"icon_plus\"></i></a>");
-			        if(i.getAutorizacao()){
-			        	pw.println("<a class=\"btn btn-success\" href=\"./ControleItemServico?cmd=state&id=" + i.getIdItemServico() + "\"><i class=\"icon_check_alt2\"></i></a>");	
+			        if(i.getOrdemDeServico().getStatus().equalsIgnoreCase("ativo")){
+				        if(i.getAutorizacao()){
+				        	pw.println("<a class=\"btn btn-success\" href=\"./ControleItemServico?cmd=state&id=" + i.getIdItemServico() + "\"><i class=\"icon_check_alt2\"></i></a>");	
+				        }else{
+				        	pw.println("<a class=\"btn btn-success\" href=\"./ControleItemServico?cmd=state&id=" + i.getIdItemServico() + "\"><i class=\"icon_circle-empty\"></i></a>");
+				        }
 			        }else{
-			        	pw.println("<a class=\"btn btn-success\" href=\"./ControleItemServico?cmd=state&id=" + i.getIdItemServico() + "\"><i class=\"icon_circle-empty\"></i></a>");
+			        	if(i.getAutorizacao()){
+				        	pw.println("<a class=\"btn btn-success disabled\" href=\"./ControleItemServico?cmd=state&id=" + i.getIdItemServico() + "\"><i class=\"icon_check_alt2\"></i></a>");	
+				        }else{
+				        	pw.println("<a class=\"btn btn-success disabled\" href=\"./ControleItemServico?cmd=state&id=" + i.getIdItemServico() + "\"><i class=\"icon_circle-empty\"></i></a>");
+				        }
 			        }
+			        
 			        pw.println("<a class=\"btn btn-info\" href=\"./ControleItemPeca?cmd=listar&id=" + i.getIdItemServico() + "\"><i class=\"icon_info_alt\"></i></a>");
 			        pw.println("<a class=\"btn btn-primary\" href=\"./ControleItemServico?cmd=editar&id=" + i.getIdItemServico() + "\"><i class=\"icon_pencil\"></i></a>");
 			        pw.println("<a class=\"btn btn-danger\" href=\"./ControleItemServico?cmd=deletar&id=" + i.getIdItemServico() + "\"><i class=\"icon_close_alt2\"></i></a>");
@@ -481,8 +490,12 @@ public class ControleItemServico extends HttpServlet {
 			ItemServico ids = (ItemServico) is.clone();
 			idOrdem = is.getOrdemDeServico().getIdOrdemDeServico();
 			
-			ids.changeStatus();
-			isd.update(ids);
+			if(is.getOrdemDeServico().getStatus().equalsIgnoreCase("ativo")){
+				ids.changeStatus();
+				isd.update(ids);
+			}else{
+				throw new Exception("Não é possível (des)autorizar um Serviço de uma ordem já finalizada");
+			}
 			
 			resposta = "Autorização Alterada";
 		} catch (Exception ex) {
