@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import persistence.GenericDao;
-import entity.Cliente;
+import entity.Usuario;
 import entity.Peca;
 import entity.Servico;
 import entity.Veiculo;
@@ -35,7 +35,7 @@ public class GenericLista<E> extends HttpServlet {
     public Object objeto(String classe){
     	Object o = new Object();
     	if(classe.equalsIgnoreCase("Cliente")){
-    		o = new Cliente();
+    		o = new Usuario();
     	}else if(classe.equalsIgnoreCase("Veiculo")){
     		o = new Veiculo();
     	}else if(classe.equalsIgnoreCase("Servico")){
@@ -49,7 +49,7 @@ public class GenericLista<E> extends HttpServlet {
     public GenericDao<E> dao(String classe){
     	GenericDao<E> dao = new GenericDao<E>();
     	if(classe.equalsIgnoreCase("Cliente")){
-    		dao = (GenericDao<E>) new GenericDao<Cliente>();
+    		dao = (GenericDao<E>) new GenericDao<Usuario>();
     	}else if(classe.equalsIgnoreCase("Veiculo")){
     		dao = (GenericDao<E>) new GenericDao<Veiculo>();
     	}else if(classe.equalsIgnoreCase("Servico")){

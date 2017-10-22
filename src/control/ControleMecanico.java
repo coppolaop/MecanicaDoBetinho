@@ -16,15 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.exception.ConstraintViolationException;
 
 import persistence.GenericDao;
-import entity.Cliente;
 import entity.Endereco;
 import entity.ItemServico;
 import entity.Mecanico;
 import entity.Peca;
-import entity.Veiculo;
 
 /**
- * Servlet implementation class CadastroMecanico
+ * Servlet implementation class ControleMecanico
  */
 @WebServlet("/usu/ControleMecanico")
 public class ControleMecanico extends HttpServlet {
@@ -94,10 +92,10 @@ public class ControleMecanico extends HttpServlet {
 			cd.create(m);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
-			resposta = "Valor InvÃ¡lido";
+			resposta = "Valor Inválido";
 			ex.printStackTrace();
 		}catch(ConstraintViolationException ex){
-			resposta = "JÃ¡ Existe um MecÃ¢nico cadastrado com esse nome";
+			resposta = "Já Existe um Mecânico cadastrado com esse nome";
 			ex.printStackTrace();
 		}catch(Exception ex){
 			resposta = ex.getMessage();
@@ -187,11 +185,11 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> MECANICOS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> MECÂNICOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Mecanico</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Mecânico</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -204,12 +202,12 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"icon_profile\"></i> Nome do Mecanico</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Nome do Mecânico</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Email</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Telefone</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CPF</th>");
-        pw.println("<th><i class=\"icon_cogs\"></i> AÃ§Ã£o</th>");
+        pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
         try {
@@ -264,11 +262,11 @@ public class ControleMecanico extends HttpServlet {
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> MECANICOS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> MECÂNICOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Mecanico</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Mecânico</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -294,11 +292,11 @@ public class ControleMecanico extends HttpServlet {
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> MECANICOS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> MECÂNICOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Regristros</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Mecanico</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Mecânico</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -353,7 +351,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Numero <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Número <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"numero\" type=\"text\" name=\"numero\" value=\""+ m.getEndereco().getNumero() +"\" required />");
         pw.println("</div>");
@@ -414,10 +412,10 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> MECANICOS</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> MECÂNICOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>ServiÃ§o</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -578,11 +576,11 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> MECÃ‚NICO</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> MECÂNICO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"usu/index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>MecÃ¢nico</li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Mecânico</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -698,11 +696,11 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ENDEREÃ‡O</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ENDEREÇO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleMecanico?cmd=listar\">Mecanico</a></li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleMecanico?cmd=listar\">Mecânico</a></li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i>Endereco</li>");
         
         pw.println("</ol>");
@@ -718,7 +716,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<tbody>");
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Rua</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Numero</th>");
+        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Número</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Logradouro</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Bairro</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Cidade</th>");

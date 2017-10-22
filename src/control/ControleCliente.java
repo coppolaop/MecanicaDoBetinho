@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.exception.ConstraintViolationException;
 
-import entity.Cliente;
+import entity.Usuario;
 import entity.Endereco;
 import entity.ItemServico;
 import entity.OrdemDeServico;
@@ -23,7 +23,7 @@ import entity.Veiculo;
 import persistence.GenericDao;
 
 /**
- * Servlet implementation class CadastroCliente
+ * Servlet implementation class ControleCliente
  */
 @WebServlet("/usu/ControleCliente")
 public class ControleCliente extends HttpServlet {
@@ -71,7 +71,7 @@ public class ControleCliente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
 		try{
-			Cliente c = new Cliente();
+			Usuario c = new Usuario();//c de cliente
 			c.setNome(request.getParameter("nome"));
 			c.setCpf(Long.parseLong(request.getParameter("cpf")));
 			c.setEmail(request.getParameter("email"));
@@ -89,7 +89,7 @@ public class ControleCliente extends HttpServlet {
 			
 			c.setEndereco(e);
 			
-			GenericDao<Cliente> cd = new GenericDao<Cliente>();
+			GenericDao<Usuario> cd = new GenericDao<Usuario>();
 			cd.create(c);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
@@ -113,7 +113,7 @@ public class ControleCliente extends HttpServlet {
 	protected void deletar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		GenericDao<Cliente> cd = new GenericDao<Cliente>();
+		GenericDao<Usuario> cd = new GenericDao<Usuario>();
 		GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
 		GenericDao<Endereco> ed = new GenericDao<Endereco>();
 		GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
@@ -122,7 +122,7 @@ public class ControleCliente extends HttpServlet {
 		
          try
         {
-            Cliente c = cd.findById(id, Cliente.class);
+        	 Usuario c = cd.findById(id, Usuario.class);
             if(c.getVeiculos() != null){
             	List<Veiculo> veiculos = new ArrayList<Veiculo>();
             	for(Veiculo v : c.getVeiculos()){
@@ -234,21 +234,21 @@ public class ControleCliente extends HttpServlet {
         pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CPF</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Quantidade de Veiculos</th>");
-        pw.println("<th><i class=\"icon_cogs\"></i> AÃ§Ã£o</th>");
+        pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
         try {
-        	GenericDao<Cliente> cd = new GenericDao<Cliente>();
-        	List<Cliente> lst = cd.findAll(Cliente.class);
-        	List<Cliente> lista = new ArrayList<Cliente>();
+        	GenericDao<Usuario> cd = new GenericDao<Usuario>();
+        	List<Usuario> lst = cd.findAll(Usuario.class);
+        	List<Usuario> lista = new ArrayList<Usuario>();
         	
-        	for(Cliente c : lst){
+        	for(Usuario c : lst){
 				if(!lista.contains(c)){
 					lista.add(c);
 				}
 			}
         	
-	        for(Cliente c : lista){
+	        for(Usuario c : lista){
 	        
 		        pw.println("<tr>");
 		        pw.println("<td>"+c.getNome()+"</td>");
@@ -266,8 +266,8 @@ public class ControleCliente extends HttpServlet {
 		        pw.println("<td>");
 		        pw.println("<div class=\"btn-group\">");
 		        pw.println("<a class=\"btn btn-info\" href=\"./ControleCliente?cmd=endereco&id=" + c.getEndereco().getIdEndereco() + "\"><i class=\"icon_info_alt\"></i></a>");
-		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleCliente?cmd=editar&id=" + c.getIdCliente() + "\"><i class=\"icon_pencil\"></i></a>");
-		        pw.println("<a class=\"btn btn-danger\" href=\"./ControleCliente?cmd=deletar&id=" + c.getIdCliente() + "\"><i class=\"icon_close_alt2\"></i></a>");
+		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleCliente?cmd=editar&id=" + c.getIdUsuario() + "\"><i class=\"icon_pencil\"></i></a>");
+		        pw.println("<a class=\"btn btn-danger\" href=\"./ControleCliente?cmd=deletar&id=" + c.getIdUsuario() + "\"><i class=\"icon_close_alt2\"></i></a>");
 		        pw.println("</div>");
 		        pw.println("</td>");
 		
@@ -320,8 +320,8 @@ public class ControleCliente extends HttpServlet {
 		Integer id = Integer.parseInt(request.getParameter("id"));
         request.getRequestDispatcher("/usu/base1.html").include(request, response);
 		
-        GenericDao<Cliente> cd = new GenericDao<Cliente>();
-        Cliente c = cd.findById(id, Cliente.class);
+        GenericDao<Usuario> cd = new GenericDao<Usuario>();
+        Usuario c = cd.findById(id, Usuario.class);
         
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
@@ -471,14 +471,14 @@ public class ControleCliente extends HttpServlet {
         
         try {
         	
-        	GenericDao<Cliente> cd = new GenericDao<Cliente>();
-            Cliente c = cd.findById(id, Cliente.class);
+        	GenericDao<Usuario> cd = new GenericDao<Usuario>();
+        	Usuario c = cd.findById(id, Usuario.class);
 
-			List<Cliente> lista = cd.findAll(Cliente.class);
+			List<Usuario> lista = cd.findAll(Usuario.class);
 			
-			for(Cliente cli : lista){
-				if(!cli.getIdCliente().equals(id)){
-					pw.println("<option value=\""+cli.getIdCliente()+"\">"+cli.getNome()+"</option>");
+			for(Usuario cli : lista){
+				if(!cli.getIdUsuario().equals(id)){
+					pw.println("<option value=\""+cli.getIdUsuario()+"\">"+cli.getNome()+"</option>");
 				}
 			}
 		} catch (Exception ex) {
@@ -512,10 +512,10 @@ public class ControleCliente extends HttpServlet {
         PrintWriter out = response.getWriter();
         try
         {   
-        	GenericDao<Cliente> cd = new GenericDao<Cliente>();
+        	GenericDao<Usuario> cd = new GenericDao<Usuario>();
         	GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
-        	Cliente c1 = cd.findById(id, Cliente.class);
-        	Cliente c2 = cd.findById(cliente, Cliente.class);
+        	Usuario c1 = cd.findById(id, Usuario.class);
+        	Usuario c2 = cd.findById(cliente, Usuario.class);
         	if(c1.getVeiculos()!= null){
         		List<Veiculo> lista = new ArrayList<Veiculo>();
         		for(Veiculo v : c1.getVeiculos()){
@@ -555,8 +555,8 @@ public class ControleCliente extends HttpServlet {
         PrintWriter out = response.getWriter();
         try
         {   
-        	GenericDao<Cliente> cd = new GenericDao<Cliente>();
-        	Cliente c = cd.findById(Integer.parseInt(request.getParameter("id")), Cliente.class);
+        	GenericDao<Usuario> cd = new GenericDao<Usuario>();
+        	Usuario c = cd.findById(Integer.parseInt(request.getParameter("id")), Usuario.class);
         	
         	c.setNome(request.getParameter("nome"));
         	c.setCpf(Long.parseLong(request.getParameter("cpf")));

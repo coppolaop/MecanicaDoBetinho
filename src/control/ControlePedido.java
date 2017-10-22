@@ -3,10 +3,8 @@ package control;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,16 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.exception.ConstraintViolationException;
-
 import persistence.GenericDao;
-import entity.Cliente;
-import entity.Endereco;
-import entity.ItemServico;
-import entity.OrdemDeServico;
-import entity.Servico;
 import entity.Usuario;
-import entity.Veiculo;
+import entity.OrdemDeServico;
 
 /**
  * Servlet implementation class ControlePedidos

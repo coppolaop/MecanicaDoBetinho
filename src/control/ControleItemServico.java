@@ -22,7 +22,7 @@ import entity.Servico;
 import persistence.GenericDao;
 
 /**
- * Servlet implementation class InfoOrdem
+ * Servlet implementation class ControleItemServico
  */
 @WebServlet("/usu/ControleItemServico")
 public class ControleItemServico extends HttpServlet {
@@ -78,7 +78,7 @@ public class ControleItemServico extends HttpServlet {
 				OrdemDeServico o = od.findById(Integer.parseInt(request.getParameter("id")), OrdemDeServico.class);
 				
 				if(o.getStatus().equalsIgnoreCase("inativo")){
-					throw new Exception("Ordem de ServiÃ§o inativa");
+					throw new Exception("Ordem de Serviço inativa");
 				}
 				
 				is.setAutorizacao(false);
@@ -102,7 +102,7 @@ public class ControleItemServico extends HttpServlet {
 				
 				resposta = "Dados Armazenados";
 			}catch(NumberFormatException ex){
-				resposta = "Valor InvÃ¡lido";
+				resposta = "Valor Inválido";
 				ex.printStackTrace();
 			}catch(Exception ex){
 				ex.printStackTrace();
@@ -183,12 +183,12 @@ public class ControleItemServico extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ORDENS DE SERVIÃ‡O</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ORDENS DE SERVIÇO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
-        pw.println("<li><i class=\"fa fa-table\"></i>ServiÃ§o</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleOrdem?cmd=listar\">Ordens de ServiÃ§o</a></li>");
-        pw.println("<li><i class=\"fa fa-wrench\"></i>ServiÃ§os Alocados</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleOrdem?cmd=listar\">Ordens de Serviço</a></li>");
+        pw.println("<li><i class=\"fa fa-wrench\"></i>Serviços Alocados</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -196,17 +196,17 @@ public class ControleItemServico extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Itens de ServiÃ§o");
+        pw.println("Itens de Serviço");
         pw.println("</header>");
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"fa fa-wrench\"></i> Servico</th>");
-        pw.println("<th><i class=\"icon_calendar\"></i> Data de AdiÃ§Ã£o</th>");
-        pw.println("<th><i class=\"fa fa-cog\" aria-hidden=\"true\"></i> Quantidade de PeÃ§as</th>");
+        pw.println("<th><i class=\"fa fa-wrench\"></i> Serviço</th>");
+        pw.println("<th><i class=\"icon_calendar\"></i> Data de Adição</th>");
+        pw.println("<th><i class=\"fa fa-cog\" aria-hidden=\"true\"></i> Quantidade de Peças</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor Atual</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Mecanico Responsavel</th>");
-        pw.println("<th><i class=\"icon_cogs\"></i> AÃ§Ã£o</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Mecânico Responsável</th>");
+        pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
 
         try {
@@ -277,12 +277,12 @@ public class ControleItemServico extends HttpServlet {
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ITENS DE SERVIÃ‡O</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ITENS DE SERVIÇO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
-        pw.println("<li><i class=\"fa fa-table\"></i>ServiÃ§o</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleOrdem?cmd=listar\">Ordens de ServiÃ§o</a></li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Itens de ServiÃ§o</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleOrdem?cmd=listar\">Ordens de Serviço</a></li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Itens de Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -310,11 +310,11 @@ public class ControleItemServico extends HttpServlet {
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> ITENS DE SERVIÃ‡O</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> ITENS DE SERVIÇO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
-        pw.println("<li><i class=\"fa fa-table\"></i>ServiÃ§o</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ListaOrdem\">Ordens de ServiÃ§o</a></li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Itens de ServiÃ§o</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ListaOrdem\">Ordens de Serviço</a></li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Itens de Serviço</li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i>Alterar Itens</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -331,7 +331,7 @@ public class ControleItemServico extends HttpServlet {
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Ordem de ServiÃ§o <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Ordem de Serviço <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"ordem\" id=\"ordem\">");
         try {
@@ -358,7 +358,7 @@ public class ControleItemServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Mecanico <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Mecânico <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         
         pw.println("<select class=\"form-control m-bot15\" name=\"mecanico\" id=\"mecanico\">");
@@ -386,7 +386,7 @@ public class ControleItemServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Servico <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Serviço <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         
         pw.println("<select class=\"form-control m-bot15\" name=\"servico\" id=\"servico\">");
@@ -522,12 +522,12 @@ public class ControleItemServico extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> Itens de ServiÃ§o</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> Itens de Servição</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>ServiÃ§o</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleOrdem?cmd=lista\">Ordens de ServiÃ§o</a></li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Itens de ServiÃ§o</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleOrdem?cmd=lista\">Ordens de Serviço</a></li>");
+        pw.println("<li><i class=\"fa fa-files-o\"></i>Itens de Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -542,7 +542,7 @@ public class ControleItemServico extends HttpServlet {
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleItemServico\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"gravar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ request.getParameter("id") +"\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Mecanico</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Mecânico</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"mecanico\" id=\"mecanico\">");
         
@@ -566,7 +566,7 @@ public class ControleItemServico extends HttpServlet {
         
         pw.println("</select>");
         pw.println("</div>");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Servico</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Serviço</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"servico\" id=\"servico\">");
         

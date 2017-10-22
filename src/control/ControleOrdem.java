@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import persistence.GenericDao;
-import entity.Cliente;
+import entity.Usuario;
 import entity.Endereco;
 import entity.ItemServico;
 import entity.OrdemDeServico;
@@ -120,7 +120,7 @@ public class ControleOrdem extends HttpServlet {
 			for(OrdemDeServico o : lista){
 				if(o.getVeiculo().getIdVeiculo().equals(v.getIdVeiculo())){
 					if(o.getStatus().equals("ativo")){
-						throw new Exception("JÃ¡ existe uma Ordem em Aberto para esse VeÃ­culo");
+						throw new Exception("Já existe uma Ordem em Aberto para esse Veículo");
 					}
 				}
 			}
@@ -129,7 +129,7 @@ public class ControleOrdem extends HttpServlet {
 			
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
-			resposta = "Valor InvÃ¡lido";
+			resposta = "Valor Inválido";
 			ex.printStackTrace();
 		}catch(Exception ex){
 			resposta = ex.getMessage();
@@ -173,11 +173,11 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ORDENS DE SERVIÃ‡O</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ORDENS DE SERVIÇO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"fa fa-table\"></i>ServiÃ§o</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Ordens de ServiÃ§o</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Ordens de Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -194,7 +194,7 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<th><i class=\"icon_calendar\"></i> Data de Inicio</th>");
         pw.println("<th><i class=\"fa fa-car\" aria-hidden=\"true\"></i> Veiculo</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor Atual</th>");
-        pw.println("<th><i class=\"icon_cogs\"></i> AÃ§Ã£o</th>");
+        pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
 
         try {
@@ -262,7 +262,7 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> AGENDAMENTO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>ServiÃ§o</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -286,21 +286,21 @@ public class ControleOrdem extends HttpServlet {
         	
         	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
             OrdemDeServico o = od.findById(id, OrdemDeServico.class);
-            GenericDao<Cliente> cd = new GenericDao<Cliente>();
+            GenericDao<Usuario> cd = new GenericDao<Usuario>();
 
-            Integer cliente = o.getVeiculo().getCliente().getIdCliente();
+            Integer cliente = o.getVeiculo().getCliente().getIdUsuario();
             
-			List<Cliente> l = cd.findAll(Cliente.class);
-			List<Cliente> lista = new ArrayList<Cliente>();
+			List<Usuario> l = cd.findAll(Usuario.class);
+			List<Usuario> lista = new ArrayList<Usuario>();
 			
-			for(Cliente cli : l){
+			for(Usuario cli : l){
 				if(!lista.contains(cli)){
 					lista.add(cli);
 				}
 			}
 			
-			for(Cliente c : lista){
-				if(c.getIdCliente().equals(cliente)){
+			for(Usuario c : lista){
+				if(c.getIdUsuario().equals(cliente)){
 					pw.println("<option value=\""+c.getNome()+"\" selected>"+c.getNome()+"</option>");
 				}else{
 					pw.println("<option value=\""+c.getNome()+"\">"+c.getNome()+"</option>");
@@ -341,7 +341,7 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> AGENDAMENTO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>ServiÃ§o</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -357,19 +357,19 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleOrdem\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+id+"\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Placa do VeÃ­culo</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Placa do Veículo</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"placa\" id=\"placa\">");
         
         try {
         	GenericDao<OrdemDeServico> od = new GenericDao<OrdemDeServico>();
-			GenericDao<Cliente> cd = new GenericDao<Cliente>();
-			Cliente c = cd.findByName(cliente, Cliente.class);
+			GenericDao<Usuario> cd = new GenericDao<Usuario>();
+			Usuario c = cd.findByName(cliente, Usuario.class);
 			OrdemDeServico o = od.findById(id, OrdemDeServico.class);
 			GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
 			List<Veiculo> lista = vd.findAll(Veiculo.class);
 			for(Veiculo v : lista){
-				if(v.getCliente().getIdCliente().equals(c.getIdCliente())){
+				if(v.getCliente().getIdUsuario().equals(c.getIdUsuario())){
 					if(v.getIdVeiculo().equals(o.getVeiculo().getIdVeiculo())){
 						pw.println("<option value=\""+v.getIdVeiculo()+"\" selected>"+v.getPlaca()+"</option>");
 					}else{
@@ -415,7 +415,7 @@ public class ControleOrdem extends HttpServlet {
         	for(OrdemDeServico ordem : lista){
 				if(ordem.getVeiculo().getIdVeiculo().equals(v.getIdVeiculo())){
 					if(ordem.getStatus().equalsIgnoreCase("ativo")&&o.getStatus().equalsIgnoreCase("ativo")){
-						throw new Exception("JÃ¡ existe uma Ordem em Aberto para esse VeÃ­culo");
+						throw new Exception("Já existe uma Ordem em Aberto para esse Veículo");
 					}
 				}
 			}
@@ -450,7 +450,7 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> AGENDAMENTO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>ServiÃ§o</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -470,17 +470,17 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<select class=\"form-control m-bot15\" name=\"cliente\" id=\"cliente\">");
         
         try {
-			GenericDao<Cliente> cd = new GenericDao<Cliente>();
-			List<Cliente> l = cd.findAll(Cliente.class);
-			List<Cliente> lista = new ArrayList<>();
+			GenericDao<Usuario> cd = new GenericDao<Usuario>();
+			List<Usuario> l = cd.findAll(Usuario.class);
+			List<Usuario> lista = new ArrayList<>();
 			
-			for(Cliente cli : l){
+			for(Usuario cli : l){
 				if(!lista.contains(cli)){
 					lista.add(cli);
 				}
 			}
 			
-			for(Cliente c : lista){
+			for(Usuario c : lista){
 				pw.println("<option value=\""+c.getNome()+"\">"+c.getNome()+"</option>");
 			}
 		} catch (Exception ex) {
@@ -516,7 +516,7 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> AGENDAMENTO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>ServiÃ§o</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
         pw.println("</ol>");
         pw.println("</div>");
@@ -531,17 +531,17 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<div class=\"form\">");
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleOrdem\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"gravar\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Placa do VeÃ­culo</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Placa do Veículo</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"placa\" id=\"placa\">");
         
         try {
-			GenericDao<Cliente> cd = new GenericDao<Cliente>();
-			Cliente c = cd.findByName(cliente, Cliente.class);
+			GenericDao<Usuario> cd = new GenericDao<Usuario>();
+			Usuario c = cd.findByName(cliente, Usuario.class);
 			GenericDao<Veiculo> vd = new GenericDao<Veiculo>();
 			List<Veiculo> lista = vd.findAll(Veiculo.class);
 			for(Veiculo v : lista){
-				if(v.getCliente().getIdCliente().equals(c.getIdCliente())){
+				if(v.getCliente().getIdUsuario().equals(c.getIdUsuario())){
 					pw.println("<option value=\""+v.getIdVeiculo()+"\">"+v.getPlaca()+"</option>");
 				}
 			}
@@ -582,7 +582,7 @@ public class ControleOrdem extends HttpServlet {
 				if(o.getVeiculo().getIdVeiculo().equals(ordem.getVeiculo().getIdVeiculo())){
 					if(o.getStatus().equalsIgnoreCase("ativo")){
 						if(ordem.getStatus().equalsIgnoreCase("inativo")){
-							throw new Exception("NÃ£o Ã© possivel ter mais de uma Ordem De ServiÃ§o em Aberto para o mesmo VeÃ­culo");
+							throw new Exception("Não é possível ter mais de uma Ordem De Serviço em Aberto para o mesmo Veículo");
 						}
 					}
 				}

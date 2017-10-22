@@ -30,7 +30,7 @@ public class Veiculo implements Serializable{
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_cliente")
 	@IndexColumn(name = "id_cliente")
-	private Cliente cliente;
+	private Usuario cliente;
 	
 	@OneToMany(mappedBy="veiculo",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@IndexColumn(name = "idOrdemDeServico")
@@ -77,11 +77,11 @@ public class Veiculo implements Serializable{
 		this.descricao = descricao;
 	}
 
-	public Cliente getCliente() {
+	public Usuario getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(Usuario cliente) {
 		this.cliente = cliente;
 	}
 

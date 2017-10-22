@@ -89,7 +89,7 @@ public class Login extends HttpServlet {
 			u = new Usuario();
 			usuario = new Usuario();
 			session.invalidate();
-			resposta = "Combina√ß√£o de Usuario e Senha Inv√°lidos";
+			resposta = "CombinaÁ„o de Usu·rio e Senha Inv·lidos";
 			response.setContentType("text/html");
 	        PrintWriter out = response.getWriter();
 	        out.println(resposta);
@@ -120,7 +120,7 @@ public class Login extends HttpServlet {
 					response.sendRedirect(request.getContextPath()+"/login.html");
 				}
 			}else{
-				throw new Exception("As senhas n√£o batem");
+				throw new Exception("As senhas n„o batem");
 			}
 			
 			ud.update(u);
