@@ -73,10 +73,14 @@ public class ControleCliente extends HttpServlet {
 		try{
 			Usuario c = new Usuario();//c de cliente
 			c.setNome(request.getParameter("nome"));
+			c.setUsername(request.getParameter("username"));
+			c.setPerfil("cli");
 			c.setCpf(Long.parseLong(request.getParameter("cpf")));
 			c.setEmail(request.getParameter("email"));
 			c.setTelefone(Long.parseLong(request.getParameter("telefone")));
 			c.setCelular(Long.parseLong(request.getParameter("celular")));
+			c.setSenha("senhapadrao");//Usuario deve trocar a senha padr„o ao primeiro Login
+			Criptografia.criptografia(c);
 			
 			Endereco e = new Endereco();
 			e.setRua(request.getParameter("rua"));
@@ -93,10 +97,10 @@ public class ControleCliente extends HttpServlet {
 			cd.create(c);
 			resposta = "Dados Armazenados";
 		}catch(NumberFormatException ex){
-			resposta = "Valor Inv√°lido";
+			resposta = "Valor Inv·lido";
 			ex.printStackTrace();
 		}catch(ConstraintViolationException ex){
-			resposta = "J√° Existe um Cliente cadastrado com esse nome";
+			resposta = "J· Existe um Cliente cadastrado com esse nome";
 			ex.printStackTrace();
 		}catch(Exception ex){
 			resposta = ex.getMessage();
@@ -228,7 +232,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"icon_profile\"></i> Nome do Cliente</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Nome Completo do Cliente</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Email</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Telefone</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
@@ -250,28 +254,31 @@ public class ControleCliente extends HttpServlet {
         	
 	        for(Usuario c : lista){
 	        
-		        pw.println("<tr>");
-		        pw.println("<td>"+c.getNome()+"</td>");
-		        pw.println("<td>"+c.getEmail()+"</td>");
-		        pw.println("<td>"+c.getTelefone()+"</td>");
-		        pw.println("<td>"+c.getCelular()+"</td>");
-		        pw.println("<td>"+c.getCpf()+"</td>");
-		        List<Veiculo> quantidade = new ArrayList<Veiculo>();
-		        for(Veiculo v : c.getVeiculos()){
-		        	if(v!=null&!(quantidade.contains(v))){//ignorando os diversos valores nulos que sao trazidos na consulta
-		        		quantidade.add(v);
-		        	}
-		        }
-		        pw.println("<td>"+(quantidade.size())+"</td>");
-		        pw.println("<td>");
-		        pw.println("<div class=\"btn-group\">");
-		        pw.println("<a class=\"btn btn-info\" href=\"./ControleCliente?cmd=endereco&id=" + c.getEndereco().getIdEndereco() + "\"><i class=\"icon_info_alt\"></i></a>");
-		        pw.println("<a class=\"btn btn-primary\" href=\"./ControleCliente?cmd=editar&id=" + c.getIdUsuario() + "\"><i class=\"icon_pencil\"></i></a>");
-		        pw.println("<a class=\"btn btn-danger\" href=\"./ControleCliente?cmd=deletar&id=" + c.getIdUsuario() + "\"><i class=\"icon_close_alt2\"></i></a>");
-		        pw.println("</div>");
-		        pw.println("</td>");
-		
-		        pw.println("</tr>");
+	        	if(c.getPerfil().equals("cli")){//exibindo apenas clientes
+	        	
+			        pw.println("<tr>");
+			        pw.println("<td>"+c.getNome()+"</td>");
+			        pw.println("<td>"+c.getEmail()+"</td>");
+			        pw.println("<td>"+c.getTelefone()+"</td>");
+			        pw.println("<td>"+c.getCelular()+"</td>");
+			        pw.println("<td>"+c.getCpf()+"</td>");
+			        List<Veiculo> quantidade = new ArrayList<Veiculo>();
+			        for(Veiculo v : c.getVeiculos()){
+			        	if(v!=null&!(quantidade.contains(v))){//ignorando os diversos valores nulos que sao trazidos na consulta
+			        		quantidade.add(v);
+			        	}
+			        }
+			        pw.println("<td>"+(quantidade.size())+"</td>");
+			        pw.println("<td>");
+			        pw.println("<div class=\"btn-group\">");
+			        pw.println("<a class=\"btn btn-info\" href=\"./ControleCliente?cmd=endereco&id=" + c.getEndereco().getIdEndereco() + "\"><i class=\"icon_info_alt\"></i></a>");
+			        pw.println("<a class=\"btn btn-primary\" href=\"./ControleCliente?cmd=editar&id=" + c.getIdUsuario() + "\"><i class=\"icon_pencil\"></i></a>");
+			        pw.println("<a class=\"btn btn-danger\" href=\"./ControleCliente?cmd=deletar&id=" + c.getIdUsuario() + "\"><i class=\"icon_close_alt2\"></i></a>");
+			        pw.println("</div>");
+			        pw.println("</td>");
+			
+			        pw.println("</tr>");
+	        	}
 	        
 	        }
         } catch (Exception ex) {
@@ -347,9 +354,15 @@ public class ControleCliente extends HttpServlet {
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Nome <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Nome Completo <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control\" id=\"nome\" name=\"nome\" type=\"text\" value=\""+ c.getNome() +"\" required />");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"form-group \">");
+        pw.println("<label for=\"username\" class=\"control-label col-lg-2\">Username <span class=\"required\">*</span></label>");
+        pw.println("<div class=\"col-lg-10\">");
+        pw.println("<input class=\"form-control \" id=\"username\" type=\"text\" name=\"username\" value=\""+ c.getUsername() +"\" required/>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
@@ -376,7 +389,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<input class=\"form-control \" id=\"celular\" type=\"text\" name=\"celular\" value=\""+ c.getCelular() +"\" required />");
         pw.println("</div>");
         pw.println("</div>");
-        pw.println("<h5> Endere√ßo </h5>");
+        pw.println("<h5> EndereÁo </h5>");
         pw.println("<hr/>");
         pw.println("<div class=\"form-group\">");
         pw.println("<label for=\"\" class=\"control-label col-lg-2\">Rua <span class=\"required\">*</span></label>");
@@ -391,7 +404,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Logradouro <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Tipo de Logradouro <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"logradouro\" type=\"text\" name=\"logradouro\" value=\""+ c.getEndereco().getLogradouro() +"\" required />");
         pw.println("</div>");
@@ -465,7 +478,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleCliente\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Cliente</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome Completo do Cliente</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"cliente\" id=\"cliente\">");
         
@@ -613,7 +626,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Pe√ßa");
+        pw.println("Cliente");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
@@ -621,9 +634,15 @@ public class ControleCliente extends HttpServlet {
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"gravar\">");
         pw.println("<h5>Dados Basicos</h5>");
         pw.println("<div class=\"form-group \">");
-        pw.println("<label for=\"nome\" class=\"control-label col-lg-2\">Nome <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"nome\" class=\"control-label col-lg-2\">Nome Completo <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control\" id=\"nome\" name=\"nome\" minlength=\"5\" type=\"text\" required />");
+        pw.println("</div>");
+        pw.println("</div>");
+        pw.println("<div class=\"form-group \">");
+        pw.println("<label for=\"username\" class=\"control-label col-lg-2\">Username <span class=\"required\">*</span></label>");
+        pw.println("<div class=\"col-lg-10\">");
+        pw.println("<input class=\"form-control \" id=\"username\" type=\"text\" name=\"username\" required/>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group \">");
@@ -650,7 +669,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<input class=\"form-control \" id=\"celular\" type=\"text\" name=\"celular\" required />");
         pw.println("</div>");
         pw.println("</div>");
-        pw.println("<h5> Endere√ßo </h5>");
+        pw.println("<h5> EndereÁo </h5>");
         pw.println("<hr/>");
         pw.println("<div class=\"form-group \">");
         pw.println("<label for=\"rua\" class=\"control-label col-lg-2\">Rua <span class=\"required\">*</span></label>");
@@ -665,7 +684,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group \">");
-        pw.println("<label for=\"logradouro\" class=\"control-label col-lg-2\">Logradouro </label>");
+        pw.println("<label for=\"logradouro\" class=\"control-label col-lg-2\">Tipo de Logradouro </label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"logradouro\" type=\"text\" name=\"logradouro\" />");
         pw.println("</div>");
@@ -741,7 +760,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Rua</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Numero</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Logradouro</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Tipo de Logradouro</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Bairro</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Cidade</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Estado</th>");

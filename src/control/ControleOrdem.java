@@ -554,7 +554,7 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
         pw.println("<button class=\"btn btn-primary\" type=\"submit\">Agendar</button>");
-        pw.println("<button class=\"btn btn-default\" href=\"ControleOrdem?cmd=formulario1\" onclick=\"location.href='FormAgendamento';\" type=\"button\">Voltar</button>");
+        pw.println("<button class=\"btn btn-default\" href=\"ControleOrdem?cmd=formulario1\" onclick=\"location.href='ControleOrdem?cmd=formulario1';\" type=\"button\">Voltar</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</form>");

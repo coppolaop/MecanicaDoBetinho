@@ -87,7 +87,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"icon_profile\"></i> Nome</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Nome Completo</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Username</th>");
         pw.println("<th><i class=\"fa fa-envelope-o\" aria-hidden=\"true\"></i> Email</th>");
         pw.println("<th><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Perfil</th>");
@@ -256,7 +256,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Nome <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Nome Completo <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control\" id=\"nome\" name=\"nome\" type=\"text\" value=\""+ u.getNome() +"\" required />");
         pw.println("</div>");
@@ -311,7 +311,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<input class=\"form-control \" id=\"celular\" type=\"text\" name=\"celular\" value=\""+ u.getCelular() +"\" required />");
         pw.println("</div>");
         pw.println("</div>");
-        pw.println("<h5> EndereÃ§o </h5>");
+        pw.println("<h5> Endereço </h5>");
         pw.println("<hr/>");
         pw.println("<div class=\"form-group\">");
         pw.println("<label for=\"\" class=\"control-label col-lg-2\">Rua <span class=\"required\">*</span></label>");
@@ -326,7 +326,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Logradouro <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Tipo de Logradouro <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"logradouro\" type=\"text\" name=\"logradouro\" value=\""+ u.getEndereco().getLogradouro() +"\" required />");
         pw.println("</div>");
@@ -448,7 +448,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"gravar\">");
         pw.println("<h5>Dados Basicos</h5>");
         pw.println("<div class=\"form-group \">");
-        pw.println("<label for=\"nome\" class=\"control-label col-lg-2\">Nome <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"nome\" class=\"control-label col-lg-2\">Nome Completo <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control\" id=\"nome\" name=\"nome\" minlength=\"5\" type=\"text\" required />");
         pw.println("</div>");
@@ -464,7 +464,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"perfil\" id=\"perfil\">");
         pw.println("<option value=\"adm\">Administrador</option>");
-        pw.println("<option value=\"usu\" selected>Usuario</option>");
+        pw.println("<option value=\"usu\" selected>Usuário</option>");
         pw.println("<option value=\"cli\">Cliente</option>");
         pw.println("</select>");
         pw.println("</div>");
@@ -493,7 +493,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<input class=\"form-control \" id=\"celular\" type=\"text\" name=\"celular\" required />");
         pw.println("</div>");
         pw.println("</div>");
-        pw.println("<h5> EndereÃ§o </h5>");
+        pw.println("<h5> Endereço </h5>");
         pw.println("<hr/>");
         pw.println("<div class=\"form-group \">");
         pw.println("<label for=\"rua\" class=\"control-label col-lg-2\">Rua <span class=\"required\">*</span></label>");
@@ -508,7 +508,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group \">");
-        pw.println("<label for=\"logradouro\" class=\"control-label col-lg-2\">Logradouro </label>");
+        pw.println("<label for=\"logradouro\" class=\"control-label col-lg-2\">Tipo de Logradouro </label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"logradouro\" type=\"text\" name=\"logradouro\" />");
         pw.println("</div>");
@@ -585,7 +585,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Rua</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Numero</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Logradouro</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Tipo de Logradouro</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Bairro</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Cidade</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Estado</th>");

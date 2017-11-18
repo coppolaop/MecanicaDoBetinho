@@ -202,7 +202,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"icon_profile\"></i> Nome do Mecânico</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Nome Completo do Mecânico</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Email</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Telefone</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
@@ -313,7 +313,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Nome <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Nome Completo <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control\" id=\"nome\" name=\"nome\" type=\"text\" value=\""+ m.getNome() +"\" required />");
         pw.println("</div>");
@@ -357,7 +357,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Logradouro <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Tipo de Logradouro <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"logradouro\" type=\"text\" name=\"logradouro\" value=\""+ m.getEndereco().getLogradouro() +"\" required />");
         pw.println("</div>");
@@ -431,7 +431,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"ControleMecanico\">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"mesclar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
-        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Mecanico</label>");
+        pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome Completo do Mecanico</label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<select class=\"form-control m-bot15\" name=\"mecanico\" id=\"mecanico\">");
         
@@ -596,7 +596,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"gravar\">");
         pw.println("<h5>Dados Basicos</h5>");
         pw.println("<div class=\"form-group \">");
-        pw.println("<label for=\"nome\" class=\"control-label col-lg-2\">Nome <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"nome\" class=\"control-label col-lg-2\">Nome Completo <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control\" id=\"nome\" name=\"nome\" minlength=\"5\" type=\"text\" required />");
         pw.println("</div>");
@@ -640,7 +640,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group \">");
-        pw.println("<label for=\"logradouro\" class=\"control-label col-lg-2\">Logradouro </label>");
+        pw.println("<label for=\"logradouro\" class=\"control-label col-lg-2\">Tipo de Logradouro </label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"logradouro\" type=\"text\" name=\"logradouro\" />");
         pw.println("</div>");
@@ -717,7 +717,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Rua</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Número</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Logradouro</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Tipo de Logradouro</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Bairro</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Cidade</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Estado</th>");
