@@ -636,8 +636,10 @@ public class ControleVeiculo extends HttpServlet {
 			List<Usuario> lista = new ArrayList<Usuario>();
 			
 			for(Usuario cli : l){
-				if(!lista.contains(cli)){
-					lista.add(cli);
+				if(cli.getPerfil().equalsIgnoreCase("cli")){
+					if(!lista.contains(cli)){
+						lista.add(cli);
+					}
 				}
 			}
 			
