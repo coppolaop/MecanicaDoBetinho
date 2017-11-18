@@ -116,8 +116,10 @@ public class ControleUsuario extends HttpServlet {
 		        pw.println("<td>"+u.getEmail()+"</td>");
 		        if(u.getPerfil().equalsIgnoreCase("adm")){
 		        	pw.println("<td>Administrador</td>");
-		        }else{
+		        }else if(u.getPerfil().equalsIgnoreCase("usu")){
 		        	pw.println("<td>Usuário</td>");	
+		        }else{
+		        	pw.println("<td>Cliente</td>");
 		        }
 		        pw.println("<td>"+u.getTelefone()+"</td>");
 		        pw.println("<td>"+u.getCelular()+"</td>");
