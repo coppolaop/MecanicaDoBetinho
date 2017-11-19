@@ -593,7 +593,7 @@ public class ControleItemServico extends HttpServlet {
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
         pw.println("<button class=\"btn btn-primary\" type=\"submit\">Salvar</button>");
-        pw.println("<button class=\"btn btn-default\" type=\"reset\">Limpar</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='ControleOrdem?cmd=listar';\" type=\"button\">Voltar</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</form>");
