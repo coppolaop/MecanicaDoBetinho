@@ -35,6 +35,11 @@ public class ControleMecanico extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    public boolean checkLetters(String str) 
+    {
+        return str.matches("[a-zA-Z]+");
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -70,6 +75,10 @@ public class ControleMecanico extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
 		try{
+			if(!checkLetters(request.getParameter("nome"))){
+				throw new Exception("Um Nome não pode possuir números");
+			}
+			
 			Mecanico m = new Mecanico();
 			m.setNome(request.getParameter("nome"));
 			m.setCpf(Long.parseLong(request.getParameter("cpf")));
@@ -532,6 +541,10 @@ public class ControleMecanico extends HttpServlet {
         {   
         	GenericDao<Mecanico> md = new GenericDao<Mecanico>();
         	Mecanico m = md.findById(Integer.parseInt(request.getParameter("id")), Mecanico.class);
+        	
+        	if(!checkLetters(request.getParameter("nome"))){
+				throw new Exception("Um Nome não pode possuir números");
+			}
         	
         	m.setNome(request.getParameter("nome"));
         	m.setCpf(Long.parseLong(request.getParameter("cpf")));

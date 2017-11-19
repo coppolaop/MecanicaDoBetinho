@@ -70,9 +70,12 @@ public class ControleVeiculo extends HttpServlet {
 		try{
 			GenericDao<Usuario> cd = new GenericDao<Usuario>();
 			Usuario c = cd.findByName(request.getParameter("cliente"), Usuario.class);
+			if(!c.getPerfil().equals("cli")){
+				throw new Exception("Usuario inválido");
+			}
 			Veiculo v = new Veiculo();
 			
-			v.setPlaca(request.getParameter("placa"));
+			v.setPlaca(request.getParameter("placa").toUpperCase());
 			v.setDescricao(request.getParameter("descricao"));
 			v.setCliente(c);
 			c.adicionar(v);
@@ -621,7 +624,7 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("VeÃ­culo");
+        pw.println("Veículo");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");

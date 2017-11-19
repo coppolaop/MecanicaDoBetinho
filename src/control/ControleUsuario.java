@@ -31,6 +31,11 @@ public class ControleUsuario extends HttpServlet {
     public ControleUsuario() {
         super();
     }
+    
+    public boolean checkLetters(String str) 
+    {
+        return str.matches("[a-zA-Z]+");
+    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String cmd = request.getParameter("cmd");
@@ -175,6 +180,10 @@ public class ControleUsuario extends HttpServlet {
 	protected void gravar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
 		try{
+			if(!checkLetters(request.getParameter("nome"))){
+				throw new Exception("Um Nome não pode possuir números");
+			}
+			
 			Usuario u = new Usuario();
 			u.setNome(request.getParameter("nome"));
 			u.setCpf(Long.parseLong(request.getParameter("cpf")));
@@ -483,6 +492,10 @@ public class ControleUsuario extends HttpServlet {
         {   
         	GenericDao<Usuario> ud = new GenericDao<Usuario>();
         	Usuario u = ud.findById(Integer.parseInt(request.getParameter("id")), Usuario.class);
+        	
+        	if(!checkLetters(request.getParameter("nome"))){
+				throw new Exception("Um Nome não pode possuir números");
+			}
         	
         	u.setNome(request.getParameter("nome"));
         	u.setCpf(Long.parseLong(request.getParameter("cpf")));

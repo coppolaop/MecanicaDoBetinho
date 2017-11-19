@@ -36,6 +36,11 @@ public class ControleCliente extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    public boolean checkLetters(String str) 
+    {
+        return str.matches("[a-zA-Z]+");
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -71,6 +76,10 @@ public class ControleCliente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta;
 		try{
+			if(!checkLetters(request.getParameter("nome"))){
+				throw new Exception("Um Nome não pode possuir números");
+			}
+			
 			Usuario c = new Usuario();//c de cliente
 			c.setNome(request.getParameter("nome"));
 			c.setUsername(request.getParameter("username"));
@@ -570,6 +579,10 @@ public class ControleCliente extends HttpServlet {
         {   
         	GenericDao<Usuario> cd = new GenericDao<Usuario>();
         	Usuario c = cd.findById(Integer.parseInt(request.getParameter("id")), Usuario.class);
+        	
+        	if(!checkLetters(request.getParameter("nome"))){
+				throw new Exception("Um Nome não pode possuir números");
+			}
         	
         	c.setNome(request.getParameter("nome"));
         	c.setCpf(Long.parseLong(request.getParameter("cpf")));
