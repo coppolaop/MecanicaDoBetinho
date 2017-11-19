@@ -124,9 +124,9 @@ public class ControleCliente extends HttpServlet {
 		GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
 		GenericDao<Peca> pd = new GenericDao<Peca>();
 		
-         try
+        try
         {
-        	 Usuario c = cd.findById(id, Usuario.class);
+        	Usuario c = cd.findById(id, Usuario.class);
             if(c.getVeiculos() != null){
             	List<Veiculo> veiculos = new ArrayList<Veiculo>();
             	for(Veiculo v : c.getVeiculos()){
