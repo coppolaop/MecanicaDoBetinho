@@ -34,7 +34,7 @@ public class ControleUsuario extends HttpServlet {
     
     public boolean checkLetters(String str) 
     {
-        return str.matches("[a-zA-Z]+");
+        return str.matches("[/s ' a-zA-ZА-За-з]+");
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -338,7 +338,9 @@ public class ControleUsuario extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		Integer id = Integer.parseInt(request.getParameter("id"));
         request.getRequestDispatcher("/adm/base1.html").include(request, response);
-		
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        
         GenericDao<Usuario> ud = new GenericDao<Usuario>();
         Usuario u = ud.findById(id, Usuario.class);
         
@@ -361,7 +363,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleUsuario?Atualizar\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleUsuario?Atualizar\" accept-charset='UTF-8'>");
         pw.println("<h5>Dados Basicos</h5>");
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
@@ -486,7 +488,7 @@ public class ControleUsuario extends HttpServlet {
 	protected void atualizar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta = "";
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		response.setContentType("text/html;charset=ISO-8859-1");
+		response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try
         {   
@@ -833,7 +835,7 @@ public class ControleUsuario extends HttpServlet {
 		String resposta = "";
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		Integer cliente = Integer.parseInt(request.getParameter("cliente"));
-		response.setContentType("text/html;charset=ISO-8859-1");
+		response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try
         {   

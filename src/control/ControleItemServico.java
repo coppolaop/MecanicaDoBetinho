@@ -273,6 +273,8 @@ public class ControleItemServico extends HttpServlet {
 		PrintWriter pw = response.getWriter();
         request.getRequestDispatcher("/usu/base1.html").include(request, response);
         Integer id = Integer.parseInt(request.getParameter("id"));
+        GenericDao<ItemServico> isd = new GenericDao<ItemServico>();
+        ItemServico is = isd.findById(id, ItemServico.class);
         
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
@@ -282,13 +284,14 @@ public class ControleItemServico extends HttpServlet {
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleOrdem?cmd=listar\">Ordens de Serviço</a></li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Itens de Serviço</li>");
+        pw.println("<li><i class=\"fa fa-wrench\"></i><a href=\"./ControleItemServico?cmd=listar&id=" + is.getOrdemDeServico().getIdOrdemDeServico() + "\">Serviços Alocados</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12 col-lg-10\">");
         pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleItemServico?cmd=alterar&id=" + id + "';\" type=\"button\">Alterar Dados</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleItemServico?cmd=listar&id=" + is.getOrdemDeServico().getIdOrdemDeServico() + "';\" type=\"button\">Voltar</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</section>");
@@ -327,7 +330,7 @@ public class ControleItemServico extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleItemServico?Atualizar\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleItemServico?Atualizar\" accept-charset='UTF-8'>");
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");

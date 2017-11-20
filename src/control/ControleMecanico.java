@@ -38,7 +38,7 @@ public class ControleMecanico extends HttpServlet {
     
     public boolean checkLetters(String str) 
     {
-        return str.matches("[a-zA-Z]+");
+    	return str.matches("[/s ' a-zA-ZА-За-з]+");
     }
 
 	/**
@@ -317,7 +317,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleMecanico?Atualizar\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleMecanico?Atualizar\" accept-charset='UTF-8'>");
         pw.println("<h5>Dados Basicos</h5>");
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");

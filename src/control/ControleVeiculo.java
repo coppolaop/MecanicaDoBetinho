@@ -316,7 +316,7 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleVeiculo\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleVeiculo\" accept-charset='UTF-8'>");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
         pw.println("<input type=\"hidden\" id=\"id\" name=\"id\" value=\""+ id +"\">");
         pw.println("<label class=\"control-label col-lg-2\" for=\"inputSuccess\">Nome do Cliente</label>");
@@ -328,13 +328,13 @@ public class ControleVeiculo extends HttpServlet {
 			List<Usuario> lista = new ArrayList<Usuario>();
 			
 			for(Usuario cli : l){
-				if(!lista.contains(cli)){
+				if(!lista.contains(cli)&&cli.getPerfil().equals("cli")){
 					lista.add(cli);
 				}
 			}
 			
 			for(Usuario c : lista){
-				if(v.getCliente().equals(c)){
+				if(v.getCliente().getIdUsuario().equals(c.getIdUsuario())){
 					pw.println("<option value=\""+c.getIdUsuario()+"\" selected>"+c.getNome()+"</option>");
 				}else{
 					pw.println("<option value=\""+c.getIdUsuario()+"\">"+c.getNome()+"</option>");
@@ -584,7 +584,7 @@ public class ControleVeiculo extends HttpServlet {
         	Veiculo v = vd.findById(Integer.parseInt(request.getParameter("id")), Veiculo.class);
         	
         	v.setCliente(new GenericDao<Usuario>().findById(cliente, Usuario.class));
-        	v.setPlaca(request.getParameter("placa"));
+        	v.setPlaca(request.getParameter("placa").toUpperCase());
         	v.setDescricao(request.getParameter("descricao"));
         	
         	vd.update(v);

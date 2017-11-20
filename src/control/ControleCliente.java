@@ -39,7 +39,7 @@ public class ControleCliente extends HttpServlet {
     
     public boolean checkLetters(String str) 
     {
-        return str.matches("[a-zA-Z]+");
+    	return str.matches("[/s ' a-zA-ZА-За-з]+");
     }
 
 	/**
@@ -219,6 +219,7 @@ public class ControleCliente extends HttpServlet {
 	protected void listar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
         request.getRequestDispatcher("/usu/base1.html").include(request, response);
+        response.setContentType("text/html;charset=UTF-8");
 
         
         pw.println("<section class=\"wrapper\">");
@@ -308,6 +309,7 @@ public class ControleCliente extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		Integer id = Integer.parseInt(request.getParameter("id"));
         request.getRequestDispatcher("/usu/base1.html").include(request, response);
+        response.setContentType("text/html;charset=UTF-8");
         
 		pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
@@ -335,6 +337,7 @@ public class ControleCliente extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		Integer id = Integer.parseInt(request.getParameter("id"));
         request.getRequestDispatcher("/usu/base1.html").include(request, response);
+        response.setContentType("text/html;charset=UTF-8");
 		
         GenericDao<Usuario> cd = new GenericDao<Usuario>();
         Usuario c = cd.findById(id, Usuario.class);
@@ -358,7 +361,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
-        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleCliente?Atualizar\">");
+        pw.println("<form class=\"form-validate form-horizontal\" id=\"feedback_form\" method=\"get\" action=\"./ControleCliente?Atualizar\" accept-charset='UTF-8'>");
         pw.println("<h5>Dados Basicos</h5>");
         pw.println("<div class=\"form-group \">");
         pw.println("<input type=\"hidden\" id=\"cmd\" name=\"cmd\" value=\"atualizar\">");
@@ -464,6 +467,7 @@ public class ControleCliente extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		Integer id = Integer.parseInt(request.getParameter("id"));
         request.getRequestDispatcher("/usu/base1.html").include(request, response);
+        response.setContentType("text/html;charset=UTF-8");
         
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
@@ -530,7 +534,7 @@ public class ControleCliente extends HttpServlet {
 		String resposta = "";
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		Integer cliente = Integer.parseInt(request.getParameter("cliente"));
-		response.setContentType("text/html;charset=ISO-8859-1");
+		response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try
         {   
@@ -573,7 +577,7 @@ public class ControleCliente extends HttpServlet {
 	protected void atualizar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resposta = "";
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		response.setContentType("text/html;charset=ISO-8859-1");
+		response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try
         {   

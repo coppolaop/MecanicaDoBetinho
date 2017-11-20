@@ -294,7 +294,7 @@ public class ControleOrdem extends HttpServlet {
 			List<Usuario> lista = new ArrayList<Usuario>();
 			
 			for(Usuario cli : l){
-				if(!lista.contains(cli)){
+				if(!lista.contains(cli)&&cli.getPerfil().equals("cli")){
 					lista.add(cli);
 				}
 			}
@@ -315,6 +315,7 @@ public class ControleOrdem extends HttpServlet {
         pw.println("<div class=\"form-group\">");
         pw.println("<div class=\"col-lg-offset-2 col-lg-10\">");
         pw.println("<button class=\"btn btn-primary\" type=\"submit\">Selecionar Cliente</button>");
+        pw.println("<button class=\"btn btn-default\" onclick=\"location.href='./ControleOrdem?cmd=listar';\" type=\"button\">Voltar</button>");
         pw.println("</div>");
         pw.println("</div>");
         pw.println("</form>");
@@ -475,7 +476,7 @@ public class ControleOrdem extends HttpServlet {
 			List<Usuario> lista = new ArrayList<>();
 			
 			for(Usuario cli : l){
-				if(!lista.contains(cli)){
+				if(!lista.contains(cli)&&cli.getPerfil().equals("cli")){
 					lista.add(cli);
 				}
 			}
