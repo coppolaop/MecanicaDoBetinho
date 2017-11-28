@@ -144,7 +144,7 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"ListaOrdem\">Ordens de Serviço</a></li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"ControleOrdem?cmd=listar\">Ordens de Serviço</a></li>");
         pw.println("<li><i class=\"fa fa-wrench\"></i><a href=\"ControleItemServico?cmd=listar&id="+ is.getOrdemDeServico().getIdOrdemDeServico() +"\">Serviços Alocados</a></li>");
         pw.println("<li><i class=\"fa fa-wrench\"></i>Peças Utilizadas</li>");
         pw.println("</ol>");
