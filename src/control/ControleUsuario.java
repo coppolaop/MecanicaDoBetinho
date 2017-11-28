@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.exception.ConstraintViolationException;
 
-import  com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import persistence.GenericDao;
+
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import entity.Endereco;
 import entity.ItemServico;
@@ -22,7 +25,6 @@ import entity.OrdemDeServico;
 import entity.Peca;
 import entity.Usuario;
 import entity.Veiculo;
-import persistence.GenericDao;
 
 @WebServlet("/adm/ControleUsuario")
 public class ControleUsuario extends HttpServlet {
@@ -36,6 +38,61 @@ public class ControleUsuario extends HttpServlet {
     {
         return str.matches("[/s ' a-zA-Zá-úÁ-Ú]+");
     }
+    
+    public boolean checkCPF(String CPF){
+    	// considera-se erro CPF's formados por uma sequencia de numeros iguais
+        if (CPF.equals("00000000000") || CPF.equals("11111111111") ||
+            CPF.equals("22222222222") || CPF.equals("33333333333") ||
+            CPF.equals("44444444444") || CPF.equals("55555555555") ||
+            CPF.equals("66666666666") || CPF.equals("77777777777") ||
+            CPF.equals("88888888888") || CPF.equals("99999999999") ||
+           (CPF.length() != 11))
+           return(false);
+
+        char dig10, dig11;
+        int sm, i, r, num, peso;
+
+    // "try" - protege o codigo para eventuais erros de conversao de tipo (int)
+        try {
+    // Calculo do 1o. Digito Verificador
+          sm = 0;
+          peso = 10;
+          for (i=0; i<9; i++) {              
+    // converte o i-esimo caractere do CPF em um numero:
+    // por exemplo, transforma o caractere '0' no inteiro 0         
+    // (48 eh a posicao de '0' na tabela ASCII)         
+            num = (int)(CPF.charAt(i) - 48); 
+            sm = sm + (num * peso);
+            peso = peso - 1;
+          }
+
+          r = 11 - (sm % 11);
+          if ((r == 10) || (r == 11))
+             dig10 = '0';
+          else dig10 = (char)(r + 48); // converte no respectivo caractere numerico
+
+    // Calculo do 2o. Digito Verificador
+          sm = 0;
+          peso = 11;
+          for(i=0; i<10; i++) {
+            num = (int)(CPF.charAt(i) - 48);
+            sm = sm + (num * peso);
+            peso = peso - 1;
+          }
+
+          r = 11 - (sm % 11);
+          if ((r == 10) || (r == 11))
+             dig11 = '0';
+          else dig11 = (char)(r + 48);
+
+    // Verifica se os digitos calculados conferem com os digitos informados.
+          if ((dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10)))
+             return(true);
+          else return(false);
+        } catch (InputMismatchException erro) {
+            return(false);
+        }
+      }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String cmd = request.getParameter("cmd");
@@ -184,9 +241,15 @@ public class ControleUsuario extends HttpServlet {
 				throw new Exception("Um Nome não pode possuir números");
 			}
 			
+			if(!checkCPF(request.getParameter("cpf"))&&(!request.getParameter("cpf").equalsIgnoreCase(""))){
+				throw new Exception("Digite um CPF Válido!");
+			}
+			
 			Usuario u = new Usuario();
 			u.setNome(request.getParameter("nome"));
-			u.setCpf(Long.parseLong(request.getParameter("cpf")));
+			if(!request.getParameter("cpf").equalsIgnoreCase("")){
+				u.setCpf(Long.parseLong(request.getParameter("cpf")));
+			}
 			u.setEmail(request.getParameter("email"));
 			u.setTelefone(Long.parseLong(request.getParameter("telefone")));
 			u.setCelular(Long.parseLong(request.getParameter("celular")));
@@ -223,10 +286,11 @@ public class ControleUsuario extends HttpServlet {
 			ex.printStackTrace();
 		}
 		response.setContentType("text/html");
-	    PrintWriter out = response.getWriter();
-	    RequestDispatcher rd = null;
-	    out.println(resposta);
-	    response.sendRedirect(request.getContextPath()+"/adm/ControleUsuario?cmd=formulario");
+        PrintWriter out = response.getWriter();
+        RequestDispatcher rd = null;
+        out.println(resposta);
+        rd = request.getRequestDispatcher("./ControleUsuario?cmd=formulario");
+        rd.include(request, response);
 	}
 	
 	protected void deletar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -499,8 +563,14 @@ public class ControleUsuario extends HttpServlet {
 				throw new Exception("Um Nome não pode possuir números");
 			}
         	
+        	if(!checkCPF(request.getParameter("cpf"))&&(!request.getParameter("cpf").equalsIgnoreCase(""))){
+				throw new Exception("Digite um CPF Válido!");
+			}
+        	
         	u.setNome(request.getParameter("nome"));
-        	u.setCpf(Long.parseLong(request.getParameter("cpf")));
+        	if(!request.getParameter("cpf").equalsIgnoreCase("")){
+        		u.setCpf(Long.parseLong(request.getParameter("cpf")));
+        	}
         	u.setEmail(request.getParameter("email"));
         	u.setTelefone(Long.parseLong(request.getParameter("telefone")));
         	u.setCelular(Long.parseLong(request.getParameter("celular")));
