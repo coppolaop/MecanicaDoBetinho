@@ -146,7 +146,7 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"ControleOrdem?cmd=listar\">Ordens de Serviço</a></li>");
         pw.println("<li><i class=\"fa fa-wrench\"></i><a href=\"ControleItemServico?cmd=listar&id="+ is.getOrdemDeServico().getIdOrdemDeServico() +"\">Serviços Alocados</a></li>");
-        pw.println("<li><i class=\"fa fa-wrench\"></i>Peças Utilizadas</li>");
+        pw.println("<li><i class=\"fa fa-cog\"></i>Peças Utilizadas</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -159,7 +159,7 @@ public class ControleItemPeca extends HttpServlet {
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"fa fa-wrench\"></i> Peça</th>");
+        pw.println("<th><i class=\"fa fa-cog\"></i> Peça</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");

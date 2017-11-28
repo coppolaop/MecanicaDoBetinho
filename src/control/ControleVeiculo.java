@@ -204,10 +204,10 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"icon_profile\"></i> Placa do Veículo</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Nome do Cliente</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Descrição</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Número de Ordens de Serviço</th>");
+        pw.println("<th><i class=\"icon_clipboard\"></i> Placa do Veículo</th>");
+        pw.println("<th><i class=\"icon_profile\" aria-hidden=\"true\"></i> Nome do Cliente</th>");
+        pw.println("<th><i class=\"fa fa-car\"></i> Descrição</th>");
+        pw.println("<th><i class=\"icon_document_alt\"></i> Número de Ordens de Serviço</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
@@ -271,8 +271,9 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> VEÍCULOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"fa fa-table\"></i>Serviço</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Ordens de Serviço</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleVeiculo?cmd=listar\">Veículo</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i>Edição</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -303,8 +304,10 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> VEICULOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Veículo</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleVeiculo?cmd=listar\">Veículo</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i><a href=\"./ControleVeiculo?cmd=editar&id="+id+"\">Edição</a></li>");
+        pw.println("<li><i class=\"fa fa-pencil\"></i>Alterar</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -387,8 +390,10 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> CLIENTES</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleVeiculo?cmd=listar\">Veículo</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i><a href=\"./ControleVeiculo?cmd=editar&id="+id+"\">Edição</a></li>");
+        pw.println("<li><i class=\"fa fa-pencil\"></i>Atribuir Ordens a outro Veículo</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -616,7 +621,7 @@ public class ControleVeiculo extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Veículo</li>");
+        pw.println("<li><i class=\"fa fa-car\"></i>Veículo</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");

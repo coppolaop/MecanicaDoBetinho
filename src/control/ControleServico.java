@@ -166,15 +166,15 @@ public class ControleServico extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("ServiÃ§os Cadastrados no Sistema");
+        pw.println("Serviços Cadastrados no Sistema");
         pw.println("</header>");
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"icon_profile\"></i> Nome do Servico</th>");
+        pw.println("<th><i class=\"fa fa-wrench\"></i> Nome do Servico</th>");
         pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Valor</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Previsão</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Número de Itens</th>");
+        pw.println("<th><i class=\"fa fa-calendar\"></i> Previsão</th>");
+        pw.println("<th><i class=\"icon_document_alt\"></i> Número de Itens</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
@@ -234,7 +234,8 @@ public class ControleServico extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleServico?cmd=listar\">Serviço</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i>Edição</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -263,8 +264,10 @@ public class ControleServico extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIÇOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleServico?cmd=listar\">Serviço</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i><a href=\"./ControleServico?cmd=editar&id="+id+"\">Edição</a></li>");
+        pw.println("<li><i class=\"fa fa-pencil\"></i>Alterar</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -292,7 +295,7 @@ public class ControleServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group\">");
-        pw.println("<label for=\"\" class=\"control-label col-lg-2\">PrevisÃ£o <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"\" class=\"control-label col-lg-2\">Previsão <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"previsao\" type=\"text\" name=\"previsao\" value=\""+ s.getPrevisao() +"\" required />");
         pw.println("</div>");
@@ -326,8 +329,10 @@ public class ControleServico extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> SERVIÇOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleServico?cmd=listar\">Serviço</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i><a href=\"./ControleServico?cmd=editar&id="+id+"\">Edição</a></li>");
+        pw.println("<li><i class=\"fa fa-pencil\"></i>Substituir Peça por outra existente</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -335,7 +340,7 @@ public class ControleServico extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Substituindo PeÃ§a por outra existente");
+        pw.println("Substituindo Peça por outra existente");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
@@ -474,7 +479,7 @@ public class ControleServico extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"usu/index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Serviço</li>");
+        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -482,7 +487,7 @@ public class ControleServico extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("ServiÃ§o");
+        pw.println("Serviço");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
@@ -501,7 +506,7 @@ public class ControleServico extends HttpServlet {
         pw.println("</div>");
         pw.println("</div>");
         pw.println("<div class=\"form-group \">");
-        pw.println("<label for=\"previsao\" class=\"control-label col-lg-2\">PrevisÃ£o <span class=\"required\">*</span></label>");
+        pw.println("<label for=\"previsao\" class=\"control-label col-lg-2\">Previsão <span class=\"required\">*</span></label>");
         pw.println("<div class=\"col-lg-10\">");
         pw.println("<input class=\"form-control \" id=\"previsao\" type=\"number\" name=\"previsao\" required />");
         pw.println("</div>");

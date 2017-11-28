@@ -243,11 +243,12 @@ public class ControleCliente extends HttpServlet {
         pw.println("<tbody>");
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Nome Completo do Cliente</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Email</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Telefone</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CPF</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Quantidade de Veiculos</th>");
+        pw.println("<th><i class=\"icon_profile\"></i> Username</th>");
+        pw.println("<th><i class=\"fa fa-envelope-o\"></i> Email</th>");
+        pw.println("<th><i class=\"fa fa-phone\"></i> Telefone</th>");
+        pw.println("<th><i class=\"fa fa-mobile\"></i> Celular</th>");
+        pw.println("<th><i class=\"icon_id\"></i> CPF</th>");
+        pw.println("<th><i class=\"fa fa-car\"></i> Quantidade de Veiculos</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
@@ -268,6 +269,7 @@ public class ControleCliente extends HttpServlet {
 	        	
 			        pw.println("<tr>");
 			        pw.println("<td>"+c.getNome()+"</td>");
+			        pw.println("<td>"+c.getUsername()+"</td>");
 			        pw.println("<td>"+c.getEmail()+"</td>");
 			        pw.println("<td>"+c.getTelefone()+"</td>");
 			        pw.println("<td>"+c.getCelular()+"</td>");
@@ -318,7 +320,8 @@ public class ControleCliente extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Cliente</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleCliente?cmd=listar\">Cliente</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i>Edição</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -348,8 +351,10 @@ public class ControleCliente extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> CLIENTES</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Registro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Cliente</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleCliente?cmd=listar\">Cliente</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i><a href=\"./ControleCliente?cmd=editar&id="+id+"\">Edição</a></li>");
+        pw.println("<li><i class=\"fa fa-pencil\"></i>Alterar</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -475,8 +480,10 @@ public class ControleCliente extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> CLIENTES</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Cliente</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleCliente?cmd=listar\">Cliente</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i><a href=\"./ControleCliente?cmd=editar&id="+id+"\">Edição</a></li>");
+        pw.println("<li><i class=\"fa fa-pencil\"></i>Atribuir Veículos a outro Cliente</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -635,7 +642,7 @@ public class ControleCliente extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"usu/index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Cliente</li>");
+        pw.println("<li><i class=\"icon_profile\"></i>Cliente</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -775,13 +782,13 @@ public class ControleCliente extends HttpServlet {
         pw.println("<table class=\"table table-striped table-advance table-hover\">");
         pw.println("<tbody>");
         pw.println("<tr>");
-        pw.println("<th><i class=\"icon_profile\"></i> Rua</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Numero</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Tipo de Logradouro</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Bairro</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Cidade</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Estado</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CEP</th>");
+        pw.println("<th><i class=\"fa fa-road\"></i> Rua</th>");
+        pw.println("<th><i class=\"icon_house\" aria-hidden=\"true\"></i> Numero</th>");
+        pw.println("<th><i class=\"fa fa-home\"></i> Tipo de Logradouro</th>");
+        pw.println("<th><i class=\"icon_map_alt\"></i> Bairro</th>");
+        pw.println("<th><i class=\"icon_map_alt\"></i> Cidade</th>");
+        pw.println("<th><i class=\"icon_map_alt\"></i> Estado</th>");
+        pw.println("<th><i class=\"icon_id\" aria-hidden=\"true\"></i> CEP</th>");
         pw.println("</tr>");
         
 		try {

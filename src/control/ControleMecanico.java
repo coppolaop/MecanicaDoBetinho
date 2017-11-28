@@ -212,10 +212,10 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<tbody>");
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Nome Completo do Mecânico</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> Email</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Telefone</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CPF</th>");
+        pw.println("<th><i class=\"fa fa-envelope-o\"></i> Email</th>");
+        pw.println("<th><i class=\"fa fa-phone\"></i> Telefone</th>");
+        pw.println("<th><i class=\"fa fa-mobile\"></i> Celular</th>");
+        pw.println("<th><i class=\"icon_id\"></i> CPF</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
@@ -275,7 +275,8 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
         pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Mecânico</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleMecanico?cmd=listar\">Mecânico</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i>Edição</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -304,8 +305,10 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> MECÂNICOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Regristros</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Mecânico</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleMecanico?cmd=listar\">Mecânico</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i><a href=\"./ControleMecanico?cmd=editar&id="+id+"\">Edição</a></li>");
+        pw.println("<li><i class=\"fa fa-pencil\"></i>Alterar</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -424,8 +427,10 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> MECÂNICOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Serviço</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Agendamento</li>");
+        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleMecanico?cmd=listar\">Mecânico</a></li>");
+        pw.println("<li><i class=\"icon_pencil\"></i><a href=\"./ControleMecanico?cmd=editar&id="+id+"\">Edição</a></li>");
+        pw.println("<li><i class=\"fa fa-pencil\"></i>Atribuir Veículos a outro Cliente</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -593,7 +598,7 @@ public class ControleMecanico extends HttpServlet {
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"usu/index.html\">Home</a></li>");
         pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Mecânico</li>");
+        pw.println("<li><i class=\"icon_profile\"></i>Mecânico</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");

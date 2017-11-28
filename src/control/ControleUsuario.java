@@ -98,7 +98,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> USUÁRIOS</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
-        pw.println("<li><i class=\"fa fa-th-list\"></i>Usuário</li>");
+        pw.println("<li><i class=\"fa fa-th-list\"></i>Usuários</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -113,11 +113,11 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<tr>");
         pw.println("<th><i class=\"icon_profile\"></i> Nome Completo</th>");
         pw.println("<th><i class=\"icon_profile\"></i> Username</th>");
-        pw.println("<th><i class=\"fa fa-envelope-o\" aria-hidden=\"true\"></i> Email</th>");
-        pw.println("<th><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Perfil</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Telefone</th>");
-        pw.println("<th><i class=\"icon_profile\"></i> Celular</th>");
-        pw.println("<th><i class=\"fa fa-money\" aria-hidden=\"true\"></i> CPF</th>");
+        pw.println("<th><i class=\"fa fa-envelope-o\"></i> Email</th>");
+        pw.println("<th><i class=\"fa fa-users\"></i> Perfil</th>");
+        pw.println("<th><i class=\"fa fa-phone\"></i> Telefone</th>");
+        pw.println("<th><i class=\"fa fa-mobile\"></i> Celular</th>");
+        pw.println("<th><i class=\"icon_id\"></i> CPF</th>");
         pw.println("<th><i class=\"icon_cogs\"></i> Ação</th>");
         pw.println("</tr>");
         
@@ -544,11 +544,10 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<section class=\"wrapper\">");
         pw.println("<div class=\"row\">");
         pw.println("<div class=\"col-lg-12\">");
-        pw.println("<h3 class=\"page-header\"><i class=\"fa fa-files-o\"></i> USUÁRIO</h3>");
+        pw.println("<h3 class=\"page-header\"><i class=\"icon_document_alt\"></i> USUÁRIO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
-        pw.println("<li><i class=\"icon_document_alt\"></i>Cadastro</li>");
-        pw.println("<li><i class=\"fa fa-files-o\"></i>Usuário</li>");
+        pw.println("<li><i class=\"icon_profile\"></i>Novo Usuário</li>");
         pw.println("</ol>");
         pw.println("</div>");
         pw.println("</div>");
@@ -556,7 +555,7 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<div class=\"col-lg-12\">");
         pw.println("<section class=\"panel\">");
         pw.println("<header class=\"panel-heading\">");
-        pw.println("Peça");
+        pw.println("Usuário");
         pw.println("</header>");
         pw.println("<div class=\"panel-body\">");
         pw.println("<div class=\"form\">");
@@ -683,7 +682,6 @@ public class ControleUsuario extends HttpServlet {
         pw.println("<h3 class=\"page-header\"><i class=\"fa fa-table\"></i> ENDEREÇO</h3>");
         pw.println("<ol class=\"breadcrumb\">");
         pw.println("<li><i class=\"fa fa-home\"></i><a href=\"./index.html\">Home</a></li>");
-        pw.println("<li><i class=\"fa fa-table\"></i>Registros</li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i><a href=\"./ControleUsuario?cmd=listar\">Usuario</a></li>");
         pw.println("<li><i class=\"fa fa-th-list\"></i>Endereco</li>");
         
